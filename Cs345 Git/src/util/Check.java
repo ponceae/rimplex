@@ -4,6 +4,7 @@ package util;
  * A utility class that performs checks of various kinds.
  * 
  * @author Prof. David Bernstein, James Madison University
+ * ClevelCd was here
  * @version 1.0
  */
 public class Check
