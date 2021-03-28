@@ -15,6 +15,10 @@ import javax.swing.border.EtchedBorder;
 
 public class MainPanel extends JPanel
 {
+  /**
+   * Default UID since I'm not sure what it should be instantiated to
+   */
+  private static final long serialVersionUID = 1L;
   private CompoundBorder internalBorder;
   private JButton equalButton;
   private JButton divButton;
@@ -24,8 +28,8 @@ public class MainPanel extends JPanel
   private JButton clearButton;
   private JButton resetButton;
   private JTextField inputField;
-  private JTextField inputField2;
-  private JLabel label;
+  private JTextField display;
+  // private JLabel label;
   private JLabel rimpLogo;
 
   private ImageIcon logo;
@@ -48,31 +52,57 @@ public class MainPanel extends JPanel
   {
 
     internalBorder = new CompoundBorder(new EmptyBorder(10, 10, 10, 10), new EtchedBorder());
+    
+    Listener theListener = Listener.getInstance();
 
-    //added this for logo
+    // added this for logo
     logo = new ImageIcon("logoRimplex.png");
     rimpLogo = new JLabel(logo);
 
-    label = new JLabel("test");
+    // label = new JLabel("test");
     inputField = new JTextField();
     inputField.setSize(2000, 10);
-    inputField2 = new JTextField();
-    inputField2.setSize(1000, 25);
+    inputField.setActionCommand("=");
+    inputField.addActionListener(theListener);
+    // when this is called, it will most likely make use of the TextField's getText() method and
+    // then for everything that needs to be italicized (if anything), it will put code in which will
+    // italicize it and then put that in the display somehow depending on what TextComponent we use
+    // for the display (I'm thinking probably JTextPane)
+    // however, we will also have to figure out how to parse the expressions that the user enters
+    // and store it as an actual numeric value (or I guess a ComplexNumber), and on the topic of
+    // that, we need to figure out what to do when the user enters an invalid expression
+
+    display = new JTextField();
+    display.setSize(1000, 25);
+    display.setEditable(false);
 
     // panels
     northPanel = new JPanel();
     midPanel = new JPanel();
     southPanel = new JPanel();
     temp = new JPanel();
+
     // buttons below
     equalButton = new JButton("=");
+    equalButton.setActionCommand("=");
+
     divButton = new JButton("/");
+    divButton.setActionCommand("/");
+
     multiButton = new JButton("*");
+    multiButton.setActionCommand("*");
+
     minusButton = new JButton("-");
+    minusButton.setActionCommand("-");
+
     plusButton = new JButton("+");
+    plusButton.setActionCommand("+");
 
     clearButton = new JButton("C");
+    clearButton.setActionCommand("C");
+
     resetButton = new JButton("R");
+    resetButton.setActionCommand("R");
 
   } // method createComponents
 
@@ -87,7 +117,7 @@ public class MainPanel extends JPanel
   {
 
     setLayout(new BorderLayout());
-    //added this for the logo
+    // added this for the logo
     northPanel.setPreferredSize(new Dimension(logo.getIconWidth(), logo.getIconHeight()));
     northPanel.setLayout(new BorderLayout());
     midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
@@ -101,9 +131,9 @@ public class MainPanel extends JPanel
     add(northPanel, BorderLayout.NORTH); // top panel
     northPanel.paintComponents(getGraphics());
 
-    midPanel.add(inputField2);
+    midPanel.add(display);
     add(midPanel, BorderLayout.CENTER); // mid panel
-    
+
     southPanel.add(resetButton);
     southPanel.add(clearButton);
     southPanel.add(plusButton);
