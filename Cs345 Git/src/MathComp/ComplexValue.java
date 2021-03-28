@@ -17,8 +17,7 @@ public class ComplexValue
   {
     val = 0;
     car = ' ';
-    exp = 1;
-    
+    exp = 1; 
   }
 
   public ComplexValue(int val)
@@ -120,7 +119,12 @@ public class ComplexValue
         ans.setCar(' ');
       }
     }
-    
+
+    return ans;
+  }
+  
+  public ComplexValue mult(ComplexValue v) {
+    ComplexValue ans = null;
     return ans;
   }
 }
