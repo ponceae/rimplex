@@ -1,5 +1,11 @@
 package MathComp;
-
+/**
+ * 
+ * @author chris cleveland
+ * 
+ * Class to create a complex value to be stored in a complex number
+ * 
+ */
 public class ComplexValue
 {
   private int val;
@@ -9,6 +15,10 @@ public class ComplexValue
 
   public ComplexValue()
   {
+    val = 0;
+    car = ' ';
+    exp = 1;
+    
   }
 
   public ComplexValue(int val)
