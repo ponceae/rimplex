@@ -24,7 +24,6 @@ public class ComplexValue
   public ComplexValue(int val)
   {
     this.val = val;
-    this.car = ' ';
     this.exp = 1;
   }
 
