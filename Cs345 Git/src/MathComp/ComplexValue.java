@@ -8,10 +8,14 @@ package MathComp;
  */
 public class ComplexValue
 {
-  private int val;
-  private char car;
-  private char op;
-  private int exp;
+  private int val; // the number
+  private char car; // the imaginary varrible
+  private char op; // the operation being preformed
+  private int exp; // the exponent
+  static final char ADD = '+';
+  static final char SUB = '-';
+  static final char MUL = '*';
+  static final char DIV = '/';
 
   public ComplexValue()
   {
@@ -96,7 +100,6 @@ public class ComplexValue
    */
   public ComplexValue add(ComplexValue v)
   {
-    boolean test = false;
     ComplexValue ans = null;
     if (this.car == v.getCar())
     {
@@ -110,7 +113,6 @@ public class ComplexValue
   
   public ComplexValue sub(ComplexValue v)
   {
-    boolean test = false;
     ComplexValue ans = null;
     if (this.car == v.getCar())
     {
