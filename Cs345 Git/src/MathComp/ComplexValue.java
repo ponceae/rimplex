@@ -9,7 +9,7 @@ package MathComp;
 public class ComplexValue
 {
   private int val; // the number
-  private char car; // the imaginary varrible
+  private String car; // the imaginary varrible
   private char op; // the operation being preformed
   private int exp; // the exponent
   static final char ADD = '+';
@@ -20,7 +20,7 @@ public class ComplexValue
   public ComplexValue()
   {
     val = 0;
-    car = ' ';
+    car = "";
     exp = 1; 
   }
 
@@ -33,18 +33,18 @@ public class ComplexValue
   public ComplexValue(char car)
   {
     this.val = 1;
-    this.car = car;
+    this.car = "";
     this.exp = 1;
   }
 
-  public ComplexValue(char car, int exp)
+  public ComplexValue(String car, int exp)
   {
     this.val = 1;
     this.car = car;
     this.exp = exp;
   }
 
-  public ComplexValue(char car, int exp, int val, char op)
+  public ComplexValue(String car, int exp, int val, char op)
   {
     this.val = val;
     this.car = car;
@@ -67,7 +67,7 @@ public class ComplexValue
     return op;
   }
 
-  public int getCar()
+  public String getCar()
   {
     return car;
   }
@@ -90,7 +90,7 @@ public class ComplexValue
     this.op = op;
   }
 
-  public void setCar(char car)
+  public void setCar(String car)
   {
     this.car = car;
   }
@@ -105,7 +105,7 @@ public class ComplexValue
     {
       ans.setVal(val + v.getVal());
       if(ans.getVal() == 0) {
-        ans.setCar(' ');
+        ans.setCar("");
       }
     }
     return ans;
@@ -118,7 +118,7 @@ public class ComplexValue
     {
       ans.setVal(val - v.getVal());
       if(ans.getVal() == 0) {
-        ans.setCar(' ');
+        ans.setCar("");
       }
     }
 
