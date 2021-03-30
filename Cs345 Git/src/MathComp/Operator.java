@@ -9,9 +9,9 @@ package MathComp;
 public enum Operator
 {
 
-  ADD("+"), SUBTRACT("-"), MULTIPLY("*"), DIVIDE("/");
+  ADD('+'), SUBTRACT('-'), MULTIPLY('*'), DIVIDE('/'), EMPTY(' ');
 
-  private String operator;
+  private char operator;
 
   /**
    * Constructs an enumeration with the appropriate value.
@@ -19,7 +19,7 @@ public enum Operator
    * @param operator
    *          the operator
    */
-  private Operator(final String operator)
+  private Operator(final char operator)
   {
     this.operator = operator;
   }
@@ -29,8 +29,7 @@ public enum Operator
    * 
    * @return the String representation
    */
-  @Override
-  public String toString() 
+  public char getOperator() 
   {
     return operator;
   }
