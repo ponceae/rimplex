@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import MathComp.*;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Checks the Operator enumeration.
  * 

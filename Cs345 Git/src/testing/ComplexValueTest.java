@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import MathComp.*;
 
+
 /**
  * Tests the methods in the ComplexValue class.
  * 
@@ -13,7 +14,7 @@ import MathComp.*;
 class ComplexValueTest
 {
   private ComplexValue empty = new ComplexValue();
-  //                                      real var exp    operator     imaginary
+  // real var exp    operator     imaginary
   private ComplexValue a = new ComplexValue(0, "", 1, Operator.SUBTRACT, -6);
   private ComplexValue b = new ComplexValue(2, "", 1, Operator.ADD, 4);
   private ComplexValue c = new ComplexValue(-2, "", 1, Operator.EMPTY, 0);

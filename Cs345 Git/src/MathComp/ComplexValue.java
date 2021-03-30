@@ -6,6 +6,7 @@ package MathComp;
  * @author Chris Cleveland & Adrien Ponce
  * @version v2
  */
+
 public class ComplexValue
 {
   private int real; // the real value

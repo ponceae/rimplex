@@ -15,7 +15,6 @@ import java.awt.Toolkit;
  */
 public class MainFrame extends JFrame
 {
-
   /**
    * Default UID since I'm not sure what it should be instantiated to.
    */

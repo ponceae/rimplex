@@ -6,6 +6,7 @@ package MathComp;
  * @author Adrien Ponce
  * @version v1
  */
+
 public enum Operator
 {
 
