@@ -1,38 +1,36 @@
 package gui;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-import javax.swing.*;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.*;
 
 /**
  * MainFrame - .
  * 
- * @author Prof. David Bernstein, James Madison University
- * 
- * @version 1.0
+ * @author Ulises Fernandez, Andrew Elbert, Ian Lips
+ * @version (3/31/21)
  */
 public class MainFrame extends JFrame
 {
 
+  /**
+   * Default UID since I'm not sure what it should be instantiated to.
+   */
+  private static final long serialVersionUID = 1L;
   private static MainFrame frame;
   private JPanel mainPanel;
 
+  /**
+   * Default constructor for the MainFrame.
+   */
   private MainFrame()
   {
-
     createComponents(); // create needed objects
     setSize(600, 250);
     getContentPane().add(mainPanel, BorderLayout.CENTER);
-    // getContentPane().add(new JLabel(new ImageIcon("iconRimplex.png")), BorderLayout.NORTH);
     setTitle("Rimplex");
     setVisible(true); // display this
     centerForm(); // center is on the screen to begin
@@ -43,7 +41,6 @@ public class MainFrame extends JFrame
 
   /**
    * Puts the Frame in the center of the screen.
-   * 
    */
   private void centerForm()
   {
@@ -66,18 +63,16 @@ public class MainFrame extends JFrame
   }
 
   /**
-   * the panel to be displayed. simply instantiate to view.
+   * Creates the panel to be displayed.
    */
   private void createComponents()
   {
-
-    // create a panel and implement here.
-
     mainPanel = new MainPanel();
   }
 
   /**
-   * get instance method.
+   * Getter for a single instance of the MainFrame to implement the Singleton pattern so that only
+   * one instance of the Frame can be active.
    *
    * @return frame the new MainFrame instance
    */

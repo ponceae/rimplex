@@ -1,10 +1,10 @@
 package gui;
 /**
- * main.
+ * Rimplex - .
  * 
- * @author Prof. David Bernstein, James Madison University
+ * @author Ulises Fernandez
  * 
- * @version 1.0
+ * @version (3/31/21)
  */
 public class Rimplex {
     public static void main(String[] args) {

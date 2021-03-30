@@ -18,12 +18,12 @@ import javax.swing.border.EtchedBorder;
 public class MainPanel extends JPanel
 {
   /**
-   * Default UID since I'm not sure what it should be instantiated to
+   * Default UID since I'm not sure what it should be instantiated to.
    */
   private static final long serialVersionUID = 1L;
   private CompoundBorder internalBorder;
-  
-  // all buttons
+
+  // All JButtons and an ArrayList of type JButton used for convenience.
   private JButton equalButton;
   private JButton divButton;
   private JButton multiButton;
@@ -32,23 +32,28 @@ public class MainPanel extends JPanel
   private JButton clearButton;
   private JButton resetButton;
   private ArrayList<JButton> theButtons;
-  
-  // input and output
+
+  // JTextComponents for user input and displaying the output
   private static JTextField inputField;
   private static JTextArea output;
-  
-  // making this package visible so that the Listener can access it
+
+  // Actual display Component, package visible for Listener access
   static JTextPane display;
 
   // Label and Icon used for displaying the logo on the calculator
   private JLabel rimpLogo;
   private ImageIcon logo;
 
+  // JPanels used for the
   private JPanel logoPanel;
   private JPanel displayPanel;
+  private JPanel buttonPanel;
   private JPanel inputPanel;
-  private JPanel buttonsAndInput;
 
+  /**
+   * Default (and only) constructor for the MainPanel. Creates all Components and Containers and
+   * adds all Listeners and Buttons to said Components and Containers.
+   */
   public MainPanel()
   {
     createComponents();
@@ -58,36 +63,36 @@ public class MainPanel extends JPanel
     setListenersAndCommands();
   }
 
+  /**
+   * Creates all JButtons and JTextComponents as well as instantiating all JPanels.
+   */
   protected void createComponents()
   {
     internalBorder = new CompoundBorder(new EmptyBorder(10, 10, 10, 10), new EtchedBorder());
 
-    // added this for logo
+    // Creates Components used to add the Rimplex logo
     logo = new ImageIcon("logoRimplex.png");
     rimpLogo = new JLabel(logo);
 
-    // label = new JLabel("test");
+    // Creating the inputField
     inputField = new JTextField();
     inputField.setSize(2000, 10);
-    // when this is called, it will most likely make use of the TextField's getText() method and
-    // then for everything that needs to be italicized (if anything), it will put code in which will
-    // italicize it and then put that in the display somehow depending on what TextComponent we use
-    // for the display (I'm thinking probably JTextPane)
     // however, we will also have to figure out how to parse the expressions that the user enters
     // and store it as an actual numeric value (or I guess a ComplexNumber), and on the topic of
     // that, we need to figure out what to do when the user enters an invalid expression
 
+    // Sets the display to a certain size limit and such that it cannot be edited by the user
     display = new JTextPane();
     display.setSize(1000, 25);
     display.setEditable(false);
 
-    // panels
+    // Instantiation of all Panels
     logoPanel = new JPanel();
     displayPanel = new JPanel();
+    buttonPanel = new JPanel();
     inputPanel = new JPanel();
-    buttonsAndInput = new JPanel();
 
-    // buttons below
+    // Instantiation of all Buttons
     equalButton = new JButton("=");
     divButton = new JButton("/");
     multiButton = new JButton("*");
@@ -95,7 +100,8 @@ public class MainPanel extends JPanel
     plusButton = new JButton("+");
     clearButton = new JButton("C");
     resetButton = new JButton("R");
-    
+
+    // Adds all the Buttons to a JButtons ArrayList for ease of use
     theButtons = new ArrayList<JButton>();
     theButtons.add(clearButton);
     theButtons.add(equalButton);
@@ -105,84 +111,119 @@ public class MainPanel extends JPanel
     theButtons.add(multiButton);
     theButtons.add(plusButton);
 
-  } // method createComponents
+  }
 
+  /**
+   * Sets the border on the display JPanel for aesthetic.
+   */
   protected void setParameters()
   {
-
     displayPanel.setBorder(internalBorder);
+  }
 
-  } // method setParameters
-
+  /**
+   * Sets the Layout for each JPanel and this MainPanel.
+   */
   protected void setPanel()
   {
     setLayout(new BorderLayout());
-    // added this for the logo
     logoPanel.setPreferredSize(new Dimension(logo.getIconWidth(), logo.getIconHeight()));
     logoPanel.setLayout(new BorderLayout());
     displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.Y_AXIS));
-    buttonsAndInput.setLayout(new GridLayout(2, 1));
-  } // method setPanel
+    inputPanel.setLayout(new GridLayout(2, 1));
+  }
 
   /**
-   * Adds all Panels to this MainPanel.
+   * Adds all JButtons and JTextComponents to their respective Panels and the Panels to this
+   * MainPanel.
    */
   protected void addComponents()
   {
-    // added this for the logo
+    // Adds the Rimplex logo to the top of the Frame
     logoPanel.add(rimpLogo, BorderLayout.CENTER);
     add(logoPanel, BorderLayout.NORTH); // top panel
     logoPanel.paintComponents(getGraphics());
 
+    // Adds the display Panel to the middle or "center" of the Frame
     displayPanel.add(display);
-    add(displayPanel, BorderLayout.CENTER); // mid panel
+    add(displayPanel, BorderLayout.CENTER);
 
-    inputPanel.add(resetButton);
-    inputPanel.add(clearButton);
-    inputPanel.add(plusButton);
-    inputPanel.add(minusButton);
-    inputPanel.add(multiButton);
-    inputPanel.add(divButton);
-    inputPanel.add(equalButton);
-    buttonsAndInput.add(inputField);
-    buttonsAndInput.add(inputPanel);
-    add(buttonsAndInput, BorderLayout.SOUTH);
+    // Adds buttons to the inputPanel and adds the inputPanel
+    addButtonsToPanel();
+    inputPanel.add(inputField);
+    inputPanel.add(buttonPanel);
+    add(inputPanel, BorderLayout.SOUTH);
 
   }
 
   /**
-   * Adds theListener to the inputField and all Buttons
+   * Adds all JButtons to the buttonPanel.
+   */
+  private void addButtonsToPanel()
+  {
+    for (JButton button : theButtons)
+    {
+      buttonPanel.add(button);
+    }
+  }
+
+  /**
+   * Adds theListener to the inputField and all Buttons.
    */
   protected void setListenersAndCommands()
   {
     Listener theListener = Listener.getInstance();
-    for (JButton button : theButtons) {
+    for (JButton button : theButtons)
+    {
       button.addActionListener(theListener);
       button.setActionCommand(button.getText());
     }
     inputField.setActionCommand("text");
     inputField.addActionListener(theListener);
   }
-  
-  static JTextArea getDisplayOutput(String text) {
-    if (output == null) {
+
+  /**
+   * Creates a new output if not already done and changes the text of the output.
+   * 
+   * @param text
+   *          the output to display
+   * @return the JTextArea called output
+   */
+  static JTextArea getDisplayOutput(String text)
+  {
+    if (output == null)
+    {
       output = new JTextArea();
       output.setEditable(false);
     }
     output.append(text);
     return output;
   }
-  
-  static void clear() {
+
+  /**
+   * Clears the imputField (sets the text to empty).
+   */
+  static void clear()
+  {
     inputField.setText("");
   }
-  
-  static void reset() {
+
+  /**
+   * Clears the inputField and the display (sets the text to empty).
+   */
+  static void reset()
+  {
     clear();
     display.setText("");
   }
-  
-  static JTextField getInput() {
+
+  /**
+   * Getter for the inputField so that the Listener can access it for output from JButton presses.
+   * 
+   * @return the inputField
+   */
+  static JTextField getInput()
+  {
     return inputField;
   }
 
