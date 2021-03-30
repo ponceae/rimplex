@@ -1,9 +1,8 @@
 package testing;
 
 import static org.junit.jupiter.api.Assertions.*;
-import MathComp.*;
 import org.junit.jupiter.api.Test;
-
+import MathComp.*;
 
 /**
  * Tests the methods in the ComplexValue class.
