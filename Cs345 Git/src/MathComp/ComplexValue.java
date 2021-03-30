@@ -8,14 +8,15 @@ package MathComp;
  */
 public class ComplexValue
 {
-  private int real; // the real number
-  private int imaginary; // the imaginary variable
-  private Operator operator; // the operation being performed
+  private int real; // the real value
+  private int imaginary; // the imaginary value
+  private Operator operator; // the operation being performed (+, -, *, /)
   private String variable; // the variable in the real number (i.e. x in 2x)
-  private int exponent; // the exponent
+  private int exponent; // the exponent (if applicable)
 
   /**
-   * Default Constructor. No values set.
+   * Default Constructor. No values set. NOTE: Exponent set to one as to not break the real value of
+   * 0 (i.e. 0^0 = undefined & 0^1 = 0).
    */
   public ComplexValue()
   {
@@ -55,7 +56,7 @@ public class ComplexValue
   }
 
   /**
-   * @return the exponent value
+   * @return the exponent value (if it exists)
    */
   public int getExponent()
   {
@@ -77,7 +78,7 @@ public class ComplexValue
   {
     return variable;
   }
-  
+
   /**
    * @return the imaginary value
    */
@@ -165,14 +166,14 @@ public class ComplexValue
     if (ans.variable == other.variable)
     {
       ans.setReal(ans.real + other.real);
-      
+
       // Logic in the block below is debatable
       //////////////////////////////////////////////////////
       if ((imaginary * other.imaginary) <= 0)
       {
         ans.setImaginary(ans.imaginary + other.imaginary);
         ans.setOperator(Operator.SUBTRACT);
-      } 
+      }
       else
       {
         ans.setImaginary(ans.imaginary - other.imaginary);
@@ -201,14 +202,14 @@ public class ComplexValue
     if (ans.variable == other.variable)
     {
       ans.setReal(ans.real - other.real);
-      
+
       // Logic in the block below is debatable (copied from above and swapped)
       //////////////////////////////////////////////////////
       if ((imaginary * other.imaginary) <= 0)
       {
         ans.setImaginary(ans.imaginary - other.imaginary);
         ans.setOperator(Operator.ADD);
-      } 
+      }
       else
       {
         ans.setImaginary(ans.imaginary + other.imaginary);
@@ -237,8 +238,8 @@ public class ComplexValue
     if (exponent == 1)
     {
       // do normal multiplication
-    } 
-    else 
+    }
+    else
     {
       // special case exponent multiplication
     }
@@ -299,8 +300,8 @@ public class ComplexValue
     else if (imaginary != 0)
     {
       result += imaginary + imgChar + ')';
-    } 
-    else 
+    }
+    else
     {
       result += ')';
     }
