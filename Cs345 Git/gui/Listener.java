@@ -1,9 +1,9 @@
 package gui;
 
-import Calculator.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import Calculator.*;
 import java.util.ArrayList;
 import math.Operator;
 import MathComp.*;
@@ -18,7 +18,7 @@ import MathComp.*;
 public class Listener implements ActionListener
 {
   private static Listener listener;
-  private ImgNumber result;
+  private ImgNumber result = null;
   private String previousPress = "n";
 
   /**
@@ -250,7 +250,7 @@ public class Listener implements ActionListener
       allParts[1] = value.substring(value.indexOf("/"), value.length() - 1);
       op = Operator.getFrom("/");
     }
-    else if (value.contains("/"))
+    else if (value.contains("-"))
     {
       if (value.charAt(0) != '-')
       {
@@ -310,5 +310,13 @@ public class Listener implements ActionListener
         toReturn = theNumber;
     }
     return toReturn;
+  }
+  
+  private boolean ifNoInput() {
+    if (result == null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
