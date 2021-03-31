@@ -2,7 +2,6 @@ package MathComp;
 
 import java.util.ArrayList;
 
-
 public class ComplexNumber
 {
   private ArrayList<ComplexValue> number;
@@ -11,7 +10,7 @@ public class ComplexNumber
   {
     number = new ArrayList<ComplexValue>();
   }
-  
+
   public ComplexNumber(ArrayList<ComplexValue> number)
   {
     this.number = number;
@@ -52,23 +51,35 @@ public class ComplexNumber
   {
     return number.size();
   }
-
+  
+  public ComplexNumber copy( ArrayList<ComplexValue> number) {
+    ComplexNumber ans = new ComplexNumber();
+    for(int x = 0; x < number.size(); x++) {
+      ans.add(number.get(x));
+    }
+    return ans;
+  }
   /**
    * Evaluates a two complex numbers into one new complex number
    */
   public ComplexNumber evaluate()
   {
     ComplexNumber ans = new ComplexNumber();
-    if(number.size() == 1) {
-      ans .add(number.get(0));
+    ans.copy(number);
+    if (number.size() == 1)
+    {
+      ans.add(number.get(0));
       return ans;
     }
     for (int x = 1; x < number.size(); x++)
     {
-      if(canAdd(number.get(x), number.get(x-1))) {
-        ans.add(number.get(x-1).add(number.get(x)));
-      } else if(canSub(number.get(x), number.get(x-1))) {
-        ans.add(number.get(x-1).subtract(number.get(x)));
+      if (canAdd(number.get(x), number.get(x - 1)))
+      {
+        ans.add(number.get(x - 1).add(number.get(x)));
+      }
+      else if (canSub(number.get(x), number.get(x - 1)))
+      {
+        ans.add(number.get(x - 1).subtract(number.get(x)));
       }
     }
     return ans;
@@ -89,13 +100,14 @@ public class ComplexNumber
     ComplexValue c = a.add(b);
     if (a.getOperator() == Operator.ADD && c.getVariable() != ComplexValue.badOp)
     {
-      
+
       ans = true;
     }
     return ans;
   }
-  
-  private boolean canSub(ComplexValue a, ComplexValue b) {
+
+  private boolean canSub(ComplexValue a, ComplexValue b)
+  {
     boolean ans = false;
     ComplexValue c = a.subtract(b);
     if (a.getOperator() == Operator.SUBTRACT && c.getVariable() != ComplexValue.badOp)
