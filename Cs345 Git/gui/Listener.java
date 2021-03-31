@@ -1,13 +1,12 @@
 package gui;
 
-import calculator.*;
-
+import Calculator.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.util.ArrayList;
-
-import math.*;
+import math.Operator;
+import MathComp.*;
 
 /**
  * Listener - Class which implements ActionListener to listen for JButtons pushes and JTextField
@@ -20,7 +19,7 @@ public class Listener implements ActionListener
 {
   private static Listener listener;
   private ImgNumber result;
-  private String previousPress = "";
+  private String previousPress = "n";
 
   /**
    * Default constructor.
@@ -37,7 +36,6 @@ public class Listener implements ActionListener
   public void actionPerformed(final ActionEvent e)
   {
     JTextPane theDis = MainPanel.display;
-    Object source = e.getSource();
     String command = e.getActionCommand();
 
     // Input
@@ -46,7 +44,7 @@ public class Listener implements ActionListener
     JTextArea output;
 
     // A String representation of the total expression to be parsed
-    String total = "";
+    // String total = "";
 
     switch (command)
     {
@@ -66,7 +64,7 @@ public class Listener implements ActionListener
         }
         theDis.insertComponent(output);
         MainPanel.clear();
-        previousPress = "";
+        previousPress = "n";
         break;
       case "text":
         // total.concat(theDis.getText());
@@ -84,7 +82,7 @@ public class Listener implements ActionListener
         }
         theDis.insertComponent(output);
         MainPanel.clear();
-        previousPress = "";
+        previousPress = "n";
         break;
       case "/":
         result = calculateBasedOnPreviousButton(parseSingleValue(input));
@@ -127,7 +125,8 @@ public class Listener implements ActionListener
         break;
       case "R":
         MainPanel.reset();
-        total = "";
+        // total = "";
+        previousPress = "n";
         result = null;
         break;
       default:
