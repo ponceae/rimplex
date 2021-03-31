@@ -34,4 +34,14 @@ public enum Operator
   {
     return operator;
   }
+  
+  public static Operator getFrom(String theOp) {
+    Operator returnOp = null;
+    for (Operator op : Operator.values()) {
+      if (op.getOperator() == theOp.charAt(0)) {
+        returnOp = op;
+      }
+    }
+    return returnOp;
+  }
 }

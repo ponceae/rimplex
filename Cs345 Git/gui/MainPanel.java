@@ -103,13 +103,13 @@ public class MainPanel extends JPanel
 
     // Adds all the Buttons to a JButtons ArrayList for ease of use
     theButtons = new ArrayList<JButton>();
-    theButtons.add(clearButton);
-    theButtons.add(equalButton);
     theButtons.add(resetButton);
-    theButtons.add(divButton);
+    theButtons.add(clearButton);
+    theButtons.add(plusButton);
     theButtons.add(minusButton);
     theButtons.add(multiButton);
-    theButtons.add(plusButton);
+    theButtons.add(divButton);
+    theButtons.add(equalButton);
 
   }
 
