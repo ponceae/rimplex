@@ -230,23 +230,54 @@ public class Listener implements ActionListener
    */
   private ImgNumber parseSingleValue(final String value)
   {
-    String[] allParts = value.split(" ");
     Operator op = null;
+    String[] allParts = new String[2];
+    if (value.contains("+"))
+    {
+      allParts[0] = value.substring(0, value.indexOf("+"));
+      allParts[1] = value.substring(value.indexOf("+"), value.length() - 1);
+      op = Operator.getFrom("+");
+    }
+    else if (value.contains("*"))
+    {
+      allParts[0] = value.substring(0, value.indexOf("*"));
+      allParts[1] = value.substring(value.indexOf("*"), value.length() - 1);
+      op = Operator.getFrom("*");
+    }
+    else if (value.contains("/"))
+    {
+      allParts[0] = value.substring(0, value.indexOf("/"));
+      allParts[1] = value.substring(value.indexOf("/"), value.length() - 1);
+      op = Operator.getFrom("/");
+    }
+    else if (value.contains("/"))
+    {
+      if (value.charAt(0) != '-')
+      {
+        allParts[0] = value.substring(0, value.indexOf("-"));
+        allParts[1] = value.substring(value.indexOf("-"), value.length() - 1);
+        op = Operator.getFrom("-");
+      }
+      else
+      {
+        allParts[0] = value.substring(0, value.lastIndexOf("-"));
+        allParts[1] = value.substring(value.lastIndexOf("-"), value.length() - 1);
+        op = Operator.getFrom("-");
+      }
+    }
     double real = 0.0;
     double img = 0.0;
 
-    if (allParts[0].contains("-") && allParts.length == 4)
+    // allParts[allParts.length - 1] = allParts[allParts.length - 1].substring(0, allParts.length -
+    // 1);
+
+    for (String part : allParts)
     {
-      real = -(Double.parseDouble(allParts[1]));
-      img = Double.parseDouble(allParts[3]);
-      op = Operator.getFrom(allParts[2]);
+      part.replaceAll("\\s", "");
     }
-    else
-    {
-      real = Double.parseDouble(allParts[0]);
-      img = Double.parseDouble(allParts[2]);
-      op = Operator.getFrom(allParts[1]);
-    }
+
+    real = Double.parseDouble(allParts[0]);
+    img = Double.parseDouble(allParts[1]);
 
     return new ImgNumber(real, img, op);
   }
