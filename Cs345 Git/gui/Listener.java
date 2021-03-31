@@ -21,6 +21,7 @@ public class Listener implements ActionListener
   private static Listener listener;
   private ImgNumber result = null;
   private String previousPress = "n";
+  private boolean recentlyReset = false;
 
   /**
    * Default constructor.
@@ -50,76 +51,100 @@ public class Listener implements ActionListener
     switch (command)
     {
       case "=":
-        // total.concat(theDis.getText());
-        result = calculateBasedOnPreviousButton(parseSingleValue(input));
-        // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-        // class
-        if (!input.equals(""))
-        {
-          output = MainPanel
-              .getDisplayOutput("(" + input + ") = \n(" + result.toString() + ")\n\n");
+        if (!noInput()) {
+          // total.concat(theDis.getText());
+          result = calculateBasedOnPreviousButton(parseSingleValue(input));
+          // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
+          // class
+          if (!input.equals(""))
+          {
+            output = MainPanel
+                .getDisplayOutput("(" + input + ") = \n(" + result.toString() + ")\n\n");
+          }
+          else
+          {
+            output = MainPanel.getDisplayOutput("= \n" + result.toString() + ")\n\n");
+          }
+          theDis.insertComponent(output);
+          MainPanel.clear();
+          previousPress = "n";
         }
-        else
-        {
-          output = MainPanel.getDisplayOutput("= \n" + result.toString() + ")\n\n");
-        }
-        theDis.insertComponent(output);
-        MainPanel.clear();
-        previousPress = "n";
         break;
       case "text":
-        // total.concat(theDis.getText());
-        result = calculateBasedOnPreviousButton(parseSingleValue(input));
-        // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-        // class
-        if (!input.equals(""))
-        {
-          output = MainPanel
-              .getDisplayOutput("(" + input + ") = \n(" + result.toString() + ")\n\n");
+        if (!noInput()) {
+          // total.concat(theDis.getText());
+          result = calculateBasedOnPreviousButton(parseSingleValue(input));
+          // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
+          // class
+          if (!input.equals(""))
+          {
+            output = MainPanel
+                .getDisplayOutput("(" + input + ") = \n(" + result.toString() + ")\n\n");
+          }
+          else
+          {
+            output = MainPanel.getDisplayOutput("= \n(" + result.toString() + ")\n\n");
+          }
+          theDis.insertComponent(output);
+          MainPanel.clear();
+          previousPress = "n";
         }
-        else
-        {
-          output = MainPanel.getDisplayOutput("= \n(" + result.toString() + ")\n\n");
-        }
-        theDis.insertComponent(output);
-        MainPanel.clear();
-        previousPress = "n";
         break;
       case "/":
         result = calculateBasedOnPreviousButton(parseSingleValue(input));
         // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
         // class
-        output = MainPanel.getDisplayOutput("(" + input + ") / ");
+        if (recentlyReset) {
+          output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") / ");
+        } else {
+          output = MainPanel.getDisplayOutput("(" + input + ") / ");
+        }
         theDis.insertComponent(output);
         MainPanel.getInput().setText("");
         previousPress = command;
+        recentlyReset = false;
         break;
       case "*":
         result = calculateBasedOnPreviousButton(parseSingleValue(input));
         // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
         // class
-        output = MainPanel.getDisplayOutput("(" + input + ") * ");
+        if (recentlyReset) {
+          output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") * ");
+        } else {
+          output = MainPanel.getDisplayOutput("(" + input + ") * ");
+        }
         theDis.insertComponent(output);
         MainPanel.getInput().setText("");
         previousPress = command;
+        recentlyReset = false;
         break;
       case "-":
         result = calculateBasedOnPreviousButton(parseSingleValue(input));
         // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
         // class
-        output = MainPanel.getDisplayOutput("(" + input + ") - ");
+        if (recentlyReset) {
+          output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") - ");
+        } else {
+          output = MainPanel.getDisplayOutput("(" + input + ") - ");
+        }
         theDis.insertComponent(output);
         MainPanel.getInput().setText("");
         previousPress = command;
+        recentlyReset = false;
         break;
       case "+":
         result = calculateBasedOnPreviousButton(parseSingleValue(input));
         // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
         // class
-        output = MainPanel.getDisplayOutput("(" + input + ") + ");
+        if (recentlyReset) {
+          output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") + ");
+        } else {
+          output = MainPanel.getDisplayOutput("(" + input + ") + ");
+        }
         theDis.insertComponent(output);
         MainPanel.getInput().setText("");
         previousPress = command;
+        recentlyReset = false;
         break;
       case "C":
         MainPanel.clear();
@@ -129,6 +154,7 @@ public class Listener implements ActionListener
         // total = "";
         previousPress = "n";
         result = null;
+        recentlyReset = true;
         break;
       default:
         System.exit(0);
@@ -313,7 +339,7 @@ public class Listener implements ActionListener
     return toReturn;
   }
   
-  private boolean ifNoInput() {
+  private boolean noInput() {
     if (result == null) {
       return true;
     } else {
