@@ -51,14 +51,17 @@ public class ComplexNumber
   {
     return number.size();
   }
-  
-  public ComplexNumber copy( ArrayList<ComplexValue> number) {
+
+  public ComplexNumber copy(ArrayList<ComplexValue> number)
+  {
     ComplexNumber ans = new ComplexNumber();
-    for(int x = 0; x < number.size(); x++) {
+    for (int x = 0; x < number.size(); x++)
+    {
       ans.add(number.get(x));
     }
     return ans;
   }
+
   /**
    * Evaluates a two complex numbers into one new complex number
    */
@@ -82,8 +85,9 @@ public class ComplexNumber
       {
         ans.add(number.get(x - 1).subtract(number.get(x)));
       }
-      else {
-        ans.add(number.get(x-1));
+      else
+      {
+        ans.add(number.get(x - 1));
       }
     }
     return ans;
@@ -119,5 +123,15 @@ public class ComplexNumber
       ans = true;
     }
     return ans;
+  }
+
+  public String toString()
+  {
+    String str = "";
+    for (int x = 0; x < number.size(); x++)
+    {
+      str += number.get(x).toString();
+    }
+    return str;
   }
 }
