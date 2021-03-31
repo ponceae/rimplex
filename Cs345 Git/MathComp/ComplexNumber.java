@@ -59,7 +59,7 @@ public class ComplexNumber
       if(canAdd(number.get(x), number.get(x-1))) {
         ans.add(number.get(x-1).add(number.get(x)));
       } else if(canSub(number.get(x), number.get(x-1))) {
-        ans.add(number.get(x-1).sub(number.get(x)));
+        ans.add(number.get(x-1).subtract(number.get(x)));
       }
     }
     return ans;
@@ -77,7 +77,7 @@ public class ComplexNumber
   private boolean canAdd(ComplexValue a, ComplexValue b)
   {
     boolean ans = false;
-    if (a.getOp() == ComplexValue.ADD && (a.getCar() == b.getCar()))
+    if (a.getOperator() == Operator.ADD && (a.getVariable() == b.getVariable()))
     {
       ans = true;
     }
@@ -86,7 +86,7 @@ public class ComplexNumber
   
   private boolean canSub(ComplexValue a, ComplexValue b) {
     boolean ans = false;
-    if (a.getOp() == ComplexValue.SUB && (a.getCar() == b.getCar()))
+    if (a.getOperator() == Operator.SUBTRACT && (a.getVariable() == b.getVariable()))
     {
       ans = true;
     }
