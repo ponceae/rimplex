@@ -1,15 +1,17 @@
 package testing;
 
 import static org.junit.jupiter.api.Assertions.*;
-import MathComp.*;
+
 import org.junit.jupiter.api.Test;
+
+import math.*;
 
 
 /**
  * Checks the Operator enumeration.
  * 
  * @author Adrien Ponce
- * @version v1
+ * @version 3/31/21
  */
 class OperatorTest
 {

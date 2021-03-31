@@ -17,6 +17,13 @@ import javax.swing.border.EtchedBorder;
 
 public class MainPanel extends JPanel
 {
+  // JTextComponents for user input and displaying the output
+  private static JTextField inputField;
+  private static JTextArea output;
+
+  // Actual display Component, package visible for Listener access
+  static JTextPane display;
+
   /**
    * Default UID since I'm not sure what it should be instantiated to.
    */
@@ -32,13 +39,6 @@ public class MainPanel extends JPanel
   private JButton clearButton;
   private JButton resetButton;
   private ArrayList<JButton> theButtons;
-
-  // JTextComponents for user input and displaying the output
-  private static JTextField inputField;
-  private static JTextArea output;
-
-  // Actual display Component, package visible for Listener access
-  static JTextPane display;
 
   // Label and Icon used for displaying the logo on the calculator
   private JLabel rimpLogo;
@@ -189,7 +189,7 @@ public class MainPanel extends JPanel
    *          the output to display
    * @return the JTextArea called output
    */
-  static JTextArea getDisplayOutput(String text)
+  static JTextArea getDisplayOutput(final String text)
   {
     if (output == null)
     {
@@ -228,4 +228,3 @@ public class MainPanel extends JPanel
   }
 
 }
-

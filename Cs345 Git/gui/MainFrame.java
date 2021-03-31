@@ -1,11 +1,11 @@
 package gui;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 /**
  * MainFrame - .

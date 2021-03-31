@@ -1,11 +1,13 @@
 package gui;
 
-import javax.swing.*;
-import MathComp.*;
-import Calculator.*;
+import calculator.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 import java.util.ArrayList;
+
+import math.*;
 
 /**
  * Listener - Class which implements ActionListener to listen for JButtons pushes and JTextField
@@ -14,20 +16,25 @@ import java.util.ArrayList;
  * @author Ulises Fernandez and Andrew Elbert
  * @version (3/31/21)
  */
-
 public class Listener implements ActionListener
 {
   private static Listener listener;
   private ImgNumber result;
-  String previousPress = "";
+  private String previousPress = "";
 
+  /**
+   * Default constructor.
+   */
   private Listener()
   {
 
   }
 
+  /**
+   * Performs an action.
+   */
   @Override
-  public void actionPerformed(ActionEvent e)
+  public void actionPerformed(final ActionEvent e)
   {
     JTextPane theDis = MainPanel.display;
     Object source = e.getSource();
@@ -148,7 +155,7 @@ public class Listener implements ActionListener
    * time instead.
    * 
    * @param exp
-   * @return
+   * @return a
    */
   private ImgNumber parseExpression(final String exp)
   {
@@ -195,7 +202,7 @@ public class Listener implements ActionListener
    * time instead.
    * 
    * @param theValue
-   * @return
+   * @return a
    */
   private ArrayList<ImgNumber> parseValues(final String theValue)
   {
@@ -215,7 +222,14 @@ public class Listener implements ActionListener
     return null;
   }
 
-  private ImgNumber parseSingleValue(String value)
+  /**
+   * Parse a single value.
+   * 
+   * @param value
+   *          the value to parse
+   * @return the parsed value
+   */
+  private ImgNumber parseSingleValue(final String value)
   {
     String[] allParts = value.split(" ");
     Operator op = null;
@@ -238,7 +252,14 @@ public class Listener implements ActionListener
     return new ImgNumber(real, img, op);
   }
 
-  private ImgNumber calculateBasedOnPreviousButton(ImgNumber theNumber)
+  /**
+   * Checks the prev button.
+   * 
+   * @param theNumber
+   *          the case to switch
+   * @return the complex number
+   */
+  private ImgNumber calculateBasedOnPreviousButton(final ImgNumber theNumber)
   {
     ImgNumber toReturn = null;
     switch (previousPress)
