@@ -15,13 +15,13 @@ class ComplexValueTest
 {
   private ComplexValue empty = new ComplexValue();
   // real var exp    operator     imaginary
-  private ComplexValue a = new ComplexValue(0, "", 1, Operator.SUBTRACT, -6);
-  private ComplexValue b = new ComplexValue(2, "", 1, Operator.ADD, 4);
-  private ComplexValue c = new ComplexValue(-2, "", 1, Operator.EMPTY, 0);
-  private ComplexValue d = new ComplexValue(0, "", 1, Operator.EMPTY, 0);
-  private ComplexValue e = new ComplexValue(-146, "", 1, Operator.SUBTRACT, -56);
-  private ComplexValue f = new ComplexValue(7, "", 1, Operator.SUBTRACT, 6);
-  private ComplexValue g = new ComplexValue(-2, "", 1, Operator.ADD, 5); 
+  private ComplexValue a = new ComplexValue( "",0, 1, Operator.SUBTRACT);
+  private ComplexValue b = new ComplexValue( "",2, 1, Operator.ADD);
+  private ComplexValue c = new ComplexValue( "",-2, 1, Operator.EMPTY);
+  private ComplexValue d = new ComplexValue( "",0, 1, Operator.EMPTY);
+  private ComplexValue e = new ComplexValue( "", -146,1, Operator.SUBTRACT);
+  private ComplexValue f = new ComplexValue( "",7, 1, Operator.SUBTRACT);
+  private ComplexValue g = new ComplexValue( "",-2, 1, Operator.ADD);  
 
   /**
    * Checks that the setters and getters are free of error.
