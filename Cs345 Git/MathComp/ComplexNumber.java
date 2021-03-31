@@ -11,6 +11,11 @@ public class ComplexNumber
   {
     number = new ArrayList<ComplexValue>();
   }
+  
+  public ComplexNumber(ArrayList<ComplexValue> number)
+  {
+    this.number = number;
+  }
 
   /*
    * Adds a complex value to the list, returns true if it was added.
@@ -54,6 +59,10 @@ public class ComplexNumber
   public ComplexNumber evaluate()
   {
     ComplexNumber ans = new ComplexNumber();
+    if(number.size() == 1) {
+      ans .add(number.get(0));
+      return ans;
+    }
     for (int x = 1; x < number.size(); x++)
     {
       if(canAdd(number.get(x), number.get(x-1))) {
@@ -77,8 +86,10 @@ public class ComplexNumber
   private boolean canAdd(ComplexValue a, ComplexValue b)
   {
     boolean ans = false;
-    if (a.getOperator() == Operator.ADD && (a.getVariable() == b.getVariable()))
+    ComplexValue c = a.add(b);
+    if (a.getOperator() == Operator.ADD && c.getVariable() != ComplexValue.badOp)
     {
+      
       ans = true;
     }
     return ans;
@@ -86,7 +97,8 @@ public class ComplexNumber
   
   private boolean canSub(ComplexValue a, ComplexValue b) {
     boolean ans = false;
-    if (a.getOperator() == Operator.SUBTRACT && (a.getVariable() == b.getVariable()))
+    ComplexValue c = a.subtract(b);
+    if (a.getOperator() == Operator.SUBTRACT && c.getVariable() != ComplexValue.badOp)
     {
       ans = true;
     }

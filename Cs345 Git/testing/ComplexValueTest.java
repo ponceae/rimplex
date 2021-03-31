@@ -15,13 +15,15 @@ class ComplexValueTest
 {
   private ComplexValue empty = new ComplexValue();
   // real var exp    operator     imaginary
-  private ComplexValue a = new ComplexValue( "",0, 1, Operator.SUBTRACT);
-  private ComplexValue b = new ComplexValue( "",2, 1, Operator.ADD);
+  private ComplexValue a = new ComplexValue( "x",0, 1, Operator.SUBTRACT);
+  private ComplexValue b = new ComplexValue( "x",2, 1, Operator.ADD);
   private ComplexValue c = new ComplexValue( "",-2, 1, Operator.EMPTY);
-  private ComplexValue d = new ComplexValue( "",0, 1, Operator.EMPTY);
-  private ComplexValue e = new ComplexValue( "", -146,1, Operator.SUBTRACT);
-  private ComplexValue f = new ComplexValue( "",7, 1, Operator.SUBTRACT);
-  private ComplexValue g = new ComplexValue( "",-2, 1, Operator.ADD);  
+  private ComplexValue d = new ComplexValue( "a",0, 1, Operator.EMPTY);
+  private ComplexValue e = new ComplexValue( "b", -146,1, Operator.SUBTRACT);
+  private ComplexValue f = new ComplexValue( "x",7, 1, Operator.SUBTRACT);
+  private ComplexValue g = new ComplexValue( "a",-2, 1, Operator.ADD);  
+  private ComplexValue h = new ComplexValue( "x",2, 1, Operator.ADD);  
+  private ComplexValue i = new ComplexValue( "x",-2, 1, Operator.ADD);  
 
   /**
    * Checks that the setters and getters are free of error.
@@ -31,11 +33,8 @@ class ComplexValueTest
   {
     String x = "x";
     a.setReal(3);
-    assertEquals(3, a.getReal());
-    b.setImaginary(8);
-    assertEquals(8, b.getImaginary());
+    assertEquals(3, a.getReal()); 
     c.setOperator(Operator.SUBTRACT);
-    c.setImaginary(-5);
     assertEquals('-', c.getOperator().getOperator());
     d.setReal(2);
     d.setExponent(2);
@@ -50,12 +49,10 @@ class ComplexValueTest
   @Test
   void testAdd()
   {
-    assertEquals("(2 - 2i)", a.add(b).toString());
-    assertEquals("(-144 - 52i)", b.add(e).toString());
-    assertEquals("(5 - 6i)", c.add(f).toString());
-    assertEquals("(-2 + 5i)", d.add(g).toString());
-    assertEquals("", d.add(d).toString());
-    assertEquals("(-2)", c.add(d).toString());
+    assertEquals("2x", a.add(b).toString());
+    assertEquals("Cant perform operation", b.add(e).toString());
+    assertEquals("9x", a.add(b).add(f).toString());
+    assertEquals("0", b.add(i).toString());
   }
 
   /**
@@ -64,11 +61,9 @@ class ComplexValueTest
   @Test
   void testSubtract()
   {
-    assertEquals("(-2 - 10i)", a.subtract(b).toString());
-    assertEquals("(148 + 60i)", b.subtract(e).toString());
-    assertEquals("(-9 + 6i)", c.subtract(f).toString());
-    assertEquals("(2 - 5i)", d.subtract(g).toString());
-    assertEquals("", d.subtract(d).toString());
+    assertEquals("-2x", a.subtract(b).toString());
+    assertEquals("Cant perform operation", b.subtract(e).toString());
+    assertEquals("0", b.subtract(h).toString());
   }
   
   /**
