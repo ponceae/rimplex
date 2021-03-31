@@ -1,60 +1,30 @@
-package calculator;
+package Calculator;
 
-import math.Operator;
+import MathComp.Operator;
 
-/**
- * This class represents a complex value with a real and imaginary value.
- * 
- * @author Chris Cleveland, Adrien Ponce
- * @version 3/31/21
- */
 public class ImgNumber
 {
   private final double real, img;
   private Operator operator;
 
-  /**
-   * Explicit value constructor.
-   * 
-   * @param real
-   *          the real number value
-   * @param img
-   *          the imaginary number value
-   * @param operator
-   *          the operator in the expression
-   */
-  public ImgNumber(final double real, final double img, final Operator operator)
+  public ImgNumber(double real, double img, Operator operator)
   {
     this.real = real;
     this.img = img;
     this.operator = operator;
   }
 
-  /**
-   * Explicit value constructor.
-   * 
-   * @param real
-   *          the real number value
-   * @param img
-   *          the imaginary number value
-   */
-  public ImgNumber(final double real, final double img)
+  public ImgNumber(double real, double img)
   {
     this.real = real;
     this.img = img;
   }
 
-  /**
-   * @return the real part of the expression.
-   */
   public double getReal()
   {
     return real;
   }
 
-  /**
-   * @return the imaginary part of the expression.
-   */
   public double getImg()
   {
     return img;
@@ -68,39 +38,18 @@ public class ImgNumber
     return operator;
   }
 
-  /**
-   * Adds two complex numbers together. (this + other).
-   * 
-   * @param other
-   *          the other complex number to add
-   * @return the newly updated complex number
-   */
-  public ImgNumber add(final ImgNumber other)
+  public ImgNumber add(ImgNumber other)
   {
     double newReal = this.real + other.getReal();
     double newImg = this.img + other.getImg();
     return new ImgNumber(newReal, newImg);
   }
 
-  /**
-   * Subtracts a complex numbers from this. (this - other).
-   * 
-   * @param other
-   *          the other complex number to subtract
-   * @return the newly updated complex number
-   */
   public ImgNumber subtract(final ImgNumber other)
   {
     return new ImgNumber(real - other.real, img - other.img);
   }
 
-  /**
-   * Multiplies two complex numbers together. (this * other).
-   * 
-   * @param other
-   *          the other complex number to multiply
-   * @return the newly updated complex number
-   */
   public ImgNumber multiply(final ImgNumber other)
   {
     double newReal = this.real * other.getReal() - this.img * other.getImg();
@@ -108,32 +57,28 @@ public class ImgNumber
     return new ImgNumber(newReal, newImg);
   }
 
-  /**
-   * Divides a complex numbers from this. (this / other).
-   * 
-   * @param other
-   *          the other complex number to divide
-   * @return the newly updated complex number
-   */
   public ImgNumber divide(final ImgNumber other)
   {
     return this.multiply(other.reciprocal());
   }
 
   /**
-   * Helper method for getting the reciprocal.
+   * helper method for getting reciprocal.
    * 
-   * @return reciprocal of this complex number
+   * @return
    */
-  private ImgNumber reciprocal()
+  public ImgNumber reciprocal()
   {
     double rec = real * real + img * img;
     return new ImgNumber((real / rec), (-img / rec));
   }
 
-  /**
-   * @return true if this has no value.
+  /*
+   * @return true if
+   * 
+   * the ImgNumber has no value
    */
+
   private boolean hasNoValue()
   {
     if (real == 0 && img == 0)
@@ -143,15 +88,13 @@ public class ImgNumber
     return false;
   }
 
-  /**
-   * @return a String representation of a complex value.
+  /*
+   * 
+   * Returns a String representation of a complex value.
    */
-  @Override
+
   public String toString()
   {
-    String format = "%.2f";
-    String space = " ";
-    String i = "i";
     String result = "";
 
     if (hasNoValue())
@@ -162,24 +105,22 @@ public class ImgNumber
     // no real part
     if (real == 0)
     {
-      result += String.format(format, img) + i;
+      result += img + "i";
     }
     // no imaginary part
     else if (img == 0)
     {
-      result += String.format(format, real) + "";
+      result += real + "";
     }
     // negative imaginary value
     else if (img < 0)
     {
       // cancel the negative when formatting
-      result += String.format(format, real) + space + Operator.SUBTRACT.getOperator() + space
-          + String.format(format, -img) + i;
+      result += real + " " + Operator.SUBTRACT.getOperator() + " " + -img + "i";
     }
     else
     {
-      result += String.format(format, real) + space + Operator.ADD.getOperator() + space
-          + String.format(format, img) + i;
+      result += real + " " + Operator.ADD.getOperator() + " " + img + "i";
     }
     return result;
   }
