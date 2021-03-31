@@ -3,10 +3,11 @@ package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import Calculator.*;
+
 import java.util.ArrayList;
 import math.Operator;
 import MathComp.*;
+import calculator.*;
 
 /**
  * Listener - Class which implements ActionListener to listen for JButtons pushes and JTextField
