@@ -21,7 +21,7 @@ public class ComplexValue
    */
   public ComplexValue()
   {
-    this(0, null, 1, Operator.EMPTY, 0);
+    this(null, 0, 1, Operator.EMPTY);
   }
 
   /**
@@ -38,12 +38,11 @@ public class ComplexValue
    * @param exponent
    *          the exponent
    */
-  public ComplexValue(final int real, final String variable, final int exponent,
-      final Operator operator, final int imaginary)
+  public ComplexValue( final String variable, final int real, final int exponent,
+      final Operator operator)
   {
     this.real = real;
     this.variable = variable;
-    this.imaginary = imaginary;
     this.operator = operator;
     this.exponent = exponent;
   }
@@ -144,16 +143,6 @@ public class ComplexValue
   }
 
   /**
-   * Helper method that copies this values so that they stay immutable.
-   * 
-   * @return the copy of this ComplexValue
-   */
-  private ComplexValue deepCopy()
-  {
-    return new ComplexValue(real, variable, exponent, operator, imaginary);
-  }
-
-  /**
    * Modify this to return a new ComplexValue that is (this + other).
    * 
    * @param other
@@ -163,27 +152,12 @@ public class ComplexValue
   public ComplexValue add(final ComplexValue other)
   {
     // to avoid null pointer exception
-    ComplexValue ans = deepCopy();
-    if (ans.variable == other.variable)
+    ComplexValue ans = new ComplexValue();
+    if (this.variable == other.getVariable())
     {
-      ans.setReal(ans.real + other.real);
-
-      // Logic in the block below is debatable
-      //////////////////////////////////////////////////////
-      if ((imaginary * other.imaginary) <= 0)
-      {
-        ans.setImaginary(ans.imaginary + other.imaginary);
-        ans.setOperator(Operator.SUBTRACT);
-      }
-      else
-      {
-        ans.setImaginary(ans.imaginary - other.imaginary);
-        ans.setOperator(Operator.ADD);
-      }
-      //////////////////////////////////////////////////////
-      if (ans.real == 0)
-      {
-        ans.setVariable(null);
+      ans.setReal(real + other.getReal());
+      if(ans.getReal() == 0) {
+        ans.setVariable("");
       }
     }
     return ans;
@@ -199,29 +173,15 @@ public class ComplexValue
   public ComplexValue subtract(final ComplexValue other)
   {
     // to avoid null pointer exception
-    ComplexValue ans = deepCopy();
-    if (ans.variable == other.variable)
+    ComplexValue ans = new ComplexValue();
+    if (this.variable == other.getVariable())
     {
-      ans.setReal(ans.real - other.real);
-
-      // Logic in the block below is debatable (copied from above and swapped)
-      //////////////////////////////////////////////////////
-      if ((imaginary * other.imaginary) <= 0)
-      {
-        ans.setImaginary(ans.imaginary - other.imaginary);
-        ans.setOperator(Operator.ADD);
-      }
-      else
-      {
-        ans.setImaginary(ans.imaginary + other.imaginary);
-        ans.setOperator(Operator.SUBTRACT);
-      }
-      //////////////////////////////////////////////////////
-      if (ans.real == 0)
-      {
-        ans.setVariable(null);
+      ans.setReal(real - other.getReal());
+      if(ans.getReal() == 0) {
+        ans.setVariable("");
       }
     }
+
     return ans;
   }
 
@@ -234,16 +194,17 @@ public class ComplexValue
    */
   public ComplexValue multiply(final ComplexValue other)
   {
-    ComplexValue ans = deepCopy();
+    ComplexValue ans = new ComplexValue();
+    if(other.getReal() == 0 || this.getReal() == 0) {
+      ans = new ComplexValue(" ", 0, 0, Operator.EMPTY);
+    }
+    else if(this.variable == other.getVariable()) {
+      ans.setReal(real * other.getReal());
+      ans.setExponent(this.getExponent() + other.getExponent());
+    } else if(this.getVariable().contains(other.getVariable().substring(0,1))) {
+      
+    }
 
-    if (exponent == 1)
-    {
-      // do normal multiplication
-    }
-    else
-    {
-      // special case exponent multiplication
-    }
     return ans;
   }
 
@@ -254,7 +215,7 @@ public class ComplexValue
    */
   private boolean hasNoValue()
   {
-    if (real == 0 && imaginary == 0)
+    if (real == 0)
     {
       return true;
     }
