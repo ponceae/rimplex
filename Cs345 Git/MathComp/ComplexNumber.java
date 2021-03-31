@@ -65,7 +65,8 @@ public class ComplexNumber
   public ComplexNumber evaluate()
   {
     ComplexNumber ans = new ComplexNumber();
-    ans.copy(number);
+    ComplexNumber clone = new ComplexNumber();
+    clone.copy(number);
     if (number.size() == 1)
     {
       ans.add(number.get(0));
@@ -80,6 +81,9 @@ public class ComplexNumber
       else if (canSub(number.get(x), number.get(x - 1)))
       {
         ans.add(number.get(x - 1).subtract(number.get(x)));
+      }
+      else {
+        ans.add(number.get(x-1));
       }
     }
     return ans;
