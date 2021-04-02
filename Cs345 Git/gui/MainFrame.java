@@ -28,7 +28,7 @@ public class MainFrame extends JFrame
   private MainFrame()
   {
     createComponents(); // create needed objects
-    setSize(600, 250);
+    setSize(350, 450);
     getContentPane().add(mainPanel, BorderLayout.CENTER);
     setTitle("Rimplex");
     setVisible(true); // display this
