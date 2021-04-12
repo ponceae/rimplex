@@ -1,7 +1,11 @@
 package calculator;
 
 import java.util.ArrayList;
-
+/*
+ * Working Calculator
+ * 
+ * athor Chris Cleveland and adrian poince
+ */
 public class calculator
 {
   private ArrayList<Number> equation;
@@ -153,14 +157,18 @@ public class calculator
   public String toString()
   {
     String str = "";
-    for (int x = 0; x < equation.size() - 1; x++)
+    for (int x = 0; x < equation.size(); x++)
     {
-      str += " (";
+      str += "(";
       str += equation.get(x).toString();
-      str += ") ";
-      str += equation.get(x + 1).getOperator();
+      str += ")";
+      if(x+1 != equation.size() && equation.size() > 1) {
+        str += " ";
+        str += equation.get(x).getOperator();
+        str += " ";
+      }
+      
     }
-    str += equation.get(equation.size() - 1);
     return str;
   }
 }
