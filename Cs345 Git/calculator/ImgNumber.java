@@ -4,14 +4,13 @@ package calculator;
  * This class represents a complex value with a real and imaginary value.
  * 
  * @author Chris Cleveland, Adrien Ponce
- * @version 3/31/21
+ * @version 4/12
  */
 public class ImgNumber implements Number
 {
   private double img;
   private Real real;
-  private Operator operator; 
-  
+  private Operator operator;
 
   /**
    * Explicit value constructor.
@@ -25,7 +24,6 @@ public class ImgNumber implements Number
    */
   public ImgNumber(final double real, final double img, final Operator operator)
   {
-    
     this.real = new Real(real);
     this.img = img;
     this.operator = operator;
@@ -60,10 +58,15 @@ public class ImgNumber implements Number
   {
     return img;
   }
-  
-  public Real getRealObj() {
+
+  /**
+   * @return the real part of the expression
+   */
+  public Real getRealObj()
+  {
     return real;
   }
+
   /**
    * @return the operator in the expression
    */
@@ -140,7 +143,7 @@ public class ImgNumber implements Number
    */
   private boolean hasNoValue()
   {
-    if (getReal() == 0 && img == 0) 
+    if (getReal() == 0 && img == 0)
     {
       return true;
     }
@@ -177,8 +180,8 @@ public class ImgNumber implements Number
     else if (img < 0)
     {
       // cancel the negative when formatting
-      result += String.format(format, real.getReal()) + space + Operator.SUBTRACT.getOperator() + space
-          + String.format(format, -img) + i;
+      result += String.format(format, real.getReal()) + space + Operator.SUBTRACT.getOperator()
+          + space + String.format(format, -img) + i;
     }
     else
     {
@@ -201,6 +204,5 @@ public class ImgNumber implements Number
     // TODO Auto-generated method stub
     operator = op;
   }
-
 
 }
