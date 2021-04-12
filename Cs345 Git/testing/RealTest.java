@@ -19,7 +19,8 @@ class RealTest
   void testConstructor()
   {
     assertEquals(5.0, a.getReal());
-    assertEquals('+', a.getOperator());
+    assertEquals('+', a.getOperator().getOperator());
+    
   }
 
   @Test
@@ -44,5 +45,33 @@ class RealTest
     assertEquals(13.5, AB.getReal());
     AB = AB.subtract(f);
     assertEquals(13.5, AB.getReal());
+  }
+  
+  @Test
+  void testMultiplication()
+  {
+    Real AB = a.multiply(e);
+    assertEquals(10.0, AB.getReal());
+    AB = AB.multiply(b);
+    assertEquals(15.0, AB.getReal());
+    AB = AB.multiply(d);
+    assertEquals(-180.0, AB.getReal());
+    AB = AB.multiply(f);
+    assertEquals(0.0, AB.getReal());
+  }
+  @Test
+  void testDivide()
+  {
+    Real AB = d.divide(e);
+    assertEquals(-6.0, AB.getReal());
+  }
+  
+  @Test
+  void testSqured()
+  {
+    Real AB = a.squared(2);
+    assertEquals(25.0, AB.getReal());
+    AB = AB.squared(2);
+    assertEquals(625.0, AB.getReal());
   }
 }

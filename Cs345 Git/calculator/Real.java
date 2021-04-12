@@ -25,13 +25,22 @@ public class Real implements Number
 
   public Real subtract(Real other)
   {
-    Real n = new Real(this.real - other.getReal());
-    return n;
+
+    return new Real(this.real - other.getReal());
+
   }
 
   public Real multiply(Real other)
   {
-    Real n = new Real(this.real * other.getReal());
+    double test = other.getReal();
+    Real n;
+
+    if (test == 0.0 || real == 0.0)
+    {
+      n = new Real(0.000);
+    } else {
+      n = new Real(this.real * other.getReal());
+    }
     return n;
   }
 
@@ -43,12 +52,13 @@ public class Real implements Number
 
   public Real squared(int x)
   {
-    int i = 0;
+    int i = 1;
     double val = real;
     Real n;
-    while (i <= x)
+    while (i < x)
     {
-      val = real * val;
+      val *= real;
+      i++;
     }
     return n = new Real(val);
   }
