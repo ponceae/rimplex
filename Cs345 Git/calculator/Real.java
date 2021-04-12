@@ -1,41 +1,57 @@
 package calculator;
 
-
-
 public class Real implements Number
 {
   private double real;
   private Operator op;
-  
-  public Real(double real) {
+
+  public Real(double real)
+  {
     this.real = real;
   }
-  
-  public Real(double real, Operator op) {
+
+  public Real(double real, Operator op)
+  {
     this.real = real;
     this.op = op;
   }
-  
-  public Real add(Real other) {
+
+  public Real add(Real other)
+  {
     Real n = new Real(this.real + other.getReal());
     return n;
   }
-  
-  public Real subtract(Real other) {
+
+  public Real subtract(Real other)
+  {
     Real n = new Real(this.real - other.getReal());
     return n;
   }
-  
-  public Real multiply(Real other) {
+
+  public Real multiply(Real other)
+  {
     Real n = new Real(this.real * other.getReal());
     return n;
   }
-  
-  public Real divide(Real other) {
-    Real n = new Real(this.real/other.getReal());
+
+  public Real divide(Real other)
+  {
+    Real n = new Real(this.real / other.getReal());
     return n;
   }
-  
+
+  public Real squared(int x)
+  {
+    int i = 0;
+    double val = real;
+    Real n;
+    while (i <= x)
+    {
+      val = real * val;
+    }
+    return n = new Real(val);
+  }
+
   public double getReal()
   {
     // TODO Auto-generated method stub
@@ -62,11 +78,12 @@ public class Real implements Number
     // TODO Auto-generated method stub
     this.op = op;
   }
-  
-  public String toString() {
+
+  public String toString()
+  {
     String str = "";
     str += real;
     return str;
   }
-  
+
 }

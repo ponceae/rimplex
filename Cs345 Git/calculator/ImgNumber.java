@@ -11,6 +11,7 @@ public class ImgNumber implements Number
   private double img;
   private Real real;
   private Operator operator;
+  private int eqxponent;
   
 
   /**
