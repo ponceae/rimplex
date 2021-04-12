@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 
@@ -20,12 +21,17 @@ public class MainPanel extends JPanel
     private JPanel panel;
     private JPanel east;
     private JPanel west;
-
     private JPanel north;
+    
+    private Listener theListener;
     private GridBagConstraints constraints;
-    private JTextField inputField;
+    
+    private static JTextPane display;
+    private static JTextArea output;
+    
     private ImageIcon logo;
     private JLabel rimpLogo;
+    private ImageIcon divSymbol;
 
     public MainPanel()
     {
@@ -33,7 +39,7 @@ public class MainPanel extends JPanel
         setParameters();
         setPanel();
         addComponents();
-        setListeners();
+        setListenersAndActions();
     }
 
     protected void createComponents()
@@ -41,21 +47,27 @@ public class MainPanel extends JPanel
         north = new JPanel(new GridLayout(2,1));
         east = new JPanel();
         west = new JPanel();
-
         panel = new JPanel(new GridBagLayout());
+        
+        theListener = Listener.getInstance();
         constraints = new GridBagConstraints();
-        inputField = new JTextField();
+        
+        display = new JTextPane();
+        output = new JTextArea();
+        
         logo = new ImageIcon("logoRimplex.png");
         rimpLogo = new JLabel(logo);
-
-
+        divSymbol = new ImageIcon("divisionSymbol.png");
+        
 
     } // method createComponents
 
     protected void setParameters()
     {
-
-
+      for (Component theButton : panel.getComponents()) {
+        JButton button = (JButton)theButton;
+        button.setBackground(Color.WHITE);
+      }
 
     } // method setParameters
 
@@ -68,14 +80,13 @@ public class MainPanel extends JPanel
        add(west, BorderLayout.WEST);
        add(east, BorderLayout.EAST);
 
-
-
     } // method setPanel
 
     protected void addComponents()
     {
+      display.add(output);
         north.add((rimpLogo));
-        north.add(inputField);
+        north.add(display);
         constraints.weightx = 1;
         constraints.weighty = 1;
         constraints.fill = GridBagConstraints.BOTH;
@@ -97,14 +108,14 @@ public class MainPanel extends JPanel
         panel.add(new JButton("4"), constraints);
         panel.add(new JButton("5"), constraints);
         panel.add(new JButton("6"), constraints);
-        panel.add(new JButton("X"), constraints);
+        panel.add(new JButton("x"), constraints);
         panel.add(new JButton("("), constraints);
 
         constraints.gridy++;
         panel.add(new JButton("7"), constraints);
         panel.add(new JButton("8"), constraints);
         panel.add(new JButton("9"), constraints);
-        panel.add(new JButton("/"), constraints);
+        panel.add(new JButton(divSymbol), constraints);
         panel.add(new JButton(")"), constraints);
 
         constraints.gridy++;
@@ -115,14 +126,39 @@ public class MainPanel extends JPanel
         panel.add(new JButton("="), constraints);
         panel.add(new JButton("."), constraints);
 
-
-
     }
 
-    protected void setListeners()
+    protected void setListenersAndActions()
     {
-
+      for (Component theButton : panel.getComponents()) {
+        JButton button = (JButton)theButton;
+        String text = button.getText();
+        if (text.equals(""))
+        {
+          button.setActionCommand("/");
+        } else {
+          button.setActionCommand(text);
+        }
+        button.addActionListener(theListener);
+      }
+    }
+    
+    static void clearDisplay() {
+      display.setText("");
     }
 
+    static JTextPane getDisplay() {
+      return display;
+    }
+    
+    static JTextArea appendOutput(String text) {
+      output.setText(output.getText().concat(text));
+      return output;
+    }
+    
+    static JTextArea setOutput(String text) {
+      output.setText(text);
+      return output;
+    }
 
 }
