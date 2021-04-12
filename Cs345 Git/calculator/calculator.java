@@ -21,7 +21,7 @@ public class calculator
     return equation;
   }
 
-  public void add(Number n)
+  public void addTo(Number n)
   {
     equation.add(n);
   }
