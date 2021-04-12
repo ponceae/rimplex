@@ -26,7 +26,6 @@ class ImgNumberTest
   @Test
   void testAdd()
   {
-
     assertEquals("9.00 + 9.00i", a.add(b).toString());
     assertEquals("5.00 + 6.00i", a.add(d).toString()); 
     assertEquals("9.00 - 3.00i", a.add(c).toString()); 

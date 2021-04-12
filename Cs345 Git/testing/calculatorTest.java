@@ -8,7 +8,7 @@ class calculatorTest
 {
 
   @Test
-  void test()
+  void testAdd()
   {
     fail("Not yet implemented");
   }
