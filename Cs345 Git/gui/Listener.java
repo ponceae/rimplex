@@ -127,9 +127,13 @@ public class Listener extends KeyAdapter implements ActionListener
           break;
         case "i":
           // Font italic = Font.
+          /**
           output = new JTextArea();
           output.setFont(Font.getFont("Italic"));
           output.setText("i");
+          theDis.insertComponent(output);
+          */
+          output = MainPanel.appendOutput("i");
           theDis.insertComponent(output);
           break;
         case "Inv":
