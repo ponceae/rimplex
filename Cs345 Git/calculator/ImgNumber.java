@@ -1,17 +1,17 @@
 package calculator;
 
-import math.Operator;
-
 /**
  * This class represents a complex value with a real and imaginary value.
  * 
  * @author Chris Cleveland, Adrien Ponce
  * @version 3/31/21
  */
-public class ImgNumber
+public class ImgNumber implements Number
 {
-  private final double real, img;
+  private double img;
+  private Real real;
   private Operator operator;
+  
 
   /**
    * Explicit value constructor.
@@ -25,7 +25,7 @@ public class ImgNumber
    */
   public ImgNumber(final double real, final double img, final Operator operator)
   {
-    this.real = real;
+    this.real.setReal(real);
     this.img = img;
     this.operator = operator;
   }
@@ -40,7 +40,7 @@ public class ImgNumber
    */
   public ImgNumber(final double real, final double img)
   {
-    this.real = real;
+    this.real.setReal(real);
     this.img = img;
   }
 
@@ -49,7 +49,7 @@ public class ImgNumber
    */
   public double getReal()
   {
-    return real;
+    return real.getReal();
   }
 
   /**
@@ -59,7 +59,10 @@ public class ImgNumber
   {
     return img;
   }
-
+  
+  public Real getRealObj() {
+    return real;
+  }
   /**
    * @return the operator in the expression
    */
@@ -77,7 +80,7 @@ public class ImgNumber
    */
   public ImgNumber add(final ImgNumber other)
   {
-    double newReal = this.real + other.getReal();
+    double newReal = this.getReal() + other.getReal();
     double newImg = this.img + other.getImg();
     return new ImgNumber(newReal, newImg);
   }
@@ -91,7 +94,7 @@ public class ImgNumber
    */
   public ImgNumber subtract(final ImgNumber other)
   {
-    return new ImgNumber(real - other.real, img - other.img);
+    return new ImgNumber(getReal() - other.real.getReal(), img - other.img);
   }
 
   /**
@@ -103,8 +106,8 @@ public class ImgNumber
    */
   public ImgNumber multiply(final ImgNumber other)
   {
-    double newReal = this.real * other.getReal() - this.img * other.getImg();
-    double newImg = this.real * other.getImg() + this.img * other.getReal();
+    double newReal = getReal() * other.getReal() - this.img * other.getImg();
+    double newImg = getReal() * other.getImg() + this.img * other.getReal();
     return new ImgNumber(newReal, newImg);
   }
 
@@ -127,8 +130,8 @@ public class ImgNumber
    */
   private ImgNumber reciprocal()
   {
-    double rec = real * real + img * img;
-    return new ImgNumber((real / rec), (-img / rec));
+    double rec = getReal() * getReal() + img * img;
+    return new ImgNumber((getReal() / rec), (-img / rec));
   }
 
   /**
@@ -136,7 +139,7 @@ public class ImgNumber
    */
   private boolean hasNoValue()
   {
-    if (real == 0 && img == 0)
+    if (getReal() == 0 && img == 0)
     {
       return true;
     }
@@ -160,7 +163,7 @@ public class ImgNumber
     }
 
     // no real part
-    if (real == 0)
+    if (getReal() == 0)
     {
       result += String.format(format, img) + i;
     }
@@ -183,5 +186,20 @@ public class ImgNumber
     }
     return result;
   }
+
+  @Override
+  public void setReal(double d)
+  {
+    // TODO Auto-generated method stub
+    real.setReal(d);
+  }
+
+  @Override
+  public void setOperator(Operator op)
+  {
+    // TODO Auto-generated method stub
+    operator = op;
+  }
+
 
 }
