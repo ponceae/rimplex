@@ -8,8 +8,6 @@ import java.awt.event.KeyAdapter;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import math.Operator;
-import MathComp.*;
 import calculator.*;
 
 /**
