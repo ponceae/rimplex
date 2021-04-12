@@ -18,7 +18,9 @@ class RealTest
   {
     Real sumAB = a.add(b);
     assertEquals(6.5, sumAB.getReal());
-    assertEquals("", sumAB.getReal());
+    sumAB = sumAB.add(b);
+    assertEquals(8.0, sumAB.getReal());
+    
   }
 
 }

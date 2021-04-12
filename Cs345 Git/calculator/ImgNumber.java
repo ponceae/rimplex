@@ -26,7 +26,8 @@ public class ImgNumber implements Number
    */
   public ImgNumber(final double real, final double img, final Operator operator)
   {
-    this.real.setReal(real);
+    
+    this.real = new Real(real);
     this.img = img;
     this.operator = operator;
   }
@@ -41,7 +42,7 @@ public class ImgNumber implements Number
    */
   public ImgNumber(final double real, final double img)
   {
-    this.real.setReal(real);
+    this.real = new Real(real);
     this.img = img;
   }
 

@@ -8,6 +8,7 @@ public class Real implements Number
   public Real(double real)
   {
     this.real = real;
+    op = Operator.ADD;
   }
 
   public Real(double real, Operator op)
