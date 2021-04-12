@@ -46,11 +46,13 @@ public class calculator
       n = new ImgNumber((((Real) x).add(((ImgNumber) y).getRealObj())).getReal(),
           ((ImgNumber) y).getImg());
     }
-    else if(isImg(x)&& isReal(y))
+    else if (isImg(x) && isReal(y))
     {
       n = new ImgNumber((((Real) y).add(((ImgNumber) x).getRealObj())).getReal(),
           ((ImgNumber) x).getImg());
-    } else {
+    }
+    else
+    {
       n = ((ImgNumber) x).add(((ImgNumber) y));
     }
     return n;
@@ -68,11 +70,13 @@ public class calculator
       n = new ImgNumber((((Real) x).subtract(((ImgNumber) y).getRealObj())).getReal(),
           ((ImgNumber) y).getImg());
     }
-    else if(isImg(x) && isReal(y))
+    else if (isImg(x) && isReal(y))
     {
       n = new ImgNumber((((Real) y).subtract(((ImgNumber) x).getRealObj())).getReal(),
           ((ImgNumber) x).getImg());
-    } else {
+    }
+    else
+    {
       n = ((ImgNumber) x).subtract(((ImgNumber) y));
     }
     return n;
@@ -90,11 +94,13 @@ public class calculator
       n = new ImgNumber((((Real) x).multiply(((ImgNumber) y).getRealObj())).getReal(),
           ((ImgNumber) y).getImg() * x.getReal());
     }
-    else if(isImg(x) && isReal(y))
+    else if (isImg(x) && isReal(y))
     {
       n = new ImgNumber((((Real) y).multiply(((ImgNumber) x).getRealObj())).getReal(),
           ((ImgNumber) x).getImg() * y.getReal());
-    } else {
+    }
+    else
+    {
       n = ((ImgNumber) x).multiply(((ImgNumber) y));
     }
     return n;
@@ -112,11 +118,13 @@ public class calculator
       n = new ImgNumber((((Real) x).divide(((ImgNumber) y).getRealObj())).getReal(),
           ((ImgNumber) y).getImg() / x.getReal());
     }
-    else if(isImg(x) && isReal(y))
+    else if (isImg(x) && isReal(y))
     {
       n = new ImgNumber((((Real) y).divide(((ImgNumber) x).getRealObj())).getReal(),
           ((ImgNumber) x).getImg() / y.getReal());
-    } else {
+    }
+    else
+    {
       n = (((ImgNumber) x).divide(((ImgNumber) y)));
     }
     return n;

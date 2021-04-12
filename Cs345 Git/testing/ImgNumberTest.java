@@ -14,10 +14,11 @@ import org.junit.jupiter.api.Test;
 class ImgNumberTest
 { 
   
-  private ImgNumber a = new ImgNumber(5.0, 3.0, Operator.ADD); // (5 + 3i)
-  private ImgNumber b = new ImgNumber(4.0, 6.0, Operator.SUBTRACT); // (4 - 6i)
-  private Real c = new Real(5.0, Operator.EMPTY); // (5)
+  private ImgNumber a = new ImgNumber(5.0, 3.0, Operator.ADD); // + (5 + 3i)
+  private ImgNumber b = new ImgNumber(4.0, 6.0, Operator.SUBTRACT); // - (4 + 6i)
+  private ImgNumber c = new ImgNumber(4.0, -6.0, Operator.SUBTRACT); // - (4 - 6i)
   private ImgNumber d = new ImgNumber(0.0, 3.0, Operator.EMPTY); // (3i)
+ 
 
   /**
    * Tests the add method.
@@ -25,12 +26,11 @@ class ImgNumberTest
   @Test
   void testAdd()
   {
-    assertEquals("9.0 - 3.0i", calculator.add(a, b).toString());
-    assertEquals("9.0 - 3.0i", calculator.add(b, a).toString()); 
-    assertEquals("10.0 + 3.0i", calculator.add(c, a).toString());
-    assertEquals("10.0 + 3.0i", calculator.add(a, c).toString());
-    assertEquals("5.0 + 6.0i", calculator.add(d, a).toString());
-    assertEquals("5.0 + 6.0i", calculator.add(a, d).toString());
+
+    assertEquals("9.00 + 9.00i", a.add(b).toString());
+    assertEquals("5.00 + 6.00i", a.add(d).toString()); 
+    assertEquals("9.00 - 3.00i", a.add(c).toString()); 
+    assertEquals("4.00 - 3.00i", c.add(d).toString()); 
   }
 
   /**
@@ -39,8 +39,7 @@ class ImgNumberTest
   @Test
   void testSubtract()
   {
-    assertEquals("", calculator.subtract(a, b).toString());
-    assertEquals("", calculator.subtract(a, b).toString()); 
+    
   }
 
   /**
@@ -49,8 +48,7 @@ class ImgNumberTest
   @Test
   void testMultiply()
   {
-    assertEquals("2.0 - 2.0i", a.multiply(b).toString());
-    assertEquals("15.0 - 3.0i", c.multiply(d).toString()); 
+    
   }
   
   /**
@@ -59,8 +57,7 @@ class ImgNumberTest
   @Test
   void testDivide()
   {
-    assertEquals("2.0 - 2.0i", a.divide(b).toString());
-    assertEquals("15.0 - 3.0i", c.divide(d).toString()); 
+   
   }
   
   /**

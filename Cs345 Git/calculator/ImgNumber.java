@@ -10,7 +10,7 @@ public class ImgNumber implements Number
 {
   private double img;
   private Real real;
-  private Operator operator;
+  private Operator operator; 
   
 
   /**
@@ -140,7 +140,7 @@ public class ImgNumber implements Number
    */
   private boolean hasNoValue()
   {
-    if (getReal() == 0 && img == 0)
+    if (getReal() == 0 && img == 0) 
     {
       return true;
     }
@@ -171,18 +171,18 @@ public class ImgNumber implements Number
     // no imaginary part
     else if (img == 0)
     {
-      result += String.format(format, real) + "";
+      result += String.format(format, real.getReal()) + "";
     }
     // negative imaginary value
     else if (img < 0)
     {
       // cancel the negative when formatting
-      result += String.format(format, real) + space + Operator.SUBTRACT.getOperator() + space
+      result += String.format(format, real.getReal()) + space + Operator.SUBTRACT.getOperator() + space
           + String.format(format, -img) + i;
     }
     else
     {
-      result += String.format(format, real) + space + Operator.ADD.getOperator() + space
+      result += String.format(format, real.getReal()) + space + Operator.ADD.getOperator() + space
           + String.format(format, img) + i;
     }
     return result;
