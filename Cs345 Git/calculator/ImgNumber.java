@@ -153,7 +153,7 @@ public class ImgNumber implements Number
   @Override
   public String toString()
   {
-    String format = "%.2f";
+    String format = "%.4f";
     String space = " ";
     String i = "i";
     String result = "";

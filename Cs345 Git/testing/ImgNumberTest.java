@@ -17,8 +17,7 @@ class ImgNumberTest
   private ImgNumber a = new ImgNumber(5.0, 3.0, Operator.ADD); // + (5 + 3i)
   private ImgNumber b = new ImgNumber(4.0, 6.0, Operator.SUBTRACT); // - (4 + 6i)
   private ImgNumber c = new ImgNumber(4.0, -6.0, Operator.SUBTRACT); // - (4 - 6i)
-  private ImgNumber d = new ImgNumber(0.0, 3.0, Operator.EMPTY); // (3i)
- 
+  private ImgNumber d = new ImgNumber(0.0, 3.0, Operator.EMPTY); // (3i) 
 
   /**
    * Tests the add method.
@@ -26,10 +25,10 @@ class ImgNumberTest
   @Test
   void testAdd()
   {
-    assertEquals("9.00 + 9.00i", a.add(b).toString());
-    assertEquals("5.00 + 6.00i", a.add(d).toString()); 
-    assertEquals("9.00 - 3.00i", a.add(c).toString()); 
-    assertEquals("4.00 - 3.00i", c.add(d).toString()); 
+    assertEquals("9.0000 + 9.0000i", a.add(b).toString());
+    assertEquals("5.0000 + 6.0000i", a.add(d).toString()); 
+    assertEquals("9.0000 - 3.0000i", a.add(c).toString()); 
+    assertEquals("4.0000 - 3.0000i", c.add(d).toString()); 
   }
 
   /**
@@ -38,10 +37,10 @@ class ImgNumberTest
   @Test
   void testSubtract()
   {
-    assertEquals("1.00 - 3.00i", a.subtract(b).toString());
-    assertEquals("5.00", a.subtract(d).toString()); 
-    assertEquals("1.00 + 9.00i", a.subtract(c).toString()); 
-    assertEquals("4.00 - 9.00i", c.subtract(d).toString()); 
+    assertEquals("1.0000 - 3.0000i", a.subtract(b).toString());
+    assertEquals("5.0000", a.subtract(d).toString()); 
+    assertEquals("1.0000 + 9.0000i", a.subtract(c).toString()); 
+    assertEquals("4.0000 - 9.0000i", c.subtract(d).toString()); 
   }
 
   /**
@@ -50,10 +49,10 @@ class ImgNumberTest
   @Test
   void testMultiply()
   {
-    assertEquals("2.00 + 42.00i", a.multiply(b).toString());
-    assertEquals("52.00", b.multiply(c).toString()); 
-    assertEquals("38.00 - 18.00i", a.multiply(c).toString()); 
-    assertEquals("18.00 + 12.00i", c.multiply(d).toString());
+    assertEquals("2.0000 + 42.0000i", a.multiply(b).toString());
+    assertEquals("52.0000", b.multiply(c).toString()); 
+    assertEquals("38.0000 - 18.0000i", a.multiply(c).toString()); 
+    assertEquals("18.0000 + 12.0000i", c.multiply(d).toString());
   }
   
   /**
@@ -62,7 +61,10 @@ class ImgNumberTest
   @Test
   void testDivide()
   {
-   
+    assertEquals("0.7308 - 0.3462i", a.divide(b).toString());
+    assertEquals("-0.3846 + 0.9231i", b.divide(c).toString()); 
+    assertEquals("0.0385 + 0.8077i", a.divide(c).toString()); 
+    assertEquals("-2.0000 - 1.3333i", c.divide(d).toString());
   }
   
   /**
