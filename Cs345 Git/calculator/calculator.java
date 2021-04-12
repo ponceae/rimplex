@@ -41,15 +41,17 @@ public class calculator
     {
       n = (((Real) x).add((Real) y));
     }
-    else if (isReal(x))
+    else if (isImg(y) && isReal(x))
     {
       n = new ImgNumber((((Real) x).add(((ImgNumber) y).getRealObj())).getReal(),
           ((ImgNumber) y).getImg());
     }
-    else
+    else if(isImg(x)&& isReal(y))
     {
       n = new ImgNumber((((Real) y).add(((ImgNumber) x).getRealObj())).getReal(),
           ((ImgNumber) x).getImg());
+    } else {
+      n = ((ImgNumber) x).add(((ImgNumber) y));
     }
     return n;
   }
@@ -61,15 +63,17 @@ public class calculator
     {
       n = (((Real) x).subtract((Real) y));
     }
-    else if (isReal(x))
+    else if (isImg(y) && isReal(x))
     {
       n = new ImgNumber((((Real) x).subtract(((ImgNumber) y).getRealObj())).getReal(),
           ((ImgNumber) y).getImg());
     }
-    else
+    else if(isImg(x) && isReal(y))
     {
       n = new ImgNumber((((Real) y).subtract(((ImgNumber) x).getRealObj())).getReal(),
           ((ImgNumber) x).getImg());
+    } else {
+      n = ((ImgNumber) x).subtract(((ImgNumber) y));
     }
     return n;
   }
@@ -81,15 +85,17 @@ public class calculator
     {
       n = (((Real) x).multiply((Real) y));
     }
-    else if (isReal(x))
+    else if (isImg(y) && isReal(x))
     {
       n = new ImgNumber((((Real) x).multiply(((ImgNumber) y).getRealObj())).getReal(),
           ((ImgNumber) y).getImg() * x.getReal());
     }
-    else
+    else if(isImg(x) && isReal(y))
     {
       n = new ImgNumber((((Real) y).multiply(((ImgNumber) x).getRealObj())).getReal(),
           ((ImgNumber) x).getImg() * y.getReal());
+    } else {
+      n = ((ImgNumber) x).multiply(((ImgNumber) y));
     }
     return n;
   }
@@ -101,15 +107,17 @@ public class calculator
     {
       n = (((Real) x).multiply((Real) y));
     }
-    else if (isReal(x))
+    else if (isImg(y) && isReal(x))
     {
       n = new ImgNumber((((Real) x).divide(((ImgNumber) y).getRealObj())).getReal(),
           ((ImgNumber) y).getImg() / x.getReal());
     }
-    else
+    else if(isImg(x) && isReal(y))
     {
       n = new ImgNumber((((Real) y).divide(((ImgNumber) x).getRealObj())).getReal(),
           ((ImgNumber) x).getImg() / y.getReal());
+    } else {
+      n = (((ImgNumber) x).divide(((ImgNumber) y)));
     }
     return n;
   }
