@@ -39,7 +39,10 @@ class ImgNumberTest
   @Test
   void testSubtract()
   {
-    
+    assertEquals("1.00 - 3.00i", a.subtract(b).toString());
+    assertEquals("5.00", a.subtract(d).toString()); 
+    assertEquals("1.00 + 9.00i", a.subtract(c).toString()); 
+    assertEquals("4.00 - 9.00i", c.subtract(d).toString()); 
   }
 
   /**
@@ -48,7 +51,10 @@ class ImgNumberTest
   @Test
   void testMultiply()
   {
-    
+    assertEquals("2.00 + 42.00i", a.multiply(b).toString());
+    assertEquals("52.00", b.multiply(c).toString()); 
+    assertEquals("38.00 - 18.00i", a.multiply(c).toString()); 
+    assertEquals("18.00 + 12.00i", c.multiply(d).toString());
   }
   
   /**
