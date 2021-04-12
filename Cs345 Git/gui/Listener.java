@@ -379,7 +379,7 @@ public class Listener extends KeyAdapter implements ActionListener
     real = Double.parseDouble(allParts[0]);
     img = Double.parseDouble(allParts[1]);
 
-    return new ImgNumber(real, img, op);
+    return null;
   }
 
   /**
