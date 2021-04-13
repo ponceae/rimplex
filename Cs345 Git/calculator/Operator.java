@@ -4,7 +4,7 @@ package calculator;
  * Enumeration of different operators.
  * 
  * @author Adrien Ponce
- * @version v1
+ * @version 4/12
  */
 
 public enum Operator
