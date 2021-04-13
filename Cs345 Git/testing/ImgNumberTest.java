@@ -68,11 +68,14 @@ class ImgNumberTest
   }
   
   /**
-   * Tests misc functionality.
+   * Tests the inverse method.
    */
   @Test
-  void miscTests()
+  void testInverse()
   {
-    
+    assertEquals("0.1471 - 0.0882i", a.inverse().toString());
+    assertEquals("0.0769 - 0.1154i", b.inverse().toString());
+    assertEquals("0.0769 + 0.1154i", c.inverse().toString());
+    assertEquals("-0.3333i", d.inverse().toString());
   }
 }
