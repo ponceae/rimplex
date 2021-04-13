@@ -22,8 +22,18 @@ public class Listener extends KeyAdapter implements ActionListener
   private static Listener listener;
   private ImgNumber result = null;
   private String previousPress = "n";
+  // private History theHistory;
   private boolean recentlyReset = false;
-  private boolean recentOperator = false;
+  private boolean leftParenthese = false;
+  private boolean rightParenthese = false;
+
+  private calculator calc;
+
+  // I need to figure out if I need one or two Number variables for the running calculations (i.e.
+  // one for the previous total, which is null at the beginning and then is just the first entry and
+  // then is the first entry div by, sub by, etc whatever then next entry is, etc etc and then one
+  // for whatever the next entry itself is) and then calculate based on whatever the previous
+  // operator press was and if the previous entry is not null
 
   /**
    * Default constructor.
@@ -53,49 +63,11 @@ public class Listener extends KeyAdapter implements ActionListener
     try
     {
       int number = Integer.parseInt(command);
-      switch (number)
+      if (!leftParenthese)
       {
-        case 1:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 2:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 3:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 4:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 5:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 6:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 7:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 8:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 9:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 0:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
+        MainPanel.appendDisplay("(");
       }
+      MainPanel.appendDisplay(stringNum(number));
     }
     catch (NumberFormatException nfe)
     {
@@ -104,45 +76,92 @@ public class Listener extends KeyAdapter implements ActionListener
         case "=":
           break;
         case "+":
+          if (!previousPressOperator())
+          {
+            if (!rightParenthese)
+            {
+              MainPanel.appendDisplay(command);
+            }
+            else
+            {
+              // parse and calculation
+              rightParenthese = false;
+              leftParenthese = false;
+            }
+          }
           break;
         case "-":
+          if (!previousPressOperator())
+          {
+            if (!rightParenthese)
+            {
+              MainPanel.appendDisplay(command);
+            }
+            else
+            {
+              // parse and calculation
+              rightParenthese = false;
+              leftParenthese = false;
+            }
+          }
           break;
         case "/":
+          if (!previousPressOperator())
+          {
+            if (!rightParenthese)
+            {
+              MainPanel.appendDisplay(command);
+            }
+            else
+            {
+              // parse and calculation
+              rightParenthese = false;
+              leftParenthese = false;
+            }
+          }
           break;
         case "x":
+          if (!previousPressOperator())
+          {
+            if (!rightParenthese)
+            {
+              MainPanel.appendDisplay(command);
+            }
+            else
+            {
+              // parse and calculation
+              rightParenthese = false;
+              leftParenthese = false;
+            }
+          }
           break;
         case "(":
-          output = MainPanel.appendOutput("(");
-          theDis.insertComponent(output);
+          MainPanel.appendDisplay("(");
+          leftParenthese = true;
           break;
         case ")":
-          output = MainPanel.appendOutput(")");
-          theDis.insertComponent(output);
+          MainPanel.appendDisplay(")");
+          rightParenthese = true;
           break;
         case ".":
-          output = MainPanel.appendOutput(".");
-          theDis.insertComponent(output);
+          MainPanel.appendDisplay(".");
           break;
         case "i":
-          // Font italic = Font.
-          /**
-          output = new JTextArea();
-          output.setFont(Font.getFont("Italic"));
-          output.setText("i");
-          theDis.insertComponent(output);
-          */
-          output = MainPanel.appendOutput("i");
-          theDis.insertComponent(output);
+          MainPanel.appendDisplay("i");
           break;
         case "Inv":
           break;
         case "+/-":
+          MainPanel.toggleSign();
           break;
         case "<-":
+          MainPanel.backspace();
           break;
         case "C":
+          MainPanel.clearDisplay();
           break;
         case "R":
+          MainPanel.clearDisplay();
           break;
         default:
           System.exit(0);
@@ -150,132 +169,43 @@ public class Listener extends KeyAdapter implements ActionListener
     }
 
     /**
-    switch (command)
-    {
-      case "=":
-        if (!noInput())
-        {
-          // total.concat(theDis.getText());
-          result = calculateBasedOnPreviousButton(parseSingleValue(input));
-          // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-          // class
-          if (!input.equals(""))
-          {
-            output = MainPanel
-                .getDisplayOutput("(" + input + ") = \n(" + result.toString() + ")\n\n");
-          }
-          else
-          {
-            output = MainPanel.getDisplayOutput("= \n" + result.toString() + ")\n\n");
-          }
-          theDis.insertComponent(output);
-          MainPanel.clearDisplay();
-          previousPress = "n";
-        }
-        break;
-      case "text":
-        if (!noInput())
-        {
-          // total.concat(theDis.getText());
-          result = calculateBasedOnPreviousButton(parseSingleValue(input));
-          // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-          // class
-          if (!input.equals(""))
-          {
-            output = MainPanel
-                .getDisplayOutput("(" + input + ") = \n(" + result.toString() + ")\n\n");
-          }
-          else
-          {
-            output = MainPanel.getDisplayOutput("= \n(" + result.toString() + ")\n\n");
-          }
-          theDis.insertComponent(output);
-          MainPanel.clearDisplay();
-          previousPress = "n";
-        }
-        break;
-      case "/":
-        result = calculateBasedOnPreviousButton(parseSingleValue(input));
-        // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-        // class
-        if (recentlyReset)
-        {
-          output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") / ");
-        }
-        else
-        {
-          output = MainPanel.getDisplayOutput("(" + input + ") / ");
-        }
-        theDis.insertComponent(output);
-        // MainPanel.getInput().setText("");
-        previousPress = command;
-        recentlyReset = false;
-        break;
-      case "*":
-        result = calculateBasedOnPreviousButton(parseSingleValue(input));
-        // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-        // class
-        if (recentlyReset)
-        {
-          output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") * ");
-        }
-        else
-        {
-          output = MainPanel.getDisplayOutput("(" + input + ") * ");
-        }
-        theDis.insertComponent(output);
-        // MainPanel.getInput().setText("");
-        previousPress = command;
-        recentlyReset = false;
-        break;
-      case "-":
-        result = calculateBasedOnPreviousButton(parseSingleValue(input));
-        // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-        // class
-        if (recentlyReset)
-        {
-          output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") - ");
-        }
-        else
-        {
-          output = MainPanel.getDisplayOutput("(" + input + ") - ");
-        }
-        theDis.insertComponent(output);
-        // MainPanel.getInput().setText("");
-        previousPress = command;
-        recentlyReset = false;
-        break;
-      case "+":
-        result = calculateBasedOnPreviousButton(parseSingleValue(input));
-        // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-        // class
-        if (recentlyReset)
-        {
-          output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") + ");
-        }
-        else
-        {
-          output = MainPanel.getDisplayOutput("(" + input + ") + ");
-        }
-        theDis.insertComponent(output);
-        // MainPanel.getInput().setText("");
-        previousPress = command;
-        recentlyReset = false;
-        break;
-      case "C":
-        MainPanel.clearDisplay();
-        break;
-      case "R":
-        MainPanel.clearDisplay();
-        // total = "";
-        previousPress = "n";
-        result = null;
-        recentlyReset = true;
-        break;
-      default:
-        System.exit(0);
-    }
-    */
+     * switch (command) { case "=": if (!noInput()) { // total.concat(theDis.getText()); result =
+     * calculateBasedOnPreviousButton(parseSingleValue(input)); // add a line for parsing the text
+     * here to pass it to the ComplexNumber or ComplexValue // class if (!input.equals("")) { output
+     * = MainPanel .getDisplayOutput("(" + input + ") = \n(" + result.toString() + ")\n\n"); } else
+     * { output = MainPanel.getDisplayOutput("= \n" + result.toString() + ")\n\n"); }
+     * theDis.insertComponent(output); MainPanel.clearDisplay(); previousPress = "n"; } break; case
+     * "text": if (!noInput()) { // total.concat(theDis.getText()); result =
+     * calculateBasedOnPreviousButton(parseSingleValue(input)); // add a line for parsing the text
+     * here to pass it to the ComplexNumber or ComplexValue // class if (!input.equals("")) { output
+     * = MainPanel .getDisplayOutput("(" + input + ") = \n(" + result.toString() + ")\n\n"); } else
+     * { output = MainPanel.getDisplayOutput("= \n(" + result.toString() + ")\n\n"); }
+     * theDis.insertComponent(output); MainPanel.clearDisplay(); previousPress = "n"; } break; case
+     * "/": result = calculateBasedOnPreviousButton(parseSingleValue(input)); // add a line for
+     * parsing the text here to pass it to the ComplexNumber or ComplexValue // class if
+     * (recentlyReset) { output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") / "); }
+     * else { output = MainPanel.getDisplayOutput("(" + input + ") / "); }
+     * theDis.insertComponent(output); // MainPanel.getInput().setText(""); previousPress = command;
+     * recentlyReset = false; break; case "*": result =
+     * calculateBasedOnPreviousButton(parseSingleValue(input)); // add a line for parsing the text
+     * here to pass it to the ComplexNumber or ComplexValue // class if (recentlyReset) { output =
+     * MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") * "); } else { output =
+     * MainPanel.getDisplayOutput("(" + input + ") * "); } theDis.insertComponent(output); //
+     * MainPanel.getInput().setText(""); previousPress = command; recentlyReset = false; break; case
+     * "-": result = calculateBasedOnPreviousButton(parseSingleValue(input)); // add a line for
+     * parsing the text here to pass it to the ComplexNumber or ComplexValue // class if
+     * (recentlyReset) { output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") - "); }
+     * else { output = MainPanel.getDisplayOutput("(" + input + ") - "); }
+     * theDis.insertComponent(output); // MainPanel.getInput().setText(""); previousPress = command;
+     * recentlyReset = false; break; case "+": result =
+     * calculateBasedOnPreviousButton(parseSingleValue(input)); // add a line for parsing the text
+     * here to pass it to the ComplexNumber or ComplexValue // class if (recentlyReset) { output =
+     * MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") + "); } else { output =
+     * MainPanel.getDisplayOutput("(" + input + ") + "); } theDis.insertComponent(output); //
+     * MainPanel.getInput().setText(""); previousPress = command; recentlyReset = false; break; case
+     * "C": MainPanel.clearDisplay(); break; case "R": MainPanel.clearDisplay(); // total = "";
+     * previousPress = "n"; result = null; recentlyReset = true; break; default: System.exit(0); }
+     */
   }
 
   /**
@@ -421,8 +351,15 @@ public class Listener extends KeyAdapter implements ActionListener
       return false;
     }
   }
-  
-  private String stringNum(int num) {
+
+  private String stringNum(int num)
+  {
     return "" + num;
+  }
+
+  private boolean previousPressOperator()
+  {
+    char theChar = MainPanel.getDisplay().getText().charAt(0);
+    return (theChar == '+') || (theChar == '-') || (theChar == '/') || (theChar == '*');
   }
 }

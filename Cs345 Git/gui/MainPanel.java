@@ -143,22 +143,72 @@ public class MainPanel extends JPanel
       }
     }
     
+    /**
+     * "Backspaces" by setting the display text to a substring of the current text.
+     */
+    static void backspace() {
+      if (!display.getText().isEmpty()) {
+        display.setText(display.getText().substring(0, display.getText().length() - 1));
+      }
+    }
+    
+    /**
+     * Clears the display, but doesn't reset.
+     */
     static void clearDisplay() {
       display.setText("");
     }
 
+    /**
+     * Getter for the display.
+     * 
+     * @return the display
+     */
     static JTextPane getDisplay() {
       return display;
     }
     
-    static JTextArea appendOutput(String text) {
-      output.setText(output.getText().concat(text));
-      return output;
-    }
-    
+    /**
+     * Returns an italicized i. (Not sure if actually used yet).
+     * 
+     * @param text the text to set
+     * @return the output
+     */
     static JTextArea setOutput(String text) {
       output.setText(text);
       return output;
+    }
+    
+    /**
+     * Appends the given text to the display text.
+     * 
+     * @param text the text to add
+     */
+    static void appendDisplay(String text) {
+      display.setText(display.getText().concat(text));
+    }
+    
+    /**
+     * Sets the display text to the given text.
+     * 
+     * @param text the text to set
+     */
+    static void setDisplay(String text) {
+      display.setText(text);
+    }
+    
+    static void toggleSign() {
+      String theText = display.getText();
+      if (!theText.isEmpty())
+      {
+        if (theText.charAt(0) != '-') {
+          setDisplay("-" + theText);
+        } else {
+          setDisplay(theText.substring(1));
+        }
+      } else {
+        appendDisplay("-");
+      }
     }
 
 }
