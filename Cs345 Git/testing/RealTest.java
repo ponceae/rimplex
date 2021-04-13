@@ -73,5 +73,7 @@ class RealTest
     assertEquals(25.0, AB.getReal());
     AB = AB.squared(2);
     assertEquals(625.0, AB.getReal());
+    AB = a.squared(3);
+    assertEquals(125.0, AB.getReal());
   }
 }

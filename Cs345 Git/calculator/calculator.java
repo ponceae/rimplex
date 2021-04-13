@@ -59,6 +59,7 @@ public class calculator
     {
       n = ((ImgNumber) x).add(((ImgNumber) y));
     }
+    n.setOperator(Operator.ADD);
     return n;
   }
 
@@ -76,8 +77,7 @@ public class calculator
     }
     else if (isImg(x) && isReal(y))
     {
-      n = new ImgNumber((((Real) y).subtract(((ImgNumber) x).getRealObj())).getReal(),
-          ((ImgNumber) x).getImg());
+      n = new ImgNumber(x.getReal() - y.getReal(), ((ImgNumber) x).getImg());
     }
     else
     {
@@ -120,12 +120,11 @@ public class calculator
     else if (isImg(y) && isReal(x))
     {
       n = new ImgNumber((((Real) x).divide(((ImgNumber) y).getRealObj())).getReal(),
-          ((ImgNumber) y).getImg() / x.getReal());
+          x.getReal()/((ImgNumber) y).getImg()  );
     }
     else if (isImg(x) && isReal(y))
     {
-      n = new ImgNumber((((Real) y).divide(((ImgNumber) x).getRealObj())).getReal(),
-          ((ImgNumber) x).getImg() / y.getReal());
+      n = new ImgNumber(x.getReal() / y.getReal(),((ImgNumber) x).getImg()/ y.getReal());
     }
     else
     {
@@ -164,7 +163,7 @@ public class calculator
       str += ")";
       if(x+1 != equation.size() && equation.size() > 1) {
         str += " ";
-        str += equation.get(x).getOperator();
+        str += equation.get(x).getOperator().getOperator();
         str += " ";
       }
       
