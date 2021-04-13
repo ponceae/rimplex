@@ -173,7 +173,7 @@ public class calculator
     }
     else if (isImg(x) && isReal(y))
     {
-      n = new ImgNumber(x.getReal() / y.getReal(),((ImgNumber) x).getImg()/ y.getReal());
+      n = new ImgNumber(x.getReal() / y.getReal(),((ImgNumber) x).getImg()/ y.getReal()); 
     }
     else
     {
