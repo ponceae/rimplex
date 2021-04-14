@@ -5,7 +5,7 @@ public class History {
     private ArrayList<String> history;
 
     public History(){
-        history = new ArrayList<>();
+        history = new ArrayList<String>();
     }
     public void add(String str){
         history.add(str);

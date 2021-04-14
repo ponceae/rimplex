@@ -32,6 +32,8 @@ public class MainPanel extends JPanel
     private ImageIcon logo;
     private JLabel rimpLogo;
     private ImageIcon divSymbol;
+    
+    private boolean multPassed = false;
 
     public MainPanel()
     {
@@ -108,7 +110,7 @@ public class MainPanel extends JPanel
         panel.add(new JButton("4"), constraints);
         panel.add(new JButton("5"), constraints);
         panel.add(new JButton("6"), constraints);
-        panel.add(new JButton("x"), constraints);
+        panel.add(new JButton(""), constraints);
         panel.add(new JButton("("), constraints);
 
         constraints.gridy++;
@@ -135,7 +137,13 @@ public class MainPanel extends JPanel
         String text = button.getText();
         if (text.equals(""))
         {
-          button.setActionCommand("/");
+          if (!multPassed) 
+          {
+            button.setActionCommand("*");
+            multPassed = true;
+          } else {
+            button.setActionCommand("/");
+          }
         } else {
           button.setActionCommand(text);
         }
