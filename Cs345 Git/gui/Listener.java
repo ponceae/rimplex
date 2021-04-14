@@ -243,14 +243,20 @@ public class Listener extends KeyAdapter implements ActionListener
             }
             else
             {
+              currentOperand = parseSingleValue(input);
+              
+              if (currentOperand.getImg() == 0 && currentOperand.getReal() == 0)
+              {
+                // Line here for divide by 0 exception
+              }
+              
+              previousResult = calculateBasedOnPreviousButton(currentOperand);
+              rightParenthese = false;
+              leftParenthese = false;
+              alreadyHasOperator = false;
+              alreadyHasImaginary = false;
               if (startRunning)
               {
-                currentOperand = parseSingleValue(input);
-                previousResult = calculateBasedOnPreviousButton(currentOperand);
-                rightParenthese = false;
-                leftParenthese = false;
-                alreadyHasOperator = false;
-                alreadyHasImaginary = false;
                 MainPanel.setDisplay(previousResult.toString());
                 currExpression.concat(input + " " + command + " ");
                 startNew = true;
@@ -258,12 +264,6 @@ public class Listener extends KeyAdapter implements ActionListener
               }
               else
               {
-                currentOperand = parseSingleValue(input);
-                previousResult = calculateBasedOnPreviousButton(currentOperand);
-                rightParenthese = false;
-                leftParenthese = false;
-                alreadyHasOperator = false;
-                alreadyHasImaginary = false;
                 MainPanel.clearDisplay();
                 startRunning = true;
                 currExpression.concat(input + " " + command + " ");
