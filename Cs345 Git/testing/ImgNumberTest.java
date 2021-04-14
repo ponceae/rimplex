@@ -18,6 +18,7 @@ class ImgNumberTest
   private ImgNumber b = new ImgNumber(4.0, 6.0, Operator.SUBTRACT); // - (4 + 6i)
   private ImgNumber c = new ImgNumber(4.0, -6.0, Operator.SUBTRACT); // - (4 - 6i)
   private ImgNumber d = new ImgNumber(0.0, 3.0, Operator.EMPTY); // (3i) 
+  private ImgNumber f = new ImgNumber(2.0, 3.0, Operator.SUBTRACT);
 
   /**
    * Tests the add method.
@@ -29,6 +30,7 @@ class ImgNumberTest
     assertEquals("5.0000 + 6.0000i", a.add(d).toString()); 
     assertEquals("9.0000 - 3.0000i", a.add(c).toString()); 
     assertEquals("4.0000 - 3.0000i", c.add(d).toString()); 
+   
   }
 
   /**
@@ -41,6 +43,7 @@ class ImgNumberTest
     assertEquals("5.0000", a.subtract(d).toString()); 
     assertEquals("1.0000 + 9.0000i", a.subtract(c).toString()); 
     assertEquals("4.0000 - 9.0000i", c.subtract(d).toString()); 
+    assertEquals("0.0", c.subtract(c).toString()); 
   }
 
   /**
@@ -66,13 +69,15 @@ class ImgNumberTest
     assertEquals("0.0385 + 0.8077i", a.divide(c).toString()); 
     assertEquals("-2.0000 - 1.3333i", c.divide(d).toString());
   }
-  
+
   /**
-   * Tests misc functionality.
+   * Tests the divide method.
    */
   @Test
-  void miscTests()
+  void testExp()
   {
-    
+    assertEquals("16.0000 + 30.0000i", a.exp(2).toString());
+    assertEquals("-10.0000 + 198.0000i", a.exp(3).toString());  
   }
+  
 }

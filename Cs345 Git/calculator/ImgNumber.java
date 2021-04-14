@@ -126,6 +126,18 @@ public class ImgNumber implements Number
   {
     return this.multiply(other.reciprocal());
   }
+  
+  public ImgNumber exp(int x) {
+    int i = 1;
+    ImgNumber n;
+    n = new ImgNumber(this.getReal(), img);
+    while (i < x)
+    { 
+      n = (n.multiply(this));
+      i++;
+    }
+    return n;
+  }
 
   /**
    * Helper method for getting the reciprocal.
@@ -149,6 +161,7 @@ public class ImgNumber implements Number
     }
     return false;
   }
+  
 
   /**
    * @return a String representation of a complex value.

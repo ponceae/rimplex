@@ -15,6 +15,7 @@ class calculatorTest
   private ImgNumber b = new ImgNumber(4.0, 6.0, Operator.SUBTRACT); // - (4 + 6i)
   private ImgNumber c = new ImgNumber(4.0, -6.0, Operator.SUBTRACT); // - (4 - 6i)
   private ImgNumber d = new ImgNumber(0.0, 3.0, Operator.EMPTY); // (3i)
+  private ImgNumber j = new ImgNumber(2, 3.0, Operator.EMPTY); // (3i)
   private Real e = new Real(5.0);
   private Real f = new Real(1.5);
   private Real g = new Real(6.4);
@@ -62,6 +63,9 @@ class calculatorTest
     cl = new calculator();
     cl.addTo(cl.subtract(a, b));
     assertEquals("(1.0000 - 3.0000i)", cl.toString());
+    cl = new calculator();
+    cl.addTo(cl.subtract(j, j));
+    assertEquals("(0.0)", cl.toString());
   }
   
   @Test
@@ -94,6 +98,8 @@ class calculatorTest
     cl.addTo(cl.divide(e, a));
     assertEquals("(1.0000 + 1.6667i)", cl.toString());
     cl = new calculator();
+    cl.addTo(cl.divide(a, b));
+    assertEquals("(0.7308 - 0.3462i)", cl.toString());
   }
 
 }
