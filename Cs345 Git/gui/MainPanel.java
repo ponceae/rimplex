@@ -8,7 +8,7 @@ import java.awt.*;
 /**
  * MainPanel - .
  *
- * @author Ulises Fernandez, Andrew Elbert
+ * @author Ulises Fernandez, Andrew Elbert, and Ian Lips
  * @version (3/31/21)
  */
 
@@ -130,6 +130,9 @@ public class MainPanel extends JPanel
 
     }
 
+    /**
+     * Sets the ActionListeners.
+     */
     protected void setListenersAndActions()
     {
       for (Component theButton : panel.getComponents()) {
@@ -149,6 +152,16 @@ public class MainPanel extends JPanel
         }
         button.addActionListener(theListener);
       }
+    }
+    
+    /**
+     * Used to display errors to the user.
+     * 
+     * @param text The Error Message
+     */
+    static void displayError(String text)
+    {
+      JOptionPane.showMessageDialog(display, text, "Rimplex Error", JOptionPane.ERROR_MESSAGE);
     }
     
     /**

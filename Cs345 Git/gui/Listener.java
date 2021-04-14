@@ -16,7 +16,7 @@ import calculator.*;
  * Listener - Class which implements ActionListener to listen for JButtons pushes and JTextField
  * entries.
  * 
- * @author Ulises Fernandez and Andrew Elbert
+ * @author Ulises Fernandez, Andrew Elbert, and Ian lips
  * @version (3/31/21)
  */
 public class Listener extends KeyAdapter implements ActionListener
@@ -79,6 +79,7 @@ public class Listener extends KeyAdapter implements ActionListener
       if (!leftParenthese)
       {
         MainPanel.appendDisplay("(");
+        MainPanel.displayError("There Expression Should Start With a '('");
         leftParenthese = true;
       }
       MainPanel.appendDisplay(command);
@@ -126,6 +127,10 @@ public class Listener extends KeyAdapter implements ActionListener
               previousPress = command;
             }
           }
+          else
+          {
+            MainPanel.displayError("There is no entry");
+          }
           startNew = true;
           previousButton = command;
           break;
@@ -137,7 +142,7 @@ public class Listener extends KeyAdapter implements ActionListener
           }
           if (!leftParenthese)
           {
-            MainPanel.appendDisplay("(");
+            MainPanel.appendDisplay("(");           
           }
           leftParenthese = true;
           previousButton = command;
@@ -146,6 +151,10 @@ public class Listener extends KeyAdapter implements ActionListener
           if (leftParenthese)
           {
             MainPanel.appendDisplay(")");
+          }
+          else
+          {
+            MainPanel.displayError("')' Must be Preceded by a '('");
           }
           rightParenthese = true;
           previousButton = command;
@@ -174,7 +183,14 @@ public class Listener extends KeyAdapter implements ActionListener
           previousButton = command;
           break;
         case "+/-":
-          MainPanel.toggleSign();
+          if (!noInput())
+          {
+            MainPanel.toggleSign();
+          }
+          else
+          {
+            MainPanel.displayError("There is NO Expression to toggle sign");
+          }
           previousButton = command;
           break;
         case "<-":
