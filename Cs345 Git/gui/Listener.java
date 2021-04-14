@@ -322,6 +322,7 @@ public class Listener extends KeyAdapter implements ActionListener
               leftParenthese = false;
               alreadyHasOperator = false;
               alreadyHasImaginary = false;
+              previousOp = command;
               if (startRunning)
               {
                 MainPanel.setDisplay(previousResult.toString());
@@ -339,7 +340,6 @@ public class Listener extends KeyAdapter implements ActionListener
               }
             }
           }
-          previousOp = command;
       }
     }
   }
