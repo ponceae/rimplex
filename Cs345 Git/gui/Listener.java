@@ -118,7 +118,24 @@ public class Listener extends KeyAdapter implements ActionListener
                 previousOp = command;
               }
               else {
-                
+                if (!input.contains(")"))
+                {
+                  input = input.concat(")");
+                }
+                if (input.charAt(0) == '-') {
+                  currentOperand = parseSingleValue(input, "-");
+                } else {
+                  currentOperand = parseSingleValue(input, "+");
+                }
+                previousResult = calculateBasedOnPreviousButton(currentOperand);
+                currExpression.concat(input + " = " + previousResult.toString());
+                rightParenthese = false;
+                leftParenthese = false;
+                alreadyHasOperator = false;
+                alreadyHasImaginary = false;
+                startRunning = true;
+                MainPanel.setDisplay(previousResult.toString());
+                previousOp = command;
               }
             }
             else if (noPress())
