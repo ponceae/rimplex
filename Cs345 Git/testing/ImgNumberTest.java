@@ -18,7 +18,7 @@ class ImgNumberTest
   private ImgNumber b = new ImgNumber(4.0, 6.0, Operator.SUBTRACT); // - (4 + 6i)
   private ImgNumber c = new ImgNumber(4.0, -6.0, Operator.SUBTRACT); // - (4 - 6i)
   private ImgNumber d = new ImgNumber(0.0, 3.0, Operator.EMPTY); // (3i) 
-  private ImgNumber f = new ImgNumber(2.0, 3.0, Operator.SUBTRACT);
+  private ImgNumber f = new ImgNumber(2.0, -4.0, Operator.SUBTRACT);
 
   /**
    * Tests the add method.
@@ -44,6 +44,7 @@ class ImgNumberTest
     assertEquals("1.0000 + 9.0000i", a.subtract(c).toString()); 
     assertEquals("4.0000 - 9.0000i", c.subtract(d).toString()); 
     assertEquals("0.0", c.subtract(c).toString()); 
+    assertEquals("0.0", f.subtract(f).toString()); 
   }
 
   /**
@@ -80,7 +81,7 @@ class ImgNumberTest
     assertEquals("0.1471 - 0.0882i", a.inverse().toString());
     assertEquals("0.0769 - 0.1154i", b.inverse().toString());
     assertEquals("0.0769 + 0.1154i", c.inverse().toString());
-    assertEquals("-0.3333i", d.inverse().toString());
+    assertEquals("-0.3333i", d.inverse().toString()); 
 
   }
   
