@@ -54,7 +54,7 @@ public class Listener extends KeyAdapter implements ActionListener
   }
 
   /**
-   * Performs an action.
+   * Gives the functionality to all the swing buttons and displays errors in entry.
    */
   @Override
   public void actionPerformed(final ActionEvent e)
@@ -358,9 +358,16 @@ public class Listener extends KeyAdapter implements ActionListener
         }
         else if (value.contains("/"))
         {
+          if(value.charAt(value.indexOf("/") + 1) == '0' && value.substring(0, value.indexOf("/") + 4).length() == value.length())
+          {
+            MainPanel.displayError("Cannot Divide by 0");
+          }
+          else
+          {
           allParts[0] = value.substring(2, value.indexOf("/"));
           allParts[1] = value.substring(value.indexOf("/") + 1, value.length() - 2);
           op = Operator.getFrom("/");
+          }
         }
         else
         {
@@ -393,9 +400,17 @@ public class Listener extends KeyAdapter implements ActionListener
       }
       else if (value.contains("/"))
       {
-        allParts[0] = value.substring(1, value.indexOf("/"));
-        allParts[1] = value.substring(value.indexOf("/") + 1, value.length() - 2);
-        op = Operator.getFrom("/");
+        if(value.charAt(value.indexOf("/") + 1) == '0' && value.substring(0, value.indexOf("/") + 4).length() == value.length())
+        {
+          MainPanel.displayError("Cannot Divide by 0");
+        }
+        else
+        {
+          System.out.println(value.toString());
+          allParts[0] = value.substring(1, value.indexOf("/"));
+          allParts[1] = value.substring(value.indexOf("/") + 1, value.length() - 2);
+          op = Operator.getFrom("/");
+        }      
       }
       else if (!containsNumber(value))
       {

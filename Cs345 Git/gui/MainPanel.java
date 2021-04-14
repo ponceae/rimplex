@@ -18,6 +18,9 @@ public class MainPanel extends JPanel
      * Default UID since I'm not sure what it should be instantiated to
      */
     private static final long serialVersionUID = 1L;
+    
+    private Color darkRed;
+    
     private JPanel panel;
     private JPanel east;
     private JPanel west;
@@ -35,6 +38,9 @@ public class MainPanel extends JPanel
     
     private boolean multPassed = false;
 
+    /**
+     * Default Constructor.
+     */
     public MainPanel()
     {
         createComponents();
@@ -44,12 +50,22 @@ public class MainPanel extends JPanel
         setListenersAndActions();
     }
 
+    /**
+     * Creates the Components.
+     */
     protected void createComponents()
     {
+        darkRed = new Color(139, 0, 0);
+      
         north = new JPanel(new GridLayout(2,1));
         east = new JPanel();
         west = new JPanel();
         panel = new JPanel(new GridBagLayout());
+
+        north.setBackground(Color.WHITE);
+        east.setBackground(darkRed);
+        west.setBackground(darkRed);
+        panel.setBackground(darkRed);
         
         theListener = Listener.getInstance();
         constraints = new GridBagConstraints();
@@ -57,13 +73,19 @@ public class MainPanel extends JPanel
         display = new JTextPane();
         output = new JTextArea();
         
+        display.setBackground(darkRed);
+        display.setForeground(Color.WHITE);
+        
         logo = new ImageIcon("CS345 Git/resources/logoRimplex.png");
         rimpLogo = new JLabel(logo);
         divSymbol = new ImageIcon("CS345 Git/resources/divisionSymbol.png");
         
 
-    } // method createComponents
+    }
 
+    /**
+     * Sets the Parameters.
+     */
     protected void setParameters()
     {
       for (Component theButton : panel.getComponents()) {
@@ -71,8 +93,11 @@ public class MainPanel extends JPanel
         button.setBackground(Color.WHITE);
       }
 
-    } // method setParameters
+    }
 
+    /**
+     * Sets the Panels.
+     */
     protected void setPanel()
     {
        setLayout((new BorderLayout()));
@@ -82,11 +107,14 @@ public class MainPanel extends JPanel
        add(west, BorderLayout.WEST);
        add(east, BorderLayout.EAST);
 
-    } // method setPanel
+    }
 
+    /**
+     * Adds Components.
+     */
     protected void addComponents()
     {
-      display.add(output);
+        display.add(output);
         north.add((rimpLogo));
         north.add(display);
         constraints.weightx = 1;
@@ -110,7 +138,7 @@ public class MainPanel extends JPanel
         panel.add(new JButton("4"), constraints);
         panel.add(new JButton("5"), constraints);
         panel.add(new JButton("6"), constraints);
-        panel.add(new JButton(""), constraints);
+        panel.add(new JButton("X"), constraints);
         panel.add(new JButton("("), constraints);
 
         constraints.gridy++;
