@@ -45,6 +45,7 @@ class ImgNumberTest
     assertEquals("4.0000 - 9.0000i", c.subtract(d).toString()); 
     assertEquals("0.0", c.subtract(c).toString()); 
     assertEquals("0.0", f.subtract(f).toString()); 
+    assertEquals("12.0000i", b.subtract(c).toString()); 
   }
 
   /**

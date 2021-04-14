@@ -66,7 +66,11 @@ class calculatorTest
     cl = new calculator();
     cl.addTo(cl.subtract(j, j));
     assertEquals("(0.0)", cl.toString());
+    cl = new calculator();
+    cl.addTo(cl.subtract(b, c));
+    assertEquals("(12.0000i)", cl.toString());
   }
+ 
   
   @Test
   void testMultiply()
