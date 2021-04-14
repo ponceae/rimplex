@@ -432,7 +432,7 @@ public class Listener extends KeyAdapter implements ActionListener
       else
       {
         allParts[0] = value.substring(1, value.lastIndexOf("-"));
-        allParts[1] = value.substring(value.lastIndexOf("-") + 1, value.length() - 2);
+        allParts[1] = value.substring(value.lastIndexOf("-"), value.length() - 2);
         // op = Operator.getFrom("-");
       }
     }
