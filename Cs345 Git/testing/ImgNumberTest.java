@@ -69,9 +69,9 @@ class ImgNumberTest
     assertEquals("0.0385 + 0.8077i", a.divide(c).toString()); 
     assertEquals("-2.0000 - 1.3333i", c.divide(d).toString());
   }
-
+  
+  @Test
   void testInverse()
-
   {
 
     assertEquals("16.0000 + 30.0000i", a.exp(2).toString());
