@@ -1,29 +1,49 @@
 package gui;
 
-import java.awt.Font;
+// import java.awt.Font;
+
 import java.awt.event.ActionEvent;
 
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 
 import javax.swing.*;
-import java.util.ArrayList;
+// import java.util.ArrayList;
 import calculator.*;
+// import calculator.Number;
 
 /**
  * Listener - Class which implements ActionListener to listen for JButtons pushes and JTextField
  * entries.
  * 
- * @author Ulises Fernandez and Andrew Elbert
+ * @author Ulises Fernandez, Andrew Elbert, and Ian lips
  * @version (3/31/21)
  */
 public class Listener extends KeyAdapter implements ActionListener
 {
   private static Listener listener;
-  private ImgNumber result = null;
   private String previousPress = "n";
-  private boolean recentlyReset = false;
-  private boolean recentOperator = false;
+  private String previousButton = "n";
+  private History theHistory = new History();
+  // private boolean recentlyReset = false;
+  private boolean leftParenthese = false;
+  private boolean rightParenthese = false;
+  private boolean alreadyHasOperator = false;
+  private boolean alreadyHasImaginary = false;
+
+  private calculator calc = new calculator();
+
+  // I need to figure out if I need one or two Number variables for the running calculations (i.e.
+  // one for the previous total, which is null at the beginning and then is just the first entry and
+  // then is the first entry div by, sub by, etc whatever then next entry is, etc etc and then one
+  // for whatever the next entry itself is) and then calculate based on whatever the previous
+  // operator press was and if the previous entry is not null
+  private ImgNumber previousResult = new ImgNumber(0, 0);
+  private ImgNumber currentOperand = new ImgNumber(0, 0);
+  private boolean startRunning = false;
+  private boolean startNew = false;
+
+  private String currExpression = "";
 
   /**
    * Default constructor.
@@ -34,7 +54,7 @@ public class Listener extends KeyAdapter implements ActionListener
   }
 
   /**
-   * Performs an action.
+   * Gives the functionality to all the swing buttons and displays errors in entry.
    */
   @Override
   public void actionPerformed(final ActionEvent e)
@@ -45,237 +65,232 @@ public class Listener extends KeyAdapter implements ActionListener
     // Input
     String input = theDis.getText();
     // Output
-    JTextArea output;
-
-    // A String representation of the total expression to be parsed
-    // String total = "";
+    // JTextArea output;
 
     try
     {
+      @SuppressWarnings("unused")
       int number = Integer.parseInt(command);
-      switch (number)
+      if (startRunning && previousPressOperator() && startNew)
       {
-        case 1:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 2:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 3:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 4:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 5:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 6:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 7:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 8:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 9:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
-        case 0:
-          output = MainPanel.appendOutput(stringNum(number));
-          theDis.insertComponent(output);
-          break;
+        MainPanel.clearDisplay();
+        startNew = false;
       }
+      if (!leftParenthese)
+      {
+        MainPanel.appendDisplay("(");
+        MainPanel.displayError("There Expression Should Start With a '('");
+        leftParenthese = true;
+      }
+      MainPanel.appendDisplay(command);
+      previousButton = command;
     }
     catch (NumberFormatException nfe)
     {
       switch (command)
       {
         case "=":
-          break;
-        case "+":
-          break;
-        case "-":
-          break;
-        case "/":
-          break;
-        case "x":
+          if (!noInput())
+          {
+            if (!noPress())
+            {
+              if (containsOperator(input) && containsImaginary(input))
+              {
+                if (!input.contains(")"))
+                {
+                  input = input.concat(")");
+                }
+                currentOperand = parseSingleValue(input);
+                previousResult = calculateBasedOnPreviousButton(currentOperand);
+                currExpression.concat(input + " = " + previousResult.toString());
+                rightParenthese = false;
+                leftParenthese = false;
+                MainPanel.setDisplay(previousResult.toString());
+                previousPress = command;
+              }
+            }
+            else if (previousPress.equals("n"))
+            {
+              if (!input.contains("("))
+              {
+                MainPanel.setDisplay("(" + input);
+              }
+              if (!input.contains(")"))
+              {
+                MainPanel.appendDisplay(")");
+              }
+              previousResult = parseSingleValue(input);
+              currExpression.concat(input + " = " + previousResult.toString());
+              rightParenthese = false;
+              leftParenthese = false;
+              MainPanel.setDisplay(previousResult.toString());
+              previousPress = command;
+            }
+          }
+          else
+          {
+            MainPanel.displayError("There is no entry");
+          }
+          startNew = true;
+          previousButton = command;
           break;
         case "(":
-          output = MainPanel.appendOutput("(");
-          theDis.insertComponent(output);
+          if (startRunning && previousPressOperator() && startNew)
+          {
+            MainPanel.clearDisplay();
+            startNew = false;
+          }
+          if (!leftParenthese)
+          {
+            MainPanel.appendDisplay("(");           
+          }
+          leftParenthese = true;
+          previousButton = command;
           break;
         case ")":
-          output = MainPanel.appendOutput(")");
-          theDis.insertComponent(output);
+          if (leftParenthese)
+          {
+            MainPanel.appendDisplay(")");
+          }
+          else
+          {
+            MainPanel.displayError("')' Must be Preceded by a '('");
+          }
+          rightParenthese = true;
+          previousButton = command;
           break;
         case ".":
-          output = MainPanel.appendOutput(".");
-          theDis.insertComponent(output);
+          MainPanel.appendDisplay(".");
+          previousButton = command;
           break;
         case "i":
-          // Font italic = Font.
-          /**
-          output = new JTextArea();
-          output.setFont(Font.getFont("Italic"));
-          output.setText("i");
-          theDis.insertComponent(output);
-          */
-          output = MainPanel.appendOutput("i");
-          theDis.insertComponent(output);
+          if (!alreadyHasImaginary)
+          {
+            MainPanel.appendDisplay("i");
+          }
+          alreadyHasImaginary = true;
+          previousButton = command;
           break;
         case "Inv":
+          currentOperand = parseSingleValue(input);
+          rightParenthese = false;
+          leftParenthese = false;
+          alreadyHasOperator = false;
+          alreadyHasImaginary = false;
+          theHistory.add(input + " inverse to " + currentOperand.inverse().toString());
+          MainPanel.setDisplay(currentOperand.inverse().toString());
+          startNew = true;
+          previousButton = command;
           break;
         case "+/-":
+          if (!noInput())
+          {
+            MainPanel.toggleSign();
+          }
+          else
+          {
+            MainPanel.displayError("There is NO Expression to toggle sign");
+          }
+          previousButton = command;
           break;
         case "<-":
+          char removed = MainPanel.backspace();
+          if (isOperator(removed))
+          {
+            alreadyHasOperator = false;
+          }
+          else if (removed == '(')
+          {
+            leftParenthese = false;
+          }
+          else if (removed == ')')
+          {
+            rightParenthese = false;
+          }
+          else if (removed == 'i')
+          {
+            alreadyHasImaginary = false;
+          }
+          previousButton = command;
           break;
         case "C":
+          MainPanel.clearDisplay();
+          leftParenthese = false;
+          rightParenthese = false;
+          alreadyHasOperator = false;
+          alreadyHasImaginary = false;
+          previousButton = command;
           break;
         case "R":
+          MainPanel.clearDisplay();
+          previousResult = new ImgNumber(0, 0);
+          currentOperand = new ImgNumber(0, 0);
+          previousPress = "n";
+          leftParenthese = false;
+          rightParenthese = false;
+          startRunning = false;
+          alreadyHasOperator = false;
+          alreadyHasImaginary = false;
+          theHistory.reset();
+          previousButton = command;
           break;
         default:
-          System.exit(0);
+          if (!previousPressOperator())
+          {
+            if (!rightParenthese)
+            {
+              if (!alreadyHasOperator)
+              {
+                MainPanel.appendDisplay(command);
+                alreadyHasOperator = true;
+              }
+            }
+            else if (noPress())
+            {
+              previousResult = parseSingleValue(input);
+              rightParenthese = false;
+              leftParenthese = false;
+              alreadyHasOperator = false;
+              alreadyHasImaginary = false;
+              MainPanel.clearDisplay();
+              currExpression.concat(input + " " + command + " ");
+              startNew = true;
+              previousButton = command;
+            }
+            else
+            {
+              currentOperand = parseSingleValue(input);
+              
+              if (currentOperand.getImg() == 0 && currentOperand.getReal() == 0)
+              {
+                // Line here for divide by 0 exception
+              }
+              
+              previousResult = calculateBasedOnPreviousButton(currentOperand);
+              rightParenthese = false;
+              leftParenthese = false;
+              alreadyHasOperator = false;
+              alreadyHasImaginary = false;
+              if (startRunning)
+              {
+                MainPanel.setDisplay(previousResult.toString());
+                currExpression.concat(input + " " + command + " ");
+                startNew = true;
+                previousButton = command;
+              }
+              else
+              {
+                MainPanel.clearDisplay();
+                startRunning = true;
+                currExpression.concat(input + " " + command + " ");
+                startNew = true;
+                previousButton = command;
+              }
+            }
+            previousPress = command;
+          }
       }
     }
-
-    /**
-    switch (command)
-    {
-      case "=":
-        if (!noInput())
-        {
-          // total.concat(theDis.getText());
-          result = calculateBasedOnPreviousButton(parseSingleValue(input));
-          // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-          // class
-          if (!input.equals(""))
-          {
-            output = MainPanel
-                .getDisplayOutput("(" + input + ") = \n(" + result.toString() + ")\n\n");
-          }
-          else
-          {
-            output = MainPanel.getDisplayOutput("= \n" + result.toString() + ")\n\n");
-          }
-          theDis.insertComponent(output);
-          MainPanel.clearDisplay();
-          previousPress = "n";
-        }
-        break;
-      case "text":
-        if (!noInput())
-        {
-          // total.concat(theDis.getText());
-          result = calculateBasedOnPreviousButton(parseSingleValue(input));
-          // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-          // class
-          if (!input.equals(""))
-          {
-            output = MainPanel
-                .getDisplayOutput("(" + input + ") = \n(" + result.toString() + ")\n\n");
-          }
-          else
-          {
-            output = MainPanel.getDisplayOutput("= \n(" + result.toString() + ")\n\n");
-          }
-          theDis.insertComponent(output);
-          MainPanel.clearDisplay();
-          previousPress = "n";
-        }
-        break;
-      case "/":
-        result = calculateBasedOnPreviousButton(parseSingleValue(input));
-        // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-        // class
-        if (recentlyReset)
-        {
-          output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") / ");
-        }
-        else
-        {
-          output = MainPanel.getDisplayOutput("(" + input + ") / ");
-        }
-        theDis.insertComponent(output);
-        // MainPanel.getInput().setText("");
-        previousPress = command;
-        recentlyReset = false;
-        break;
-      case "*":
-        result = calculateBasedOnPreviousButton(parseSingleValue(input));
-        // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-        // class
-        if (recentlyReset)
-        {
-          output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") * ");
-        }
-        else
-        {
-          output = MainPanel.getDisplayOutput("(" + input + ") * ");
-        }
-        theDis.insertComponent(output);
-        // MainPanel.getInput().setText("");
-        previousPress = command;
-        recentlyReset = false;
-        break;
-      case "-":
-        result = calculateBasedOnPreviousButton(parseSingleValue(input));
-        // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-        // class
-        if (recentlyReset)
-        {
-          output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") - ");
-        }
-        else
-        {
-          output = MainPanel.getDisplayOutput("(" + input + ") - ");
-        }
-        theDis.insertComponent(output);
-        // MainPanel.getInput().setText("");
-        previousPress = command;
-        recentlyReset = false;
-        break;
-      case "+":
-        result = calculateBasedOnPreviousButton(parseSingleValue(input));
-        // add a line for parsing the text here to pass it to the ComplexNumber or ComplexValue
-        // class
-        if (recentlyReset)
-        {
-          output = MainPanel.getDisplayOutput("cancelled\n\n(" + input + ") + ");
-        }
-        else
-        {
-          output = MainPanel.getDisplayOutput("(" + input + ") + ");
-        }
-        theDis.insertComponent(output);
-        // MainPanel.getInput().setText("");
-        previousPress = command;
-        recentlyReset = false;
-        break;
-      case "C":
-        MainPanel.clearDisplay();
-        break;
-      case "R":
-        MainPanel.clearDisplay();
-        // total = "";
-        previousPress = "n";
-        result = null;
-        recentlyReset = true;
-        break;
-      default:
-        System.exit(0);
-    }
-    */
   }
 
   /**
@@ -293,30 +308,24 @@ public class Listener extends KeyAdapter implements ActionListener
     return listener;
   }
 
-  /**
-   * Ignore for now, was using to parse the entire expression until I figured I can parse one at a
-   * time instead.
-   * 
-   * @param exp
-   * @return a
-   */
-  private ImgNumber parseExpression(final String exp)
+  // *****************************PRIVATE METHODS*******************************
+
+  private boolean containsOperator(String input)
   {
-    return null;
+    boolean containsMinus = false;
+    if (input.contains("-"))
+    {
+      if (input.lastIndexOf('-') != 0)
+      {
+        containsMinus = true;
+      }
+    }
+    return (input.contains("+")) || containsMinus || (input.contains("/")) || (input.contains("*"));
   }
 
-  /**
-   * Ignore for now, was using to parse the entire expression until I figured I can parse one at a
-   * time instead.
-   * 
-   * @param theValue
-   * @return a
-   */
-  private ArrayList<ImgNumber> parseValues(final String theValue)
+  private boolean containsImaginary(String input)
   {
-    String[] allValues = theValue.split(" ");
-
-    return null;
+    return input.contains("i");
   }
 
   /**
@@ -328,39 +337,97 @@ public class Listener extends KeyAdapter implements ActionListener
    */
   private ImgNumber parseSingleValue(final String value)
   {
+    boolean wholeNegative = false;
     Operator op = null;
     String[] allParts = new String[2];
-    if (value.contains("+"))
+    if (value.contains("-"))
     {
-      allParts[0] = value.substring(0, value.indexOf("+"));
-      allParts[1] = value.substring(value.indexOf("+"), value.length() - 1);
-      op = Operator.getFrom("+");
-    }
-    else if (value.contains("*"))
-    {
-      allParts[0] = value.substring(0, value.indexOf("*"));
-      allParts[1] = value.substring(value.indexOf("*"), value.length() - 1);
-      op = Operator.getFrom("*");
-    }
-    else if (value.contains("/"))
-    {
-      allParts[0] = value.substring(0, value.indexOf("/"));
-      allParts[1] = value.substring(value.indexOf("/"), value.length() - 1);
-      op = Operator.getFrom("/");
-    }
-    else if (value.contains("-"))
-    {
-      if (value.charAt(0) != '-')
+      if (value.charAt(0) == '-')
       {
-        allParts[0] = value.substring(0, value.indexOf("-"));
-        allParts[1] = value.substring(value.indexOf("-"), value.length() - 1);
-        op = Operator.getFrom("-");
+        if (value.contains("+"))
+        {
+          allParts[0] = value.substring(2, value.indexOf("+"));
+          allParts[1] = value.substring(value.indexOf("+") + 1, value.length() - 2);
+          op = Operator.getFrom("+");
+        }
+        else if (value.contains("*"))
+        {
+          allParts[0] = value.substring(2, value.indexOf("*"));
+          allParts[1] = value.substring(value.indexOf("*") + 1, value.length() - 2);
+          op = Operator.getFrom("*");
+        }
+        else if (value.contains("/"))
+        {
+          if(value.charAt(value.indexOf("/") + 1) == '0' && value.substring(0, value.indexOf("/") + 4).length() == value.length())
+          {
+            MainPanel.displayError("Cannot Divide by 0");
+          }
+          else
+          {
+          allParts[0] = value.substring(2, value.indexOf("/"));
+          allParts[1] = value.substring(value.indexOf("/") + 1, value.length() - 2);
+          op = Operator.getFrom("/");
+          }
+        }
+        else
+        {
+          allParts[0] = value.substring(2, value.indexOf("-"));
+          allParts[1] = value.substring(value.indexOf("-"), value.length() - 2);
+          op = Operator.getFrom("-");
+        }
+        wholeNegative = true;
       }
       else
       {
-        allParts[0] = value.substring(0, value.lastIndexOf("-"));
-        allParts[1] = value.substring(value.lastIndexOf("-"), value.length() - 1);
+        allParts[0] = value.substring(1, value.lastIndexOf("-"));
+        allParts[1] = value.substring(value.lastIndexOf("-") + 1, value.length() - 2);
         op = Operator.getFrom("-");
+      }
+    }
+    else
+    {
+      if (value.contains("+"))
+      {
+        allParts[0] = value.substring(1, value.indexOf("+"));
+        allParts[1] = value.substring(value.indexOf("+") + 1, value.length() - 2);
+        op = Operator.getFrom("+");
+      }
+      else if (value.contains("*"))
+      {
+        allParts[0] = value.substring(1, value.indexOf("*"));
+        allParts[1] = value.substring(value.indexOf("*") + 1, value.length() - 2);
+        op = Operator.getFrom("*");
+      }
+      else if (value.contains("/"))
+      {
+        if(value.charAt(value.indexOf("/") + 1) == '0' && value.substring(0, value.indexOf("/") + 4).length() == value.length())
+        {
+          MainPanel.displayError("Cannot Divide by 0");
+        }
+        else
+        {
+          System.out.println(value.toString());
+          allParts[0] = value.substring(1, value.indexOf("/"));
+          allParts[1] = value.substring(value.indexOf("/") + 1, value.length() - 2);
+          op = Operator.getFrom("/");
+        }      
+      }
+      else if (!containsNumber(value))
+      {
+        return new ImgNumber(0, 0);
+      }
+      else if (!containsOperator(value))
+      {
+        if (value.contains("i"))
+        {
+          allParts[0] = "0";
+          allParts[1] = value.substring(value.indexOf("(") + 1, value.indexOf("i"));
+        }
+        else
+        {
+          allParts[0] = value.substring(value.indexOf("(") + 1, value.indexOf(")"));
+          allParts[1] = "0";
+        }
       }
     }
     double real = 0.0;
@@ -374,45 +441,99 @@ public class Listener extends KeyAdapter implements ActionListener
       part.replaceAll("\\s", "");
     }
 
-    real = Double.parseDouble(allParts[0]);
-    img = Double.parseDouble(allParts[1]);
+    String part1 = allParts[0];
+    String part2 = allParts[1];
+    if (wholeNegative)
+    {
+      if (!part1.equals("0"))
+      {
+        real = -Double.parseDouble(allParts[0]);
+      }
+      else
+      {
+        real = 0.0;
+      }
+      if (!part2.equals("0"))
+      {
+        img = -Double.parseDouble(allParts[1]);
+      }
+      else
+      {
+        img = 0.0;
+      }
+    }
+    else
+    {
+      if (!part1.equals("0"))
+      {
+        real = Double.parseDouble(allParts[0]);
+      }
+      else
+      {
+        real = 0.0;
+      }
+      if (!part2.equals("0"))
+      {
+        img = Double.parseDouble(allParts[1]);
+      }
+      else
+      {
+        img = 0.0;
+      }
+    }
+    // Real realNum = new Real(real);
+    ImgNumber imgNum = new ImgNumber(real, img, op);
 
-    return null;
+    return imgNum;
   }
 
   /**
    * Checks the prev button.
    * 
-   * @param theNumber
+   * @param secondNumber
    *          the case to switch
    * @return the complex number
    */
-  private ImgNumber calculateBasedOnPreviousButton(final ImgNumber theNumber)
+  private ImgNumber calculateBasedOnPreviousButton(final ImgNumber secondNumber)
   {
     ImgNumber toReturn = null;
+
     switch (previousPress)
     {
       case "/":
-        toReturn = result.divide(theNumber);
+        toReturn = (ImgNumber) calc.divide(previousResult, secondNumber);
         break;
       case "*":
-        toReturn = result.multiply(theNumber);
+        toReturn = (ImgNumber) calc.multiply(previousResult, secondNumber);
         break;
       case "-":
-        toReturn = result.subtract(theNumber);
+        toReturn = (ImgNumber) calc.subtract(previousResult, secondNumber);
         break;
       case "+":
-        toReturn = result.add(theNumber);
+        toReturn = (ImgNumber) calc.add(previousResult, secondNumber);
         break;
       default:
-        toReturn = theNumber;
+        toReturn = previousResult;
     }
     return toReturn;
   }
 
+  /**
+   * 
+   * @return
+   */
   private boolean noInput()
   {
-    if (result == null)
+    return MainPanel.getDisplay().getText().isEmpty();
+  }
+
+  /**
+   * 
+   * @return
+   */
+  private boolean noPress()
+  {
+    if (previousPress.equals("n"))
     {
       return true;
     }
@@ -421,8 +542,28 @@ public class Listener extends KeyAdapter implements ActionListener
       return false;
     }
   }
-  
-  private String stringNum(int num) {
-    return "" + num;
+
+  /**
+   * 
+   * @return
+   */
+  private boolean previousPressOperator()
+  {
+    return (previousButton == "+") || (previousButton == "-") || (previousButton == "/")
+        || (previousButton == "*") || (previousButton == "=") || (previousButton == "Inv");
   }
+
+  private boolean isOperator(char toCompare)
+  {
+    return (toCompare == '+') || (toCompare == '-') || (toCompare == '/') || (toCompare == '*');
+  }
+
+  private boolean containsNumber(String text)
+  {
+    return (text.contains("1")) || (text.contains("2")) || (text.contains("3"))
+        || (text.contains("4")) || (text.contains("5")) || (text.contains("6"))
+        || (text.contains("7")) || (text.contains("8")) || (text.contains("9"))
+        || (text.contains("0"));
+  }
+
 }

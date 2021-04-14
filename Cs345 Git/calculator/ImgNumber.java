@@ -151,6 +151,22 @@ public class ImgNumber implements Number
   }
 
   /**
+   * @return the inverse of this imaginary number.
+   */
+  public ImgNumber inverse()
+  {
+    if (real.getReal() == 0)
+    {
+      return new ImgNumber(0, 1 / -img);
+    } 
+    double realPart = real.getReal() * real.getReal();
+    double imgPart = img * img;
+    double x = realPart + imgPart;
+    
+    return new ImgNumber(real.getReal() / x, -img / x);
+  }
+  
+  /**
    * @return true if this has no value.
    */
   private boolean hasNoValue()

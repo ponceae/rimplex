@@ -70,14 +70,18 @@ class ImgNumberTest
     assertEquals("-2.0000 - 1.3333i", c.divide(d).toString());
   }
 
-  /**
-   * Tests the divide method.
-   */
-  @Test
-  void testExp()
+  void testInverse()
+
   {
+
     assertEquals("16.0000 + 30.0000i", a.exp(2).toString());
     assertEquals("-10.0000 + 198.0000i", a.exp(3).toString());  
+
+    assertEquals("0.1471 - 0.0882i", a.inverse().toString());
+    assertEquals("0.0769 - 0.1154i", b.inverse().toString());
+    assertEquals("0.0769 + 0.1154i", c.inverse().toString());
+    assertEquals("-0.3333i", d.inverse().toString());
+
   }
   
 }

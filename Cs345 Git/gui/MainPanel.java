@@ -8,7 +8,7 @@ import java.awt.*;
 /**
  * MainPanel - .
  *
- * @author Ulises Fernandez, Andrew Elbert
+ * @author Ulises Fernandez, Andrew Elbert, and Ian Lips
  * @version (3/31/21)
  */
 
@@ -18,6 +18,9 @@ public class MainPanel extends JPanel
      * Default UID since I'm not sure what it should be instantiated to
      */
     private static final long serialVersionUID = 1L;
+    
+    private Color darkRed;
+    
     private JPanel panel;
     private JPanel east;
     private JPanel west;
@@ -32,7 +35,12 @@ public class MainPanel extends JPanel
     private ImageIcon logo;
     private JLabel rimpLogo;
     private ImageIcon divSymbol;
+    
+    private boolean multPassed = false;
 
+    /**
+     * Default Constructor.
+     */
     public MainPanel()
     {
         createComponents();
@@ -42,12 +50,22 @@ public class MainPanel extends JPanel
         setListenersAndActions();
     }
 
+    /**
+     * Creates the Components.
+     */
     protected void createComponents()
     {
+        darkRed = new Color(139, 0, 0);
+      
         north = new JPanel(new GridLayout(2,1));
         east = new JPanel();
         west = new JPanel();
         panel = new JPanel(new GridBagLayout());
+
+        north.setBackground(Color.WHITE);
+        east.setBackground(darkRed);
+        west.setBackground(darkRed);
+        panel.setBackground(darkRed);
         
         theListener = Listener.getInstance();
         constraints = new GridBagConstraints();
@@ -55,13 +73,19 @@ public class MainPanel extends JPanel
         display = new JTextPane();
         output = new JTextArea();
         
-        logo = new ImageIcon("logoRimplex.png");
+        display.setBackground(darkRed);
+        display.setForeground(Color.WHITE);
+        
+        logo = new ImageIcon("CS345 Git/resources/logoRimplex.png");
         rimpLogo = new JLabel(logo);
-        divSymbol = new ImageIcon("divisionSymbol.png");
+        divSymbol = new ImageIcon("CS345 Git/resources/divisionSymbol.png");
         
 
-    } // method createComponents
+    }
 
+    /**
+     * Sets the Parameters.
+     */
     protected void setParameters()
     {
       for (Component theButton : panel.getComponents()) {
@@ -69,8 +93,11 @@ public class MainPanel extends JPanel
         button.setBackground(Color.WHITE);
       }
 
-    } // method setParameters
+    }
 
+    /**
+     * Sets the Panels.
+     */
     protected void setPanel()
     {
        setLayout((new BorderLayout()));
@@ -80,11 +107,14 @@ public class MainPanel extends JPanel
        add(west, BorderLayout.WEST);
        add(east, BorderLayout.EAST);
 
-    } // method setPanel
+    }
 
+    /**
+     * Adds Components.
+     */
     protected void addComponents()
     {
-      display.add(output);
+        display.add(output);
         north.add((rimpLogo));
         north.add(display);
         constraints.weightx = 1;
@@ -108,7 +138,7 @@ public class MainPanel extends JPanel
         panel.add(new JButton("4"), constraints);
         panel.add(new JButton("5"), constraints);
         panel.add(new JButton("6"), constraints);
-        panel.add(new JButton("x"), constraints);
+        panel.add(new JButton("X"), constraints);
         panel.add(new JButton("("), constraints);
 
         constraints.gridy++;
@@ -128,6 +158,9 @@ public class MainPanel extends JPanel
 
     }
 
+    /**
+     * Sets the ActionListeners.
+     */
     protected void setListenersAndActions()
     {
       for (Component theButton : panel.getComponents()) {
@@ -135,7 +168,13 @@ public class MainPanel extends JPanel
         String text = button.getText();
         if (text.equals(""))
         {
-          button.setActionCommand("/");
+          if (!multPassed) 
+          {
+            button.setActionCommand("*");
+            multPassed = true;
+          } else {
+            button.setActionCommand("/");
+          }
         } else {
           button.setActionCommand(text);
         }
@@ -143,22 +182,85 @@ public class MainPanel extends JPanel
       }
     }
     
+    /**
+     * Used to display errors to the user.
+     * 
+     * @param text The Error Message
+     */
+    static void displayError(String text)
+    {
+      JOptionPane.showMessageDialog(display, text, "Rimplex Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    /**
+     * "Backspaces" by setting the display text to a substring of the current text.
+     */
+    static char backspace() {
+      char toReturn = 'n';
+      if (!display.getText().isEmpty()) {
+        toReturn = display.getText().charAt(display.getText().length() - 1);
+        display.setText(display.getText().substring(0, display.getText().length() - 1));
+      }
+      return toReturn;
+    }
+    
+    /**
+     * Clears the display, but doesn't reset.
+     */
     static void clearDisplay() {
       display.setText("");
     }
 
+    /**
+     * Getter for the display.
+     * 
+     * @return the display
+     */
     static JTextPane getDisplay() {
       return display;
     }
     
-    static JTextArea appendOutput(String text) {
-      output.setText(output.getText().concat(text));
-      return output;
-    }
-    
+    /**
+     * Returns an italicized i. (Not sure if actually used yet).
+     * 
+     * @param text the text to set
+     * @return the output
+     */
     static JTextArea setOutput(String text) {
       output.setText(text);
       return output;
+    }
+    
+    /**
+     * Appends the given text to the display text.
+     * 
+     * @param text the text to add
+     */
+    static void appendDisplay(String text) {
+      display.setText(display.getText().concat(text));
+    }
+    
+    /**
+     * Sets the display text to the given text.
+     * 
+     * @param text the text to set
+     */
+    static void setDisplay(String text) {
+      display.setText(text);
+    }
+    
+    static void toggleSign() {
+      String theText = display.getText();
+      if (!theText.isEmpty())
+      {
+        if (theText.charAt(0) != '-') {
+          setDisplay("-" + theText);
+        } else {
+          setDisplay(theText.substring(1));
+        }
+      } else {
+        appendDisplay("-");
+      }
     }
 
 }
