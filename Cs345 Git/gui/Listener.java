@@ -22,7 +22,7 @@ import calculator.*;
 public class Listener extends KeyAdapter implements ActionListener
 {
   private static Listener listener;
-  private String previousPress = "n";
+  private String previousOp = "n";
   private String previousButton = "n";
   private History theHistory = new History();
   // private boolean recentlyReset = false;
@@ -30,6 +30,8 @@ public class Listener extends KeyAdapter implements ActionListener
   private boolean rightParenthese = false;
   private boolean alreadyHasOperator = false;
   private boolean alreadyHasImaginary = false;
+  private boolean firstDecimal = false;
+  private boolean secondDecimal = false;
 
   private calculator calc = new calculator();
 
@@ -79,7 +81,7 @@ public class Listener extends KeyAdapter implements ActionListener
       if (!leftParenthese)
       {
         MainPanel.appendDisplay("(");
-        MainPanel.displayError("There Expression Should Start With a '('");
+        MainPanel.displayError("The Expression Should Start With a '('");
         leftParenthese = true;
       }
       MainPanel.appendDisplay(command);
@@ -100,16 +102,26 @@ public class Listener extends KeyAdapter implements ActionListener
                 {
                   input = input.concat(")");
                 }
-                currentOperand = parseSingleValue(input);
+                if (input.charAt(0) == '-') {
+                  currentOperand = parseSingleValue(input, "-");
+                } else {
+                  currentOperand = parseSingleValue(input, "+");
+                }
                 previousResult = calculateBasedOnPreviousButton(currentOperand);
                 currExpression.concat(input + " = " + previousResult.toString());
                 rightParenthese = false;
                 leftParenthese = false;
+                alreadyHasOperator = false;
+                alreadyHasImaginary = false;
+                startRunning = true;
                 MainPanel.setDisplay(previousResult.toString());
-                previousPress = command;
+                previousOp = command;
+              }
+              else {
+                
               }
             }
-            else if (previousPress.equals("n"))
+            else if (noPress())
             {
               if (!input.contains("("))
               {
@@ -119,12 +131,19 @@ public class Listener extends KeyAdapter implements ActionListener
               {
                 MainPanel.appendDisplay(")");
               }
-              previousResult = parseSingleValue(input);
+              if (input.charAt(0) == '-') {
+                currentOperand = parseSingleValue(input, "-");
+              } else {
+                currentOperand = parseSingleValue(input, "+");
+              }
               currExpression.concat(input + " = " + previousResult.toString());
               rightParenthese = false;
               leftParenthese = false;
+              alreadyHasOperator = false;
+              alreadyHasImaginary = false;
+              startRunning = true;
               MainPanel.setDisplay(previousResult.toString());
-              previousPress = command;
+              previousOp = command;
             }
           }
           else
@@ -142,7 +161,7 @@ public class Listener extends KeyAdapter implements ActionListener
           }
           if (!leftParenthese)
           {
-            MainPanel.appendDisplay("(");           
+            MainPanel.appendDisplay("(");
           }
           leftParenthese = true;
           previousButton = command;
@@ -160,7 +179,18 @@ public class Listener extends KeyAdapter implements ActionListener
           previousButton = command;
           break;
         case ".":
-          MainPanel.appendDisplay(".");
+          if (!firstDecimal)
+          {
+            MainPanel.appendDisplay(".");
+            firstDecimal = true;
+          } else if (!secondDecimal) 
+          {
+            if (!alreadyHasImaginary && alreadyHasOperator) 
+            {
+              MainPanel.appendDisplay(".");
+              secondDecimal = true;
+            }
+          }
           previousButton = command;
           break;
         case "i":
@@ -172,13 +202,25 @@ public class Listener extends KeyAdapter implements ActionListener
           previousButton = command;
           break;
         case "Inv":
-          currentOperand = parseSingleValue(input);
+          if (command.equals("-")) {
+            currentOperand = parseSingleValue(input, "-");
+          } else {
+            currentOperand = parseSingleValue(input, "+");
+          }
           rightParenthese = false;
           leftParenthese = false;
           alreadyHasOperator = false;
           alreadyHasImaginary = false;
-          theHistory.add(input + " inverse to " + currentOperand.inverse().toString());
-          MainPanel.setDisplay(currentOperand.inverse().toString());
+          if (noPress())
+          {
+            theHistory.add(input + " inverse to " + currentOperand.inverse().toString());
+            MainPanel.setDisplay(currentOperand.inverse().toString());
+          }
+          else
+          {
+            theHistory.add(input + " inverse to " + previousResult.inverse().toString());
+            MainPanel.setDisplay(currentOperand.inverse().toString());
+          }
           startNew = true;
           previousButton = command;
           break;
@@ -191,7 +233,6 @@ public class Listener extends KeyAdapter implements ActionListener
           {
             MainPanel.displayError("There is NO Expression to toggle sign");
           }
-          previousButton = command;
           break;
         case "<-":
           char removed = MainPanel.backspace();
@@ -225,7 +266,7 @@ public class Listener extends KeyAdapter implements ActionListener
           MainPanel.clearDisplay();
           previousResult = new ImgNumber(0, 0);
           currentOperand = new ImgNumber(0, 0);
-          previousPress = "n";
+          previousOp = "n";
           leftParenthese = false;
           rightParenthese = false;
           startRunning = false;
@@ -235,7 +276,7 @@ public class Listener extends KeyAdapter implements ActionListener
           previousButton = command;
           break;
         default:
-          if (!previousPressOperator())
+          if (!previousPressOperatorMinusEquals())
           {
             if (!rightParenthese)
             {
@@ -247,7 +288,11 @@ public class Listener extends KeyAdapter implements ActionListener
             }
             else if (noPress())
             {
-              previousResult = parseSingleValue(input);
+              if (command.equals("-")) {
+                previousResult = parseSingleValue(input, "-");
+              } else {
+                previousResult = parseSingleValue(input, "+");
+              }
               rightParenthese = false;
               leftParenthese = false;
               alreadyHasOperator = false;
@@ -256,16 +301,22 @@ public class Listener extends KeyAdapter implements ActionListener
               currExpression.concat(input + " " + command + " ");
               startNew = true;
               previousButton = command;
+              previousOp = command;
             }
             else
             {
-              currentOperand = parseSingleValue(input);
-              
-              if (currentOperand.getImg() == 0 && currentOperand.getReal() == 0)
-              {
-                // Line here for divide by 0 exception
+              if (command.equals("-")) {
+                currentOperand = parseSingleValue(input, "-");
+              } else {
+                currentOperand = parseSingleValue(input, "+");
               }
-              
+
+              if (currentOperand.getImg() == 0 && currentOperand.getReal() == 0
+                  && command.equals("/"))
+              {
+                MainPanel.displayError("Cannot divide by 0");
+              }
+
               previousResult = calculateBasedOnPreviousButton(currentOperand);
               rightParenthese = false;
               leftParenthese = false;
@@ -287,8 +338,8 @@ public class Listener extends KeyAdapter implements ActionListener
                 previousButton = command;
               }
             }
-            previousPress = command;
           }
+          previousOp = command;
       }
     }
   }
@@ -335,10 +386,10 @@ public class Listener extends KeyAdapter implements ActionListener
    *          the value to parse
    * @return the parsed value
    */
-  private ImgNumber parseSingleValue(final String value)
+  private ImgNumber parseSingleValue(final String value, final String operator)
   {
     boolean wholeNegative = false;
-    Operator op = null;
+    Operator op = Operator.getFrom(operator);
     String[] allParts = new String[2];
     if (value.contains("-"))
     {
@@ -348,32 +399,33 @@ public class Listener extends KeyAdapter implements ActionListener
         {
           allParts[0] = value.substring(2, value.indexOf("+"));
           allParts[1] = value.substring(value.indexOf("+") + 1, value.length() - 2);
-          op = Operator.getFrom("+");
+          // op = Operator.getFrom("+");
         }
         else if (value.contains("*"))
         {
           allParts[0] = value.substring(2, value.indexOf("*"));
           allParts[1] = value.substring(value.indexOf("*") + 1, value.length() - 2);
-          op = Operator.getFrom("*");
+          // op = Operator.getFrom("*");
         }
         else if (value.contains("/"))
         {
-          if(value.charAt(value.indexOf("/") + 1) == '0' && value.substring(0, value.indexOf("/") + 4).length() == value.length())
+          if (value.charAt(value.indexOf("/") + 1) == '0'
+              && value.substring(0, value.indexOf("/") + 4).length() == value.length())
           {
             MainPanel.displayError("Cannot Divide by 0");
           }
           else
           {
-          allParts[0] = value.substring(2, value.indexOf("/"));
-          allParts[1] = value.substring(value.indexOf("/") + 1, value.length() - 2);
-          op = Operator.getFrom("/");
+            allParts[0] = value.substring(2, value.indexOf("/"));
+            allParts[1] = value.substring(value.indexOf("/") + 1, value.length() - 2);
+            // op = Operator.getFrom("/");
           }
         }
         else
         {
           allParts[0] = value.substring(2, value.indexOf("-"));
           allParts[1] = value.substring(value.indexOf("-"), value.length() - 2);
-          op = Operator.getFrom("-");
+          // op = Operator.getFrom("-");
         }
         wholeNegative = true;
       }
@@ -381,7 +433,7 @@ public class Listener extends KeyAdapter implements ActionListener
       {
         allParts[0] = value.substring(1, value.lastIndexOf("-"));
         allParts[1] = value.substring(value.lastIndexOf("-") + 1, value.length() - 2);
-        op = Operator.getFrom("-");
+        // op = Operator.getFrom("-");
       }
     }
     else
@@ -390,17 +442,18 @@ public class Listener extends KeyAdapter implements ActionListener
       {
         allParts[0] = value.substring(1, value.indexOf("+"));
         allParts[1] = value.substring(value.indexOf("+") + 1, value.length() - 2);
-        op = Operator.getFrom("+");
+        // op = Operator.getFrom("+");
       }
       else if (value.contains("*"))
       {
         allParts[0] = value.substring(1, value.indexOf("*"));
         allParts[1] = value.substring(value.indexOf("*") + 1, value.length() - 2);
-        op = Operator.getFrom("*");
+        // op = Operator.getFrom("*");
       }
       else if (value.contains("/"))
       {
-        if(value.charAt(value.indexOf("/") + 1) == '0' && value.substring(0, value.indexOf("/") + 4).length() == value.length())
+        if (value.charAt(value.indexOf("/") + 1) == '0'
+            && value.substring(0, value.indexOf("/") + 4).length() == value.length())
         {
           MainPanel.displayError("Cannot Divide by 0");
         }
@@ -409,8 +462,8 @@ public class Listener extends KeyAdapter implements ActionListener
           System.out.println(value.toString());
           allParts[0] = value.substring(1, value.indexOf("/"));
           allParts[1] = value.substring(value.indexOf("/") + 1, value.length() - 2);
-          op = Operator.getFrom("/");
-        }      
+          // op = Operator.getFrom("/");
+        }
       }
       else if (!containsNumber(value))
       {
@@ -432,9 +485,6 @@ public class Listener extends KeyAdapter implements ActionListener
     }
     double real = 0.0;
     double img = 0.0;
-
-    // allParts[allParts.length - 1] = allParts[allParts.length - 1].substring(0, allParts.length -
-    // 1);
 
     for (String part : allParts)
     {
@@ -498,7 +548,7 @@ public class Listener extends KeyAdapter implements ActionListener
   {
     ImgNumber toReturn = null;
 
-    switch (previousPress)
+    switch (previousOp)
     {
       case "/":
         toReturn = (ImgNumber) calc.divide(previousResult, secondNumber);
@@ -533,7 +583,7 @@ public class Listener extends KeyAdapter implements ActionListener
    */
   private boolean noPress()
   {
-    if (previousPress.equals("n"))
+    if (previousOp.equals("n"))
     {
       return true;
     }
@@ -551,6 +601,12 @@ public class Listener extends KeyAdapter implements ActionListener
   {
     return (previousButton == "+") || (previousButton == "-") || (previousButton == "/")
         || (previousButton == "*") || (previousButton == "=") || (previousButton == "Inv");
+  }
+
+  private boolean previousPressOperatorMinusEquals()
+  {
+    return (previousButton == "+") || (previousButton == "-") || (previousButton == "/")
+        || (previousButton == "*") || (previousButton == "Inv");
   }
 
   private boolean isOperator(char toCompare)
