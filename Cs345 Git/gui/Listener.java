@@ -35,7 +35,7 @@ public class Listener extends KeyAdapter implements ActionListener
   private boolean secondDecimal = false;
 
   private calculator calc = new calculator();
-  
+
   private ImgNumber previousResult = new ImgNumber(0, 0);
   private ImgNumber currentOperand = new ImgNumber(0, 0);
   private boolean startRunning = false;
@@ -96,7 +96,7 @@ public class Listener extends KeyAdapter implements ActionListener
         case "=":
           if (!noInput())
           {
-            if (!noPress())
+            if (!noOpPress())
             {
               if (containsOperator(input) && containsImaginary(input))
               {
@@ -104,9 +104,12 @@ public class Listener extends KeyAdapter implements ActionListener
                 {
                   input = input.concat(")");
                 }
-                if (input.charAt(0) == '-') {
+                if (input.charAt(0) == '-')
+                {
                   currentOperand = parseSingleValue(input, "-");
-                } else {
+                }
+                else
+                {
                   currentOperand = parseSingleValue(input, "+");
                 }
                 previousResult = calculateBasedOnPreviousButton(currentOperand);
@@ -119,14 +122,18 @@ public class Listener extends KeyAdapter implements ActionListener
                 MainPanel.setDisplay(previousResult.toString());
                 previousOp = command;
               }
-              else {
+              else
+              {
                 if (!input.contains(")"))
                 {
                   input = input.concat(")");
                 }
-                if (input.charAt(0) == '-') {
+                if (input.charAt(0) == '-')
+                {
                   currentOperand = parseSingleValue(input, "-");
-                } else {
+                }
+                else
+                {
                   currentOperand = parseSingleValue(input, "+");
                 }
                 previousResult = calculateBasedOnPreviousButton(currentOperand);
@@ -140,7 +147,7 @@ public class Listener extends KeyAdapter implements ActionListener
                 previousOp = command;
               }
             }
-            else if (noPress())
+            else if (noOpPress())
             {
               if (!input.contains("("))
               {
@@ -150,9 +157,12 @@ public class Listener extends KeyAdapter implements ActionListener
               {
                 MainPanel.appendDisplay(")");
               }
-              if (input.charAt(0) == '-') {
+              if (input.charAt(0) == '-')
+              {
                 currentOperand = parseSingleValue(input, "-");
-              } else {
+              }
+              else
+              {
                 currentOperand = parseSingleValue(input, "+");
               }
               currExpression.concat(input + " = " + previousResult.toString());
@@ -186,13 +196,14 @@ public class Listener extends KeyAdapter implements ActionListener
           previousButton = command;
           break;
         case ")":
-          if (leftParenthese)
+          if (leftParenthese && !rightParenthese)
           {
             MainPanel.appendDisplay(")");
           }
           else
           {
-            MainPanel.displayError("')' Must be Preceded by a '('");
+            MainPanel
+                .displayError("')' Must be Preceded by a '(' and only one of each parenthesis");
           }
           rightParenthese = true;
           previousButton = command;
@@ -202,9 +213,10 @@ public class Listener extends KeyAdapter implements ActionListener
           {
             MainPanel.appendDisplay(".");
             firstDecimal = true;
-          } else if (!secondDecimal) 
+          }
+          else if (!secondDecimal)
           {
-            if (!alreadyHasImaginary && alreadyHasOperator) 
+            if (!alreadyHasImaginary && alreadyHasOperator)
             {
               MainPanel.appendDisplay(".");
               secondDecimal = true;
@@ -221,16 +233,19 @@ public class Listener extends KeyAdapter implements ActionListener
           previousButton = command;
           break;
         case "Inv":
-          if (command.equals("-")) {
+          if (input.charAt(0) == '-')
+          {
             currentOperand = parseSingleValue(input, "-");
-          } else {
+          }
+          else
+          {
             currentOperand = parseSingleValue(input, "+");
           }
           rightParenthese = false;
           leftParenthese = false;
           alreadyHasOperator = false;
           alreadyHasImaginary = false;
-          if (noPress())
+          if (noOpPress())
           {
             theHistory.add(input + " inverse to " + currentOperand.inverse().toString());
             MainPanel.setDisplay(currentOperand.inverse().toString());
@@ -238,7 +253,7 @@ public class Listener extends KeyAdapter implements ActionListener
           else
           {
             theHistory.add(input + " inverse to " + previousResult.inverse().toString());
-            MainPanel.setDisplay(currentOperand.inverse().toString());
+            MainPanel.setDisplay(previousResult.inverse().toString());
           }
           startNew = true;
           previousButton = command;
@@ -305,11 +320,14 @@ public class Listener extends KeyAdapter implements ActionListener
                 alreadyHasOperator = true;
               }
             }
-            else if (noPress())
+            else if (noOpPress())
             {
-              if (command.equals("-")) {
+              if (command.equals("-"))
+              {
                 previousResult = parseSingleValue(input, "-");
-              } else {
+              }
+              else
+              {
                 previousResult = parseSingleValue(input, "+");
               }
               rightParenthese = false;
@@ -324,9 +342,12 @@ public class Listener extends KeyAdapter implements ActionListener
             }
             else
             {
-              if (command.equals("-")) {
+              if (command.equals("-"))
+              {
                 currentOperand = parseSingleValue(input, "-");
-              } else {
+              }
+              else
+              {
                 currentOperand = parseSingleValue(input, "+");
               }
 
@@ -500,8 +521,10 @@ public class Listener extends KeyAdapter implements ActionListener
           allParts[0] = value.substring(value.indexOf("(") + 1, value.indexOf(")"));
           allParts[1] = "0";
         }
-      } else if (containsOperator(value) && !value.contains("i")) {
-        
+      }
+      else if (containsOperator(value) && !value.contains("i"))
+      {
+
       }
     }
     double real = 0.0;
@@ -602,7 +625,7 @@ public class Listener extends KeyAdapter implements ActionListener
    * 
    * @return
    */
-  private boolean noPress()
+  private boolean noOpPress()
   {
     if (previousOp.equals("n"))
     {
