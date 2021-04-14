@@ -55,9 +55,9 @@ public class MainPanel extends JPanel
         display = new JTextPane();
         output = new JTextArea();
         
-        logo = new ImageIcon("logoRimplex.png");
+        logo = new ImageIcon("CS345 Git/resources/logoRimplex.png");
         rimpLogo = new JLabel(logo);
-        divSymbol = new ImageIcon("divisionSymbol.png");
+        divSymbol = new ImageIcon("CS345 Git/resources/divisionSymbol.png");
         
 
     } // method createComponents
@@ -146,10 +146,13 @@ public class MainPanel extends JPanel
     /**
      * "Backspaces" by setting the display text to a substring of the current text.
      */
-    static void backspace() {
+    static char backspace() {
+      char toReturn = 'n';
       if (!display.getText().isEmpty()) {
+        toReturn = display.getText().charAt(display.getText().length() - 1);
         display.setText(display.getText().substring(0, display.getText().length() - 1));
       }
+      return toReturn;
     }
     
     /**
