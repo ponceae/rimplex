@@ -66,7 +66,7 @@ public class MainFrame extends JFrame
    */
   private void createComponents()
   {
-    mainPanel = new MainPanel();
+    mainPanel = MainPanel.getInstance();
   }
 
   /**
