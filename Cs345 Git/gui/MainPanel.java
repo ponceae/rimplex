@@ -166,7 +166,7 @@ public class MainPanel extends JPanel
       String text = button.getText();
       if (text.equals(""))
       {
-        button.setActionCommand("/'");
+        button.setActionCommand("/");
       }
       else if (text.equals("X"))
       {
