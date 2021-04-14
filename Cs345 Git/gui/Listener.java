@@ -209,6 +209,7 @@ public class Listener extends KeyAdapter implements ActionListener
           previousButton = command;
           break;
         case ".":
+          /**
           if (!firstDecimal)
           {
             MainPanel.appendDisplay(".");
@@ -221,6 +222,10 @@ public class Listener extends KeyAdapter implements ActionListener
               MainPanel.appendDisplay(".");
               secondDecimal = true;
             }
+          }
+          */
+          if (!previousButton.equals(".")) {
+            MainPanel.appendDisplay(".");
           }
           previousButton = command;
           break;
@@ -322,6 +327,7 @@ public class Listener extends KeyAdapter implements ActionListener
             }
             else if (noOpPress())
             {
+              MainPanel.clearDisplay();
               if (command.equals("-"))
               {
                 previousResult = parseSingleValue(input, "-");
@@ -351,7 +357,7 @@ public class Listener extends KeyAdapter implements ActionListener
                 currentOperand = parseSingleValue(input, "+");
               }
 
-              if (currentOperand.getImg() == 0 && currentOperand.getReal() == 0
+              if (currentOperand.getImg() == 0.0 && currentOperand.getReal() == 0.0
                   && command.equals("/"))
               {
                 MainPanel.displayError("Cannot divide by 0");
