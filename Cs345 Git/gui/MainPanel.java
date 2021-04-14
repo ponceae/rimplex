@@ -19,6 +19,8 @@ public class MainPanel extends JPanel
   private static final long serialVersionUID = 1L;
 
   private Color darkRed;
+  
+  private static MainPanel main;
 
   private JPanel panel;
   private JPanel east;
@@ -38,7 +40,7 @@ public class MainPanel extends JPanel
   /**
    * Default Constructor.
    */
-  public MainPanel()
+  private MainPanel()
   {
     createComponents();
     setParameters();
@@ -72,6 +74,7 @@ public class MainPanel extends JPanel
 
     display.setBackground(darkRed);
     display.setForeground(Color.WHITE);
+    display.setEditable(false);
 
     logo = new ImageIcon("Cs345 Git/resources/logoRimplex.png");
     rimpLogo = new JLabel(logo);
@@ -152,6 +155,11 @@ public class MainPanel extends JPanel
     panel.add(new JButton("i"), constraints);
     panel.add(new JButton("="), constraints);
     panel.add(new JButton("."), constraints);
+    
+    JButton historyButton = new JButton(">");
+    historyButton.setActionCommand(">");
+    historyButton.addActionListener(theListener);
+    east.add(historyButton);
 
   }
 
@@ -276,6 +284,17 @@ public class MainPanel extends JPanel
     {
       appendDisplay("-");
     }
+  }
+  
+  static MainPanel getInstance() {
+    if (main == null) {
+      main = new MainPanel();
+    }
+    return main;
+  }
+  
+  static Point getPosition() {
+    return main.getLocationOnScreen();
   }
 
 }

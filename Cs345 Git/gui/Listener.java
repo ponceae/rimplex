@@ -21,10 +21,11 @@ import calculator.*;
  */
 public class Listener extends KeyAdapter implements ActionListener
 {
+  private HistoryWindow theHistoryWindow;
   private static Listener listener;
   private String previousOp = "n";
   private String previousButton = "n";
-  private History theHistory = new History();
+  private History theHistory = History.getInstance();
   // private boolean recentlyReset = false;
   private boolean leftParenthese = false;
   private boolean rightParenthese = false;
@@ -34,12 +35,7 @@ public class Listener extends KeyAdapter implements ActionListener
   private boolean secondDecimal = false;
 
   private calculator calc = new calculator();
-
-  // I need to figure out if I need one or two Number variables for the running calculations (i.e.
-  // one for the previous total, which is null at the beginning and then is just the first entry and
-  // then is the first entry div by, sub by, etc whatever then next entry is, etc etc and then one
-  // for whatever the next entry itself is) and then calculate based on whatever the previous
-  // operator press was and if the previous entry is not null
+  
   private ImgNumber previousResult = new ImgNumber(0, 0);
   private ImgNumber currentOperand = new ImgNumber(0, 0);
   private boolean startRunning = false;
@@ -91,6 +87,12 @@ public class Listener extends KeyAdapter implements ActionListener
     {
       switch (command)
       {
+        case "<":
+          theHistoryWindow.close();
+          break;
+        case ">":
+          theHistoryWindow = HistoryWindow.getInstance();
+          break;
         case "=":
           if (!noInput())
           {
@@ -498,6 +500,8 @@ public class Listener extends KeyAdapter implements ActionListener
           allParts[0] = value.substring(value.indexOf("(") + 1, value.indexOf(")"));
           allParts[1] = "0";
         }
+      } else if (containsOperator(value) && !value.contains("i")) {
+        
       }
     }
     double real = 0.0;
