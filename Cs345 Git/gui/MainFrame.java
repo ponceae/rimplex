@@ -21,12 +21,20 @@ public class MainFrame extends JFrame
   private static final long serialVersionUID = 1L;
   private static MainFrame frame;
   private JPanel mainPanel;
+  private MouseList mouse = new MouseList();
 
   /**
    * Default constructor for the MainFrame.
    */
   private MainFrame()
   {
+    JMenuBar menuBar = new JMenuBar();
+    JMenu about = new JMenu("About");
+    JMenu help = new JMenu("Help");
+    menuBar.add(about);
+    menuBar.add(help);
+    about.addMouseListener(mouse);
+    help.addMouseListener(mouse);  
     createComponents(); // create needed objects
     setSize(350, 450);
     getContentPane().add(mainPanel, BorderLayout.CENTER);
