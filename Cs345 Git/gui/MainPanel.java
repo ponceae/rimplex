@@ -19,7 +19,7 @@ public class MainPanel extends JPanel
   private static final long serialVersionUID = 1L;
 
   private Color darkRed;
-  
+
   private static MainPanel main;
 
   private JPanel panel;
@@ -30,6 +30,9 @@ public class MainPanel extends JPanel
   private Listener theListener;
   private GridBagConstraints constraints;
 
+  // Thinking of doing two TextPanes in one Panel, one for running and/or previous calculations and
+  // one for user input
+  private static JTextPane input;
   private static JTextPane display;
   private static JTextArea output;
 
@@ -56,7 +59,7 @@ public class MainPanel extends JPanel
   {
     darkRed = new Color(139, 0, 0);
 
-    north = new JPanel(new GridLayout(2, 1));
+    north = new JPanel(new GridLayout(3, 1));
     east = new JPanel();
     west = new JPanel();
     panel = new JPanel(new GridBagLayout());
@@ -69,6 +72,7 @@ public class MainPanel extends JPanel
     theListener = Listener.getInstance();
     constraints = new GridBagConstraints();
 
+    input = new JTextPane();
     display = new JTextPane();
     output = new JTextArea();
 
@@ -117,6 +121,7 @@ public class MainPanel extends JPanel
     display.add(output);
     north.add((rimpLogo));
     north.add(display);
+    north.add(input);
     constraints.weightx = 1;
     constraints.weighty = 1;
     constraints.fill = GridBagConstraints.BOTH;
@@ -155,7 +160,7 @@ public class MainPanel extends JPanel
     panel.add(new JButton("i"), constraints);
     panel.add(new JButton("="), constraints);
     panel.add(new JButton("."), constraints);
-    
+
     JButton historyButton = new JButton(">");
     historyButton.setActionCommand(">");
     historyButton.addActionListener(theListener);
@@ -220,6 +225,11 @@ public class MainPanel extends JPanel
   {
     display.setText("");
   }
+  
+  static void clearInput()
+  {
+    input.setText("");
+  }
 
   /**
    * Getter for the display.
@@ -229,6 +239,11 @@ public class MainPanel extends JPanel
   static JTextPane getDisplay()
   {
     return display;
+  }
+  
+  static JTextPane getInput()
+  {
+    return input;
   }
 
   /**
@@ -254,6 +269,19 @@ public class MainPanel extends JPanel
   {
     display.setText(display.getText().concat(text));
   }
+  
+  static void appendInput(String text)
+  {
+    input.setText(input.getText().concat(text));
+  }
+  
+  static void appendItalicI() {
+    JTextArea italic = new JTextArea();
+    Font font = new Font("Comic Sans", Font.ITALIC, italic.getFont().getSize());
+    italic.setFont(font);
+    italic.setText("i");
+    display.add(italic);
+  }
 
   /**
    * Sets the display text to the given text.
@@ -264,6 +292,11 @@ public class MainPanel extends JPanel
   static void setDisplay(String text)
   {
     display.setText(text);
+  }
+  
+  static void setInput(String text)
+  {
+    input.setText(text);
   }
 
   static void toggleSign()
@@ -285,15 +318,18 @@ public class MainPanel extends JPanel
       appendDisplay("-");
     }
   }
-  
-  static MainPanel getInstance() {
-    if (main == null) {
+
+  static MainPanel getInstance()
+  {
+    if (main == null)
+    {
       main = new MainPanel();
     }
     return main;
   }
-  
-  static Point getPosition() {
+
+  static Point getPosition()
+  {
     return main.getLocationOnScreen();
   }
 
