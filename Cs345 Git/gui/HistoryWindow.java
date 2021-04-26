@@ -2,14 +2,14 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Point;
-import java.awt.Toolkit;
+// import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
+// import javax.swing.JRootPane;
 import javax.swing.JTextArea;
-import javax.swing.WindowConstants;
+// import javax.swing.WindowConstants;
 
 public class HistoryWindow extends JFrame
 {

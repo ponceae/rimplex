@@ -156,32 +156,34 @@ public class Parser
     boolean wholeNegative = false;
     Operator op = Operator.getFrom(operator);
     String[] allParts = new String[2];
+    Number toReturn;
 
     // ***CASES FOR WHERE THERE IS ONLY A SINGLE VALUE OR NO VALUE (i.e. no operator)***
     if (!containsNumber(value))
     {
       if (containsImaginary(value))
       {
-        return new ImgNumber(0, 1);
+        return new ImgNumber(0, 1, op);
       }
       else
       {
-        return new ImgNumber(0, 0);
+        return new Real(0, op);
       }
     }
-    else if (!containsOperator(value) && containsNumber(value))
+    else
     {
-      if (value.contains("i"))
+      if (containsImaginary(value))
       {
-        allParts[0] = "0";
+        allParts[0] = "0.0";
         allParts[1] = value.substring(value.indexOf("(") + 1, value.indexOf("i"));
       }
       else
       {
         allParts[0] = value.substring(value.indexOf("(") + 1, value.indexOf(")"));
-        allParts[1] = "0";
+        allParts[1] = "0.0";
       }
     }
+    /**
     // ***CASES WHERE THERE IS AN OPERATOR, BUT THERE'S ONLY REALS OR IMAGINARIES***
     else if (containsOperator(value) && !containsImaginary(value))
     {
@@ -191,8 +193,22 @@ public class Parser
     {
 
     }
+    */
+    double real = Double.parseDouble(allParts[0]);
+    double img = Double.parseDouble(allParts[1]);
+    
+    if (containsImaginary(value)) {
+      toReturn = new ImgNumber(real, img, op);
+    } else {
+      toReturn = new Real(real, op);
+    }
+    
+    if (wholeNegative) {
+      real = -real;
+      img = -img;
+    }
 
-    return null;
+    return toReturn;
   }
 
   private static boolean containsOperator(String input)

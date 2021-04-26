@@ -234,7 +234,7 @@ public class ImgNumber implements Number
     operator = op;
   }
   
-  public void setIng(double img) {
+  public void setImg(double img) {
     this.img = img;
   }
   

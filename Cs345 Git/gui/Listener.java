@@ -12,6 +12,7 @@ import java.awt.event.KeyAdapter;
 import javax.swing.*;
 // import java.util.ArrayList;
 import calculator.*;
+import calculator.Number;
 // import calculator.Number;
 
 /**
@@ -25,10 +26,11 @@ public class Listener extends KeyAdapter implements ActionListener
 {
   private HistoryWindow theHistoryWindow;
   private static Listener listener;
-  private String previousOp = "(";
-  private String lastPerformed = "+";
-  private String previousButton = "n";
   private History theHistory = History.getInstance();
+
+  private String previousOp = "(";
+  private String lastPerformed = "n";
+  private String previousButton = "n";
 
   // Booleans for checking if a button press is allowed or what happens in certain cases
   private boolean leftParenthese = false;
@@ -69,7 +71,7 @@ public class Listener extends KeyAdapter implements ActionListener
     String command = e.getActionCommand();
 
     String input = theInput.getText();
-    
+
     String toParse;
 
     try
@@ -108,12 +110,14 @@ public class Listener extends KeyAdapter implements ActionListener
           theHistoryWindow.setVisible(true);
           break;
         case "=":
-          if (!rightParenthese) {
+          if (!rightParenthese)
+          {
             input += ")";
           }
           toParse = input.substring(input.lastIndexOf(previousOp));
           calc.addTo(Parser.parseSingleValue(toParse, command));
           MainPanel.appendInput(command);
+          resetPartChecks();
           break;
         case "(":
           if (!leftParenthese)
@@ -145,7 +149,8 @@ public class Listener extends KeyAdapter implements ActionListener
           previousButton = command;
           break;
         case "Inv":
-          if (!input.contains(")")) {
+          if (!input.contains(")"))
+          {
             input += ")";
           }
           if (runningResult.equals(initialValue))
@@ -195,35 +200,103 @@ public class Listener extends KeyAdapter implements ActionListener
           // for the previous/running entry/result and one for where the user is entering the next
           // result
           MainPanel.clearInput();
-          leftParenthese = false;
-          rightParenthese = false;
-          alreadyHasOperator = false;
-          alreadyHasImaginary = false;
+          resetPartChecks();
           previousOp = "(";
           previousButton = command;
           break;
         case "R":
           MainPanel.clearDisplay();
           MainPanel.clearInput();
-          runningResult = initialValue;
-          currentOperand = initialValue;
-          previousOp = "(";
-          lastPerformed = "+";
-          leftParenthese = false;
-          rightParenthese = false;
+          resetInitialValues();
+          resetPartChecks();
           startRunning = false;
-          alreadyHasOperator = false;
-          alreadyHasImaginary = false;
           theHistory.reset();
           previousButton = command;
           break;
         default:
+          // Making an int to use to check to see if simple or complex operator call, and, if
+          // complex, to see if it needs to start a running calculation or not
+          int checkRight = -1;
           if (!rightParenthese)
           {
-            input += ")";
-            toParse = input.substring(input.lastIndexOf(previousOp));
-            calc.addTo(Parser.parseSingleValue(toParse, command));
-            MainPanel.appendInput(command);
+            checkRight = 0;
+          }
+          else
+          {
+            if (!startRunning)
+            {
+              checkRight = 1;
+            }
+            else
+            {
+              checkRight = 2;
+            }
+          }
+          // Begin switch which will determine simple operator call or complex call and determine of
+          // running calculation will be made or not
+          switch (checkRight)
+          {
+            // ***CASE WHERE THE USER IS JUST INPUTTING THE OPERATOR FOR THE COMPLEX NUMBER, NO
+            // CALCULATIONS NEEDED, JUST PARSING***
+            case (0):
+              // Checks if the expression already has an operator
+              if (!alreadyHasOperator) {
+                // Breaks the switch if the user enters a * or / and tells them they must enter a plus
+                // or minus
+                if (!command.equals("+") || !command.equals("-"))
+                {
+                  MainPanel.displayError("Inside operator must be a + or -");
+                  break;
+                }
+  
+                // Adding a ) for parsing purposes
+                input += ")";
+  
+                // Getting the substring for a single value and adding a ( for parsing purposes if
+                // needed
+                toParse = input.substring(input.lastIndexOf(previousOp));
+                if (!toParse.contains("("))
+                {
+                  toParse = "(" + toParse;
+                }
+  
+                // Parsing the single value and adding/subtracting it as a Real or Imaginary part to
+                // the
+                // depending on if it's a Real or ImgNumber
+                Number parsed = Parser.parseSingleValue(toParse, command);
+                if (parsed instanceof Real)
+                {
+                  if (command.equals("+"))
+                  {
+                    currentOperand.setReal(currentOperand.getReal() + parsed.getReal());
+                  }
+                  else
+                  {
+                    currentOperand.setReal(currentOperand.getReal() - parsed.getReal());
+                  }
+                }
+                else
+                {
+                  if (command.equals("+"))
+                  {
+                    currentOperand.setImg(currentOperand.getImg() + ((ImgNumber) parsed).getImg());
+                  }
+                  else
+                  {
+                    currentOperand.setImg(currentOperand.getImg() - ((ImgNumber) parsed).getImg());
+                  }
+                }
+                // Visually putting the operator in the input for the user and setting the boolean
+                // check for an operator to be true so that they cannot add another operator
+                MainPanel.appendInput(command);
+                alreadyHasOperator = true;
+              }
+              break;
+            case (1):
+              break;
+            case (2):
+              break;
+            default:
           }
       }
     }
@@ -247,7 +320,7 @@ public class Listener extends KeyAdapter implements ActionListener
   // *****************************PRIVATE METHODS*******************************
 
   /**
-   * Checks the prev button.
+   * Checks the prev operation performed and .
    * 
    * @param secondNumber
    *          the case to switch
@@ -257,7 +330,7 @@ public class Listener extends KeyAdapter implements ActionListener
   {
     ImgNumber toReturn = null;
 
-    switch (previousOp)
+    switch (lastPerformed)
     {
       case "/":
         toReturn = (ImgNumber) calc.divide(runningResult, secondNumber);
@@ -321,6 +394,23 @@ public class Listener extends KeyAdapter implements ActionListener
   private boolean isOperator(char toCompare)
   {
     return (toCompare == '+') || (toCompare == '-') || (toCompare == '/') || (toCompare == '*');
+  }
+
+  private void resetPartChecks()
+  {
+    leftParenthese = false;
+    rightParenthese = false;
+    alreadyHasOperator = false;
+    alreadyHasImaginary = false;
+  }
+
+  private void resetInitialValues()
+  {
+    runningResult = initialValue;
+    currentOperand = initialValue;
+    previousOp = "(";
+    lastPerformed = "n";
+    startRunning = false;
   }
 
 }
