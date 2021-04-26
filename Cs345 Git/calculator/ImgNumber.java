@@ -233,5 +233,16 @@ public class ImgNumber implements Number
     // TODO Auto-generated method stub
     operator = op;
   }
+  
+  public void setIng(double img) {
+    this.img = img;
+  }
+  
+  public void swapSignImg() {
+    img = img * -1;
+  }
+  public void swapsignReal() {
+    real.swapSign();
+  }
 
 }

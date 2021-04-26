@@ -149,6 +149,9 @@ public class Real implements Number
     // TODO Auto-generated method stub
     this.op = op;
   }
+  public void swapSign() {
+    real = real * -1;
+  }
 
   /**
    * @return a String representation of a real number
