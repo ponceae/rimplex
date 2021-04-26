@@ -16,7 +16,7 @@ public class Parser
    * @return the parsed value
    */
   static ImgNumber parseWholeValue(final String value, final String operator)
-  {
+  { 
     boolean wholeNegative = false;
     Operator op = Operator.getFrom(operator);
     String[] allParts = new String[2];
@@ -42,7 +42,7 @@ public class Parser
           if (value.charAt(value.indexOf("/") + 1) == '0'
               && value.substring(0, value.indexOf("/") + 4).length() == value.length())
           {
-            //Cannot Divide by zero error message should be here FIX
+            PopUp.errorBox("Cannot divide by 0");
           }
           else
           {
@@ -86,7 +86,7 @@ public class Parser
         if (value.charAt(value.indexOf("/") + 1) == '0'
             && value.substring(0, value.indexOf("/") + 4).length() == value.length())
         {
-        //Cannot Divide by zero error message should be here FIX
+          PopUp.errorBox("Cannot divide by 0");
         }
         else
         {

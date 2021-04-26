@@ -14,8 +14,8 @@ public class PopUp {
         JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
     
-    public static void errorBox(String infoMessage, String titleBar)
+    public static void errorBox(String infoMessage)
     {
-      JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, infoMessage, "ERROR", JOptionPane.ERROR_MESSAGE);
     }
 }
