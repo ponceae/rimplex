@@ -33,10 +33,19 @@ public class MainFrame extends JFrame
     JMenuBar menuBar = new JMenuBar();
     JMenu about = new JMenu("About");
     JMenu help = new JMenu("Help");
+    JMenu language = new JMenu("Language");
+
+    language.add(new JMenuItem("English"));
+    language.add(new JMenuItem("French"));
+    language.add(new JMenuItem("German"));
+
     menuBar.add(about);
     menuBar.add(help);
+    menuBar.add(language);
+
     about.addMouseListener(mouse);
-    help.addMouseListener(mouse);  
+    help.addMouseListener(mouse);
+        //language.addMouseListener(mouse);
     createComponents(); // create needed objects
     setSize(350, 450);
     getContentPane().add(mainPanel, BorderLayout.CENTER);
