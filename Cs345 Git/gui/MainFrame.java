@@ -22,17 +22,19 @@ public class MainFrame extends JFrame
   private static MainFrame frame;
   private JPanel mainPanel;
   private MouseList mouse = new MouseList();
+  
+  private JMenuBar menuBar;
+  private JMenu about;
+  private JMenu help;
+  private JMenu language;
 
   /**
    * Default constructor for the MainFrame.
    */
   private MainFrame()
   {
-    JMenuBar menuBar = new JMenuBar();
-    JMenu about = new JMenu("About");
-    JMenu help = new JMenu("Help");
-    JMenu language = new JMenu("Language");
-
+    createComponents(); // create needed objects
+    
     language.add(new JMenuItem(Language.ENGLISH.getToken()));
     language.add(new JMenuItem(Language.SPANISH.getToken()));
     language.add(new JMenuItem(Language.FRENCH.getToken()));
@@ -43,8 +45,9 @@ public class MainFrame extends JFrame
 
     about.addMouseListener(mouse);
     help.addMouseListener(mouse);
-        //language.addMouseListener(mouse);
-    createComponents(); // create needed objects
+    
+    setJMenuBar(menuBar);
+    
     setSize(350, 450);
     getContentPane().add(mainPanel, BorderLayout.CENTER);
     setJMenuBar(menuBar);
@@ -85,6 +88,11 @@ public class MainFrame extends JFrame
   private void createComponents()
   {
     mainPanel = MainPanel.getInstance();
+    
+    menuBar = new JMenuBar();
+    about = new JMenu("About");
+    help = new JMenu("Help");
+    language = new JMenu("Language");
   }
 
   /**
