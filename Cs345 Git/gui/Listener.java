@@ -145,6 +145,7 @@ public class Listener extends KeyAdapter implements ActionListener
           if (!alreadyHasImaginary)
           {
             MainPanel.appendInput("i");
+            alreadyHasImaginary = true;
           }
           previousButton = command;
           break;
@@ -155,13 +156,16 @@ public class Listener extends KeyAdapter implements ActionListener
           }
           if (runningResult.equals(initialValue))
           {
-            currentOperand = (ImgNumber) Parser.parseSingleValue(input, "+");
-            MainPanel.setDisplay(theInput.getText() + " Inv to...");
-            MainPanel.setInput(currentOperand.inverse().toString());
+            runningResult = currentOperand.inverse();
+            MainPanel.setDisplay(input + " Inv to...");
+            MainPanel.setInput(runningResult.toString());
           }
           else
           {
-            currentOperand = (ImgNumber) Parser.parseSingleValue(input, "+");
+            runningResult = calculateBasedOnPreviousOperator(currentOperand);
+            MainPanel.setDisplay(runningResult.inverse() + " Inv to...");
+            runningResult = runningResult.inverse();
+            MainPanel.setInput(runningResult.toString());
           }
           previousButton = command;
           break;
@@ -261,8 +265,7 @@ public class Listener extends KeyAdapter implements ActionListener
                 }
   
                 // Parsing the single value and adding/subtracting it as a Real or Imaginary part to
-                // the
-                // depending on if it's a Real or ImgNumber
+                // the currentOperand depending on if it's a Real or ImgNumber
                 Number parsed = Parser.parseSingleValue(toParse, command);
                 if (parsed instanceof Real)
                 {
@@ -290,11 +293,18 @@ public class Listener extends KeyAdapter implements ActionListener
                 // check for an operator to be true so that they cannot add another operator
                 MainPanel.appendInput(command);
                 alreadyHasOperator = true;
+                previousButton = command;
               }
               break;
             case (1):
+              lastPerformed = command;
+              runningResult = currentOperand;
+              previousButton = command;
               break;
             case (2):
+              lastPerformed = command;
+              runningResult = calculateBasedOnPreviousOperator(currentOperand);
+              previousButton = command;
               break;
             default:
           }
@@ -362,7 +372,7 @@ public class Listener extends KeyAdapter implements ActionListener
   /**
    * 
    * @return
-   */
+   *
   private boolean noOpPress()
   {
     if (previousOp.equals("("))
@@ -374,6 +384,7 @@ public class Listener extends KeyAdapter implements ActionListener
       return false;
     }
   }
+  */
 
   /**
    * 
