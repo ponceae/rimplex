@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -21,12 +23,29 @@ public class MainFrame extends JFrame
   private static final long serialVersionUID = 1L;
   private static MainFrame frame;
   private JPanel mainPanel;
+  private MouseList mouse = new MouseList();
 
   /**
    * Default constructor for the MainFrame.
    */
   private MainFrame()
   {
+    JMenuBar menuBar = new JMenuBar();
+    JMenu about = new JMenu("About");
+    JMenu help = new JMenu("Help");
+    JMenu language = new JMenu("Language");
+
+    language.add(new JMenuItem("English"));
+    language.add(new JMenuItem("French"));
+    language.add(new JMenuItem("German"));
+
+    menuBar.add(about);
+    menuBar.add(help);
+    menuBar.add(language);
+
+    about.addMouseListener(mouse);
+    help.addMouseListener(mouse);
+        //language.addMouseListener(mouse);
     createComponents(); // create needed objects
     setSize(350, 450);
     getContentPane().add(mainPanel, BorderLayout.CENTER);

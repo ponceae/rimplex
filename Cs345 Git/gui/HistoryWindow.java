@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
@@ -22,10 +23,13 @@ public class HistoryWindow extends JFrame
   
   private HistoryWindow() {
     createComponents(); // create needed objects
-    setSize(250, 350);
-    getContentPane().add(thisMain, BorderLayout.CENTER);
-    placeFrame();
-    setVisible(true); // display this
+    // setSize(250, 350);
+    // getContentPane().add(thisMain, BorderLayout.CENTER);
+    // placeFrame();
+    // histWindow.setUndecorated(true);
+    // setUndecorated(true);
+    // getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+    // setVisible(true); // display this
   }
   
   /**
@@ -38,21 +42,17 @@ public class HistoryWindow extends JFrame
     closeButton.addActionListener(Listener.getInstance());
     
     theHistory = History.getInstance();
+    // histWindow = getInstance();
     
     text = new JTextArea();
-    text.setText(theHistory.toString());
-    text.setEditable(false);
     
     thisMain = new JPanel();
-    thisMain.setLayout(new BorderLayout());
-    thisMain.add(text, BorderLayout.CENTER);
-    thisMain.add(closeButton, BorderLayout.EAST);
   }
   
   /**
    * Puts the Frame in the center of the screen.
    */
-  private void placeFrame()
+  void placeFrame()
   {
     this.setVisible(false);
     location = MainPanel.getPosition();
@@ -67,12 +67,30 @@ public class HistoryWindow extends JFrame
   public static HistoryWindow getInstance() {
     if (histWindow == null) {
       histWindow = new HistoryWindow();
+      // histWindow.setUndecorated(true);
     }
     return histWindow;
   }
   
+  public static void makeNull() {
+    histWindow = null;
+  }
+  
   void close() {
     setVisible(false);
+  }
+  
+  void addComps() {
+    text.setText(theHistory.toString());
+    text.setEditable(false);
+    
+    thisMain.setLayout(new BorderLayout());
+    thisMain.add(text, BorderLayout.CENTER);
+    thisMain.add(closeButton, BorderLayout.EAST);
+  }
+  
+  JPanel getTheMain() {
+    return thisMain;
   }
 
 }
