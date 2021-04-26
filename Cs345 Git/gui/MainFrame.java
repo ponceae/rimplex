@@ -1,19 +1,16 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
+
 
 /**
  * MainFrame - .
  * 
- * @author Ulises Fernandez, Andrew Elbert, Ian Lips
+ * @author Ulises Fernandez, Andrew Elbert, Ian Lips, Adrien Ponce
  * @version (3/31/21)
  */
 public class MainFrame extends JFrame
@@ -36,9 +33,9 @@ public class MainFrame extends JFrame
     JMenu help = new JMenu("Help");
     JMenu language = new JMenu("Language");
 
-    language.add(new JMenuItem("English"));
-    language.add(new JMenuItem("French"));
-    language.add(new JMenuItem("German"));
+    language.add(new JMenuItem(Language.ENGLISH.getToken()));
+    language.add(new JMenuItem(Language.SPANISH.getToken()));
+    language.add(new JMenuItem(Language.FRENCH.getToken()));
 
     menuBar.add(about);
     menuBar.add(help);
@@ -50,6 +47,7 @@ public class MainFrame extends JFrame
     createComponents(); // create needed objects
     setSize(350, 450);
     getContentPane().add(mainPanel, BorderLayout.CENTER);
+    setJMenuBar(menuBar);
     setTitle("Rimplex");
     setVisible(true); // display this
     centerForm(); // center is on the screen to begin

@@ -2,6 +2,7 @@ package gui;
 
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -37,7 +38,7 @@ public class MouseList implements MouseListener {
                 break;
             case "French":
                 break;
-            case "German":
+            case "Spanish":
                 break;
             default:
                 break;
