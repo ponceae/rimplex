@@ -84,7 +84,6 @@ public class Listener extends KeyAdapter implements ActionListener
       if (!leftParenthese)
       {
         MainPanel.appendInput("(");
-        MainPanel.displayError("The Expression Should Start With a '('");
         leftParenthese = true;
       }
       MainPanel.appendInput(command);
@@ -164,10 +163,6 @@ public class Listener extends KeyAdapter implements ActionListener
           if (!noInput())
           {
             MainPanel.toggleSign();
-          }
-          else
-          {
-            MainPanel.displayError("There is NO Expression to toggle sign");
           }
           break;
         case "<-":

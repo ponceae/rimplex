@@ -42,7 +42,7 @@ public class Parser
           if (value.charAt(value.indexOf("/") + 1) == '0'
               && value.substring(0, value.indexOf("/") + 4).length() == value.length())
           {
-            MainPanel.displayError("Cannot Divide by 0");
+            //Cannot Divide by zero error message should be here FIX
           }
           else
           {
@@ -86,7 +86,7 @@ public class Parser
         if (value.charAt(value.indexOf("/") + 1) == '0'
             && value.substring(0, value.indexOf("/") + 4).length() == value.length())
         {
-          MainPanel.displayError("Cannot Divide by 0");
+        //Cannot Divide by zero error message should be here FIX
         }
         else
         {

@@ -193,16 +193,7 @@ public class MainPanel extends JPanel
     }
   }
 
-  /**
-   * Used to display errors to the user.
-   * 
-   * @param text
-   *          The Error Message
-   */
-  static void displayError(String text)
-  {
-    JOptionPane.showMessageDialog(display, text, "Rimplex Error", JOptionPane.ERROR_MESSAGE);
-  }
+  
 
   /**
    * "Backspaces" by setting the display text to a substring of the current text.
