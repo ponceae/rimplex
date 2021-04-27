@@ -24,12 +24,12 @@ public class MainFrame extends JFrame
   private MouseList mouse = new MouseList();
   
   private JMenuBar menuBar;
-  private JMenu about;
   private JMenu help;
   private JMenu language;
   private JMenuItem english;
   private JMenuItem spanish;
   private JMenuItem french;
+  private JMenuItem about;
 
   /**
    * Default constructor for the MainFrame.
@@ -41,8 +41,9 @@ public class MainFrame extends JFrame
     language.add(english);
     language.add(spanish);
     language.add(french);
+    
+    help.add(about);
 
-    menuBar.add(about);
     menuBar.add(help);
     menuBar.add(language);
 
@@ -96,9 +97,9 @@ public class MainFrame extends JFrame
     mainPanel = MainPanel.getInstance();
     
     menuBar = new JMenuBar();
-    about = new JMenu("About");
     help = new JMenu("Help");
     language = new JMenu("Language");
+    about = new JMenuItem("About");
     english = new JMenuItem(Language.ENGLISH.getToken());
     spanish = new JMenuItem(Language.SPANISH.getToken());
     french = new JMenuItem(Language.FRENCH.getToken());

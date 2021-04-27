@@ -41,9 +41,6 @@ public class MouseList implements MouseListener
     switch (name)
     {
       case "About":
-        PopUp.infoBox("Info", "About");
-        break;
-      case "Help":
         try
         {
           getHelp();
