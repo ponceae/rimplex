@@ -127,7 +127,7 @@ public class MainPanel extends JPanel
     constraints.fill = GridBagConstraints.BOTH;
     constraints.gridy = 0; // Starting the first row
 
-    panel.add(new JButton("+/-"), constraints);
+    panel.add(new JButton("\u00B1"), constraints);
     panel.add(new JButton("C"), constraints);
     panel.add(new JButton("\u232B"), constraints);
     panel.add(new JButton("+"), constraints);
@@ -143,7 +143,7 @@ public class MainPanel extends JPanel
     panel.add(new JButton("4"), constraints);
     panel.add(new JButton("5"), constraints);
     panel.add(new JButton("6"), constraints);
-    panel.add(new JButton("X"), constraints);
+    panel.add(new JButton("\u00D7"), constraints);
     panel.add(new JButton("("), constraints);
 
     constraints.gridy++;
@@ -157,7 +157,7 @@ public class MainPanel extends JPanel
     constraints.gridwidth = 2;
     panel.add(new JButton("0"), constraints);
     constraints.gridwidth = 1;
-    panel.add(new JButton("i"), constraints);
+    panel.add(new JButton("<html><i>i</i></html>"), constraints);
     panel.add(new JButton("="), constraints);
     panel.add(new JButton("."), constraints);
 
@@ -181,7 +181,7 @@ public class MainPanel extends JPanel
       {
         button.setActionCommand("/");
       }
-      else if (text.equals("X"))
+      else if (text.equals("\u00D7"))
       {
         button.setActionCommand("*");
       }

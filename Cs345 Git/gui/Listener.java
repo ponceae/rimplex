@@ -136,7 +136,7 @@ public class Listener extends KeyAdapter implements ActionListener
           }
           previousButton = command;
           break;
-        case "i":
+        case "<html><i>i</i></html>":
           if (!alreadyHasImaginary)
           {
             MainPanel.appendInput("i");
@@ -159,7 +159,7 @@ public class Listener extends KeyAdapter implements ActionListener
           }
           previousButton = command;
           break;
-        case "+/-":
+        case "\u00B1":
           if (!noInput())
           {
             MainPanel.toggleSign();
