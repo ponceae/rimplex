@@ -129,9 +129,9 @@ public class MainPanel extends JPanel
 
     panel.add(new JButton("\u00B1"), constraints);
     panel.add(new JButton("C"), constraints);
-    panel.add(new JButton("\u232B"), constraints);
-    panel.add(new JButton("+"), constraints);
     panel.add(new JButton("R"), constraints);
+    panel.add(new JButton("+"), constraints);
+    panel.add(new JButton("\u232B"), constraints);
     constraints.gridy++; // Switching to next row
     panel.add(new JButton("1"), constraints);
     panel.add(new JButton("2"), constraints);
