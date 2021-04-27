@@ -10,11 +10,11 @@ public enum Language
 {
 
   ENGLISH("English"), 
-  SPANISH("Espanol"), 
-  FRENCH("Francais"), 
+  SPANISH("Español"), 
+  FRENCH("Français"), 
   ENGLISH_DIVIDE_BY_ZERO("Cannot Divide by 0"), 
   SPANISH_DIVIDE_BY_ZERO("No se Puede Dividir por 0"), 
-  FRENCH_DIVIDE_BY_ZERO("Impossible de Diviser par 0");
+  FRENCH_DIVIDE_BY_ZERO("Ne peut pas diviser par 0 0");
 
   private String langToken;
 

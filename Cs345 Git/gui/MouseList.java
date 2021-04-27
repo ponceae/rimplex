@@ -59,18 +59,15 @@ public class MouseList implements MouseListener
         break;
       case "English":
         language = ENGLISH;
-        // this doesn't work for some reason???
-        PopUp.infoBox("Language", "English selected");
+        PopUp.infoBox("English selected", "Language");
         break;
-      case "Espanol":
+      case "Français":
         language = FRENCH;
-        // nope
-        PopUp.infoBox("Langue", "Franeais selectionne");
+        PopUp.infoBox("Français sélectionné", "Langue");
         break;
-      case "Francais":
+      case "Español":
         language = SPANISH;
-        // nothing
-        PopUp.infoBox("Idioma", "Espanol seleccionado");
+        PopUp.infoBox("Español seleccionado", "Idioma");
         break;
       default:
         break;
