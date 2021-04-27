@@ -7,7 +7,6 @@ import calculator.Operator;
 
 public class Parser
 {
-
   /**
    * Parse a single value.
    * 
@@ -16,7 +15,7 @@ public class Parser
    * @return the parsed value
    */
   static ImgNumber parseWholeValue(final String value, final String operator)
-  {
+  { 
     boolean wholeNegative = false;
     Operator op = Operator.getFrom(operator);
     String[] allParts = new String[2];
@@ -42,7 +41,7 @@ public class Parser
           if (value.charAt(value.indexOf("/") + 1) == '0'
               && value.substring(0, value.indexOf("/") + 4).length() == value.length())
           {
-            MainPanel.displayError("Cannot Divide by 0");
+            displayError(MouseList.getLanguage());
           }
           else
           {
@@ -86,7 +85,7 @@ public class Parser
         if (value.charAt(value.indexOf("/") + 1) == '0'
             && value.substring(0, value.indexOf("/") + 4).length() == value.length())
         {
-          MainPanel.displayError("Cannot Divide by 0");
+          displayError(MouseList.getLanguage());
         }
         else
         {
@@ -239,5 +238,17 @@ public class Parser
   
   static boolean oneValue(String text) {
     return !containsOperator(text);
+  }
+  
+  private static void displayError(int languageCode) {
+    switch(languageCode) {
+      case 1:
+        PopUp.errorBox(Language.ENGLISH_DIVIDE_BY_ZERO.getToken());
+      case 2:
+        PopUp.errorBox(Language.FRENCH_DIVIDE_BY_ZERO.getToken());
+      case 3:
+        PopUp.errorBox(Language.SPANISH_DIVIDE_BY_ZERO.getToken());
+    }
+    
   }
 }

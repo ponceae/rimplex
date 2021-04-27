@@ -94,7 +94,6 @@ public class Listener extends KeyAdapter implements ActionListener
       if (!leftParenthese)
       {
         MainPanel.appendInput("(");
-        MainPanel.displayError("The Expression Should Start With a '('");
         leftParenthese = true;
       }
       MainPanel.appendInput(command);
@@ -177,7 +176,7 @@ public class Listener extends KeyAdapter implements ActionListener
           }
           previousButton = command;
           break;
-        case "i":
+        case "<html><i>i</i></html>":
           if (!alreadyHasImaginary)
           {
             MainPanel.appendInput("i");
@@ -205,7 +204,7 @@ public class Listener extends KeyAdapter implements ActionListener
           }
           previousButton = command;
           break;
-        case "+/-":
+        case "\u00B1":
           if (!noInput())
           {
             // currentOperand.swapSignImg();
@@ -220,12 +219,8 @@ public class Listener extends KeyAdapter implements ActionListener
             }
             MainPanel.toggleSign();
           }
-          else
-          {
-            MainPanel.displayError("There is NO Expression to toggle sign");
-          }
           break;
-        case "<-":
+        case "\u232B":
           char removed = MainPanel.backspace();
           if (isOperator(removed))
           {
@@ -297,7 +292,7 @@ public class Listener extends KeyAdapter implements ActionListener
                 // plus or minus
                 if (!command.equals("+") && !command.equals("-"))
                 {
-                  MainPanel.displayError("Inside operator must be a + or -");
+                  PopUp.errorBox("Inside operator must be a + or -");
                   break;
                 }
 
@@ -355,7 +350,7 @@ public class Listener extends KeyAdapter implements ActionListener
               currentOperand = initialValue();
               break;
             default:
-              MainPanel.displayError("Error has occured, please press restart");
+              PopUp.errorBox("Error has occured, please press restart");
           }
       }
     }

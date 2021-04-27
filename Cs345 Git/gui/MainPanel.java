@@ -127,9 +127,9 @@ public class MainPanel extends JPanel
     constraints.fill = GridBagConstraints.BOTH;
     constraints.gridy = 0; // Starting the first row
 
-    panel.add(new JButton("+/-"), constraints);
+    panel.add(new JButton("\u00B1"), constraints);
     panel.add(new JButton("C"), constraints);
-    panel.add(new JButton("<-"), constraints);
+    panel.add(new JButton("\u232B"), constraints);
     panel.add(new JButton("+"), constraints);
     panel.add(new JButton("R"), constraints);
     constraints.gridy++; // Switching to next row
@@ -143,21 +143,21 @@ public class MainPanel extends JPanel
     panel.add(new JButton("4"), constraints);
     panel.add(new JButton("5"), constraints);
     panel.add(new JButton("6"), constraints);
-    panel.add(new JButton("X"), constraints);
+    panel.add(new JButton("\u00D7"), constraints);
     panel.add(new JButton("("), constraints);
 
     constraints.gridy++;
     panel.add(new JButton("7"), constraints);
     panel.add(new JButton("8"), constraints);
     panel.add(new JButton("9"), constraints);
-    panel.add(new JButton(divSymbol), constraints);
+    panel.add(new JButton("\u00F7"), constraints);
     panel.add(new JButton(")"), constraints);
 
     constraints.gridy++;
     constraints.gridwidth = 2;
     panel.add(new JButton("0"), constraints);
     constraints.gridwidth = 1;
-    panel.add(new JButton("i"), constraints);
+    panel.add(new JButton("<html><i>i</i></html>"), constraints);
     panel.add(new JButton("="), constraints);
     panel.add(new JButton("."), constraints);
 
@@ -177,11 +177,11 @@ public class MainPanel extends JPanel
     {
       JButton button = (JButton) theButton;
       String text = button.getText();
-      if (text.equals(""))
+      if (text.equals("\u00F7"))
       {
         button.setActionCommand("/");
       }
-      else if (text.equals("X"))
+      else if (text.equals("\u00D7"))
       {
         button.setActionCommand("*");
       }
@@ -193,16 +193,7 @@ public class MainPanel extends JPanel
     }
   }
 
-  /**
-   * Used to display errors to the user.
-   * 
-   * @param text
-   *          The Error Message
-   */
-  static void displayError(String text)
-  {
-    JOptionPane.showMessageDialog(display, text, "Rimplex Error", JOptionPane.ERROR_MESSAGE);
-  }
+  
 
   /**
    * "Backspaces" by setting the display text to a substring of the current text.
