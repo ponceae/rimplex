@@ -6,7 +6,7 @@ public class RimplexFileIO {
     private final File myFile;
 
     public RimplexFileIO() {
-        myFile = new File("/Users/ulisesfernandez/IdeaProjects/CS345/src/ColorScheme.txt");
+        myFile = new File("ColorScheme.txt");
     }
     public String[] getEntries() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(myFile));
