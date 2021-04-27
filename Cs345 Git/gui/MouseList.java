@@ -39,7 +39,21 @@ public class MouseList implements MouseListener
     }
 
     switch (name)
-    {
+    {     
+      case "Help":
+        if (language == ENGLISH)
+        {
+          PopUp.infoBox("Information", "About");
+        }
+        else if (language == SPANISH)
+        {
+          PopUp.infoBox("Información", "Sobre");
+        }
+        else if (language == FRENCH)
+        {
+          PopUp.infoBox("L'information", "Environ");
+        }
+        break;       
       case "About":
         try
         {
@@ -58,13 +72,13 @@ public class MouseList implements MouseListener
         language = ENGLISH;
         PopUp.infoBox("English selected", "Language");
         break;
-      case "Español":
-        language = SPANISH;
-        PopUp.infoBox("Español seleccionado", "Idioma");
-        break;
       case "Français":
         language = FRENCH;
         PopUp.infoBox("Français sélectionné", "Langue");
+        break;
+      case "Español":
+        language = SPANISH;
+        PopUp.infoBox("Español seleccionado", "Idioma");
         break;
       default:
         break;
