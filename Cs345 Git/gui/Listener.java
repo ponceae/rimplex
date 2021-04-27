@@ -39,7 +39,8 @@ public class Listener extends KeyAdapter implements ActionListener
   private boolean alreadyHasImaginary = false;
   private boolean startRunning = false;
   private boolean isNegative = false;
-  private boolean startNew = false;
+  private boolean rightParenParse = false;
+  // private boolean startNew = false;
 
   // calculator object used for doing calculations
   private calculator calc = new calculator();
@@ -125,6 +126,13 @@ public class Listener extends KeyAdapter implements ActionListener
           }
           toParse = input.substring(input.lastIndexOf(previousOp) + 1);
 
+          if (!rightParenParse)
+          {
+            // previousOp = "(";
+            // parsed = Parser.parseSingleValue(toParse, previousOp);
+            setCurrentOperand(previousOp);
+          }
+
           // Add a ( if there isn't already one for parsing purposes and then parse it
           if (!toParse.contains("("))
           {
@@ -163,10 +171,16 @@ public class Listener extends KeyAdapter implements ActionListener
           toParse = input.substring(input.indexOf(previousOp) + 1);
           toParse = "(" + toParse;
 
+          if (!toParse.contains(")"))
+          {
+            toParse += ")";
+          }
+
           // previousOp = "(";
           // parsed = Parser.parseSingleValue(toParse, previousOp);
           setCurrentOperand(previousOp);
 
+          rightParenParse = true;
           previousButton = command;
           break;
         case ".":
@@ -445,6 +459,7 @@ public class Listener extends KeyAdapter implements ActionListener
     rightParenthese = false;
     alreadyHasOperator = false;
     alreadyHasImaginary = false;
+    rightParenParse = false;
   }
 
   private void resetInitialValues()

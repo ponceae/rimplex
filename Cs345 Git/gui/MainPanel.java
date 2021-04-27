@@ -267,15 +267,10 @@ public class MainPanel extends JPanel
     input.setText(input.getText().concat(text));
   }
   
-  /**
+  
   static void appendItalicI() {
-    JTextArea italic = new JTextArea();
-    Font font = new Font("Comic Sans", Font.ITALIC, italic.getFont().getSize());
-    italic.setFont(font);
-    italic.setText("i");
-    display.add(italic);
+    appendInput("<html><i>i</i></html>");
   }
-  */
 
   /**
    * Sets the display text to the given text.
@@ -295,21 +290,21 @@ public class MainPanel extends JPanel
 
   static void toggleSign()
   {
-    String theText = display.getText();
+    String theText = input.getText();
     if (!theText.isEmpty())
     {
       if (theText.charAt(0) != '-')
       {
-        setDisplay("-" + theText);
+        setInput("-" + theText);
       }
       else
       {
-        setDisplay(theText.substring(1));
+        setInput(theText.substring(1));
       }
     }
     else
     {
-      appendDisplay("-");
+      appendInput("-");
     }
   }
 
