@@ -247,17 +247,18 @@ public class MainPanel extends JPanel
   }
 
   /**
-   * Returns an italicized i. (Not sure if actually used yet).
+   * .
    * 
    * @param text
    *          the text to set
    * @return the output
-   */
+   *
   static JTextArea setOutput(String text)
   {
     output.setText(text);
     return output;
   }
+  */
 
   /**
    * Appends the given text to the display text.
@@ -275,6 +276,7 @@ public class MainPanel extends JPanel
     input.setText(input.getText().concat(text));
   }
   
+  /**
   static void appendItalicI() {
     JTextArea italic = new JTextArea();
     Font font = new Font("Comic Sans", Font.ITALIC, italic.getFont().getSize());
@@ -282,6 +284,7 @@ public class MainPanel extends JPanel
     italic.setText("i");
     display.add(italic);
   }
+  */
 
   /**
    * Sets the display text to the given text.

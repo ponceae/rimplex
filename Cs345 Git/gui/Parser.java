@@ -197,15 +197,15 @@ public class Parser
     double real = Double.parseDouble(allParts[0]);
     double img = Double.parseDouble(allParts[1]);
     
+    if (wholeNegative) {
+      real = -real;
+      img = -img;
+    }
+    
     if (containsImaginary(value)) {
       toReturn = new ImgNumber(real, img, op);
     } else {
       toReturn = new Real(real, op);
-    }
-    
-    if (wholeNegative) {
-      real = -real;
-      img = -img;
     }
 
     return toReturn;

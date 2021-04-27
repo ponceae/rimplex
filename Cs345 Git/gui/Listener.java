@@ -38,6 +38,7 @@ public class Listener extends KeyAdapter implements ActionListener
   private boolean alreadyHasOperator = false;
   private boolean alreadyHasImaginary = false;
   private boolean startRunning = false;
+  private boolean isNegative = false;
   private boolean startNew = false;
 
   // calculator object used for doing calculations
@@ -45,9 +46,17 @@ public class Listener extends KeyAdapter implements ActionListener
 
   // ImgNumber objects used for a default "reset" value, as parameters for calculator methods,
   // holding the value of the current input, and holding the value of the running value
-  private final ImgNumber initialValue = new ImgNumber(0, 0);
-  private ImgNumber runningResult = initialValue;
-  private ImgNumber currentOperand = initialValue;
+  // private final ImgNumber initialValue = new ImgNumber(0, 0);
+  private ImgNumber runningResult = initialValue();
+  private ImgNumber currentOperand = initialValue();
+
+  private Number parsed;
+  private String toParse;
+
+  // Doubles used to represent the first and/or second parts of the current operand, mostly used for
+  // when the user backspaces and a value needs to be reset for parsing
+  // private double firstPart = 0.0;
+  // private double secondPart = 0.0;
 
   // String used for adding stuff to the history
   private String currExpression = "";
@@ -72,17 +81,16 @@ public class Listener extends KeyAdapter implements ActionListener
 
     String input = theInput.getText();
 
-    String toParse;
+    // String toParse;
 
     try
     {
       @SuppressWarnings("unused")
       int number = Integer.parseInt(command);
-      if (startRunning && previousPressOperator() && startNew)
-      {
-        MainPanel.clearDisplay();
-        startNew = false;
-      }
+      /**
+       * if (startRunning && previousPressOperator() && startNew) { MainPanel.clearDisplay();
+       * startNew = false; }
+       */
       if (!leftParenthese)
       {
         MainPanel.appendInput("(");
@@ -110,14 +118,34 @@ public class Listener extends KeyAdapter implements ActionListener
           theHistoryWindow.setVisible(true);
           break;
         case "=":
+          // Add a ) if there isn't already one for parsing purposes and take the substring to get
+          // the value in String form for parsing
           if (!rightParenthese)
           {
             input += ")";
           }
-          toParse = input.substring(input.lastIndexOf(previousOp));
-          calc.addTo(Parser.parseSingleValue(toParse, command));
-          MainPanel.appendInput(command);
+          toParse = input.substring(input.lastIndexOf(previousOp) + 1);
+
+          // Add a ( if there isn't already one for parsing purposes and then parse it
+          if (!toParse.contains("("))
+          {
+            toParse = "(" + toParse;
+          }
+          // parsed = Parser.parseSingleValue(toParse, previousOp);
+          // setCurrentOperand(previousOp);
+          if (isNegative)
+          {
+            setNegative();
+          }
+
+          runningResult = calculateBasedOnPreviousOperator(currentOperand);
+
+          MainPanel.setDisplay(" = " + runningResult.toString());
+          MainPanel.clearInput();
+
           resetPartChecks();
+          startRunning = true;
+          previousButton = command;
           break;
         case "(":
           if (!leftParenthese)
@@ -131,7 +159,15 @@ public class Listener extends KeyAdapter implements ActionListener
           if (!rightParenthese && leftParenthese)
           {
             MainPanel.appendInput(")");
+            rightParenthese = true;
           }
+          toParse = input.substring(input.indexOf(previousOp) + 1);
+          toParse = "(" + toParse;
+
+          // previousOp = "(";
+          // parsed = Parser.parseSingleValue(toParse, previousOp);
+          setCurrentOperand(previousOp);
+
           previousButton = command;
           break;
         case ".":
@@ -154,7 +190,7 @@ public class Listener extends KeyAdapter implements ActionListener
           {
             input += ")";
           }
-          if (runningResult.equals(initialValue))
+          if (runningResult.getImg() == 0 && runningResult.getReal() == 0)
           {
             runningResult = currentOperand.inverse();
             MainPanel.setDisplay(input + " Inv to...");
@@ -172,6 +208,16 @@ public class Listener extends KeyAdapter implements ActionListener
         case "+/-":
           if (!noInput())
           {
+            // currentOperand.swapSignImg();
+            // currentOperand.swapsignReal();
+            if (!isNegative)
+            {
+              isNegative = true;
+            }
+            else
+            {
+              isNegative = false;
+            }
             MainPanel.toggleSign();
           }
           else
@@ -207,6 +253,7 @@ public class Listener extends KeyAdapter implements ActionListener
           resetPartChecks();
           previousOp = "(";
           previousButton = command;
+          currentOperand = initialValue();
           break;
         case "R":
           MainPanel.clearDisplay();
@@ -243,19 +290,20 @@ public class Listener extends KeyAdapter implements ActionListener
             // ***CASE WHERE THE USER IS JUST INPUTTING THE OPERATOR FOR THE COMPLEX NUMBER, NO
             // CALCULATIONS NEEDED, JUST PARSING***
             case (0):
-              // Checks if the expression already has an operator
-              if (!alreadyHasOperator) {
-                // Breaks the switch if the user enters a * or / and tells them they must enter a plus
-                // or minus
-                if (!command.equals("+") || !command.equals("-"))
+              // Checks if the expression already has an operator so that they can't add another
+              if (!alreadyHasOperator)
+              {
+                // Breaks the switch if the user enters a * or / and tells them they must enter a
+                // plus or minus
+                if (!command.equals("+") && !command.equals("-"))
                 {
                   MainPanel.displayError("Inside operator must be a + or -");
                   break;
                 }
-  
+
                 // Adding a ) for parsing purposes
                 input += ")";
-  
+
                 // Getting the substring for a single value and adding a ( for parsing purposes if
                 // needed
                 toParse = input.substring(input.lastIndexOf(previousOp));
@@ -263,50 +311,51 @@ public class Listener extends KeyAdapter implements ActionListener
                 {
                   toParse = "(" + toParse;
                 }
-  
+
                 // Parsing the single value and adding/subtracting it as a Real or Imaginary part to
                 // the currentOperand depending on if it's a Real or ImgNumber
-                Number parsed = Parser.parseSingleValue(toParse, command);
-                if (parsed instanceof Real)
-                {
-                  if (command.equals("+"))
-                  {
-                    currentOperand.setReal(currentOperand.getReal() + parsed.getReal());
-                  }
-                  else
-                  {
-                    currentOperand.setReal(currentOperand.getReal() - parsed.getReal());
-                  }
-                }
-                else
-                {
-                  if (command.equals("+"))
-                  {
-                    currentOperand.setImg(currentOperand.getImg() + ((ImgNumber) parsed).getImg());
-                  }
-                  else
-                  {
-                    currentOperand.setImg(currentOperand.getImg() - ((ImgNumber) parsed).getImg());
-                  }
-                }
+                // parsed = Parser.parseSingleValue(toParse, command);
+                setCurrentOperand(command);
+
                 // Visually putting the operator in the input for the user and setting the boolean
                 // check for an operator to be true so that they cannot add another operator
                 MainPanel.appendInput(command);
                 alreadyHasOperator = true;
                 previousButton = command;
+                previousOp = command;
               }
               break;
             case (1):
+              if (isNegative)
+              {
+                setNegative();
+              }
               lastPerformed = command;
-              runningResult = currentOperand;
+              MainPanel.setDisplay(input + " " + command);
+              MainPanel.clearInput();
+              setRunningResult(currentOperand);
+              resetPartChecks();
+              previousOp = "(";
               previousButton = command;
+              currentOperand = initialValue();
+              startRunning = true;
               break;
             case (2):
+              if (isNegative)
+              {
+                setNegative();
+              }
               lastPerformed = command;
               runningResult = calculateBasedOnPreviousOperator(currentOperand);
+              MainPanel.setDisplay(runningResult.toString() + " " + command);
+              MainPanel.clearInput();
+              resetPartChecks();
+              previousOp = "(";
               previousButton = command;
+              currentOperand = initialValue();
               break;
             default:
+              MainPanel.displayError("Error has occured, please press restart");
           }
       }
     }
@@ -355,7 +404,7 @@ public class Listener extends KeyAdapter implements ActionListener
         toReturn = (ImgNumber) calc.add(runningResult, secondNumber);
         break;
       default:
-        toReturn = runningResult;
+        toReturn = secondNumber;
     }
     return toReturn;
   }
@@ -373,34 +422,22 @@ public class Listener extends KeyAdapter implements ActionListener
    * 
    * @return
    *
-  private boolean noOpPress()
-  {
-    if (previousOp.equals("("))
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
-  */
+   *         private boolean noOpPress() { if (previousOp.equals("(")) { return true; } else {
+   *         return false; } }
+   */
 
   /**
    * 
    * @return
+   *
+   *         private boolean previousPressOperator() { return (previousButton == "+") ||
+   *         (previousButton == "-") || (previousButton == "/") || (previousButton == "*") ||
+   *         (previousButton == "=") || (previousButton == "Inv"); }
+   * 
+   *         private boolean previousPressOperatorMinusEquals() { return (previousButton == "+") ||
+   *         (previousButton == "-") || (previousButton == "/") || (previousButton == "*") ||
+   *         (previousButton == "Inv"); }
    */
-  private boolean previousPressOperator()
-  {
-    return (previousButton == "+") || (previousButton == "-") || (previousButton == "/")
-        || (previousButton == "*") || (previousButton == "=") || (previousButton == "Inv");
-  }
-
-  private boolean previousPressOperatorMinusEquals()
-  {
-    return (previousButton == "+") || (previousButton == "-") || (previousButton == "/")
-        || (previousButton == "*") || (previousButton == "Inv");
-  }
 
   private boolean isOperator(char toCompare)
   {
@@ -417,11 +454,55 @@ public class Listener extends KeyAdapter implements ActionListener
 
   private void resetInitialValues()
   {
-    runningResult = initialValue;
-    currentOperand = initialValue;
+    runningResult = initialValue();
+    currentOperand = initialValue();
     previousOp = "(";
     lastPerformed = "n";
     startRunning = false;
+  }
+
+  private void setCurrentOperand(String theCommand)
+  {
+    parsed = Parser.parseSingleValue(toParse, theCommand);
+    if (parsed instanceof Real)
+    {
+      if (previousOp.equals("-"))
+      {
+        currentOperand.setReal(currentOperand.getReal() - parsed.getReal());
+      }
+      else
+      {
+        currentOperand.setReal(currentOperand.getReal() + parsed.getReal());
+      }
+    }
+    else
+    {
+      if (previousOp.equals("-"))
+      {
+        currentOperand.setImg(currentOperand.getImg() - ((ImgNumber) parsed).getImg());
+      }
+      else
+      {
+        currentOperand.setImg(currentOperand.getImg() + ((ImgNumber) parsed).getImg());
+      }
+    }
+  }
+
+  private void setNegative()
+  {
+    currentOperand.swapSignImg();
+    currentOperand.swapsignReal();
+  }
+
+  private void setRunningResult(ImgNumber theNumber)
+  {
+    runningResult.setImg(theNumber.getImg());
+    runningResult.setReal(theNumber.getReal());
+  }
+
+  private ImgNumber initialValue()
+  {
+    return new ImgNumber(0, 0);
   }
 
 }
