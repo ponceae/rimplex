@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.*;
-
+import java.io.IOException;
 
 /**
  * MainFrame - .
@@ -34,7 +34,7 @@ public class MainFrame extends JFrame
   /**
    * Default constructor for the MainFrame.
    */
-  private MainFrame()
+  private MainFrame() throws IOException 
   {
     createComponents(); // create needed objects
     
