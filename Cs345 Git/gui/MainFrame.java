@@ -50,7 +50,6 @@ public class MainFrame extends JFrame
     
     setSize(350, 450);
     getContentPane().add(mainPanel, BorderLayout.CENTER);
-    setJMenuBar(menuBar);
     setTitle("Rimplex");
     setVisible(true); // display this
     centerForm(); // center is on the screen to begin
