@@ -58,9 +58,10 @@ public class MainPanel extends JPanel
    */
   protected void createComponents()  throws IOException 
   {
-    RimplexFileIO rF = new RimplexFileIO();
-    int[] rgb = rF.getBackground(0);
-    background = new Color(rgb[0],rgb[1],rgb[2]);
+//        RimplexFileIO rF = new RimplexFileIO();
+//        int[] rgb = rF.getBackground(0);
+//        background = new Color(rgb[0],rgb[1],rgb[2]);
+    background = new Color(150,0,0);
 
     north = new JPanel(new GridLayout(3, 1));
     east = new JPanel();
