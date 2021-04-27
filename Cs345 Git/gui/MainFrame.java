@@ -94,8 +94,11 @@ public class MainFrame extends JFrame
    */
   private void createComponents()
   {
+    try {
     mainPanel = MainPanel.getInstance();
-    
+    } catch (IOException ioe) {
+      System.err.print("Color text file not found");
+    }
     menuBar = new JMenuBar();
     help = new JMenu("Help");
     language = new JMenu("Language");
@@ -111,7 +114,7 @@ public class MainFrame extends JFrame
    *
    * @return frame the new MainFrame instance
    */
-  public static MainFrame getInstance()
+  public static MainFrame getInstance() throws IOException
   {
     if (frame == null)
     {
