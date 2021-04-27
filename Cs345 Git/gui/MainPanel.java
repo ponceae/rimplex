@@ -3,6 +3,7 @@ package gui;
 import javax.swing.*;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * MainPanel - .
@@ -18,7 +19,7 @@ public class MainPanel extends JPanel
    */
   private static final long serialVersionUID = 1L;
 
-  private Color darkRed;
+  private Color background;
 
   private static MainPanel main;
 
@@ -43,7 +44,7 @@ public class MainPanel extends JPanel
   /**
    * Default Constructor.
    */
-  private MainPanel()
+  private MainPanel()  throws IOException 
   {
     createComponents();
     setParameters();
@@ -55,9 +56,11 @@ public class MainPanel extends JPanel
   /**
    * Creates the Components.
    */
-  protected void createComponents()
+  protected void createComponents()  throws IOException 
   {
-    darkRed = new Color(139, 0, 0);
+    RimplexFileIO rF = new RimplexFileIO();
+    int[] rgb = rF.getBackground(0);
+    background = new Color(rgb[0],rgb[1],rgb[2]);
 
     north = new JPanel(new GridLayout(3, 1));
     east = new JPanel();
@@ -65,9 +68,9 @@ public class MainPanel extends JPanel
     panel = new JPanel(new GridBagLayout());
 
     north.setBackground(Color.WHITE);
-    east.setBackground(darkRed);
-    west.setBackground(darkRed);
-    panel.setBackground(darkRed);
+    east.setBackground(background);
+    west.setBackground(background);
+    panel.setBackground(background);
 
     theListener = Listener.getInstance();
     constraints = new GridBagConstraints();
@@ -76,7 +79,7 @@ public class MainPanel extends JPanel
     display = new JTextPane();
     output = new JTextArea();
 
-    display.setBackground(darkRed);
+    display.setBackground(background);
     display.setForeground(Color.WHITE);
     display.setEditable(false);
 
@@ -308,7 +311,7 @@ public class MainPanel extends JPanel
     }
   }
 
-  static MainPanel getInstance()
+  static MainPanel getInstance() throws IOException
   {
     if (main == null)
     {
