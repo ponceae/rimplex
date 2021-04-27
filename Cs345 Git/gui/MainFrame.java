@@ -27,6 +27,9 @@ public class MainFrame extends JFrame
   private JMenu about;
   private JMenu help;
   private JMenu language;
+  private JMenuItem english;
+  private JMenuItem spanish;
+  private JMenuItem french;
 
   /**
    * Default constructor for the MainFrame.
@@ -35,9 +38,9 @@ public class MainFrame extends JFrame
   {
     createComponents(); // create needed objects
     
-    language.add(new JMenuItem(Language.ENGLISH.getToken()));
-    language.add(new JMenuItem(Language.SPANISH.getToken()));
-    language.add(new JMenuItem(Language.FRENCH.getToken()));
+    language.add(english);
+    language.add(spanish);
+    language.add(french);
 
     menuBar.add(about);
     menuBar.add(help);
@@ -46,6 +49,9 @@ public class MainFrame extends JFrame
     about.addMouseListener(mouse);
     help.addMouseListener(mouse);
     language.addMouseListener(mouse);
+    english.addMouseListener(mouse);
+    spanish.addMouseListener(mouse);
+    french.addMouseListener(mouse);
     
     setJMenuBar(menuBar);
     
@@ -93,6 +99,9 @@ public class MainFrame extends JFrame
     about = new JMenu("About");
     help = new JMenu("Help");
     language = new JMenu("Language");
+    english = new JMenuItem(Language.ENGLISH.getToken());
+    spanish = new JMenuItem(Language.SPANISH.getToken());
+    french = new JMenuItem(Language.FRENCH.getToken());
   }
 
   /**

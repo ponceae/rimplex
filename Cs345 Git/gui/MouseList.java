@@ -26,8 +26,18 @@ public class MouseList implements MouseListener
   @Override
   public void mousePressed(MouseEvent e)
   {
-    JMenu menu = (JMenu) e.getSource();
-    String name = menu.getText();
+    String name;
+    if (e.getSource() instanceof JMenu)
+    {
+      JMenu menu = (JMenu) e.getSource();
+      name = menu.getText();
+    }
+    else
+    {
+      JMenuItem item = (JMenuItem) e.getSource();
+      name = item.getText();
+    }
+
     switch (name)
     {
       case "About":
@@ -47,25 +57,21 @@ public class MouseList implements MouseListener
           uriSyntaxException.printStackTrace();
         }
         break;
-      case "Language":
-        switch (language)
-        {
-          case ENGLISH:
-            language = ENGLISH;
-            // this doesn't work for some reason???
-            PopUp.infoBox("Language", "English selected");
-            break;
-          case FRENCH:
-            language = FRENCH;
-            // nope
-            PopUp.infoBox("Langue", "Franeais selectionne");
-            break;
-          case SPANISH:
-            language = SPANISH;
-            // nothing
-            PopUp.infoBox("Idioma", "Espanol seleccionado");
-            break;
-        }
+      case "English":
+        language = ENGLISH;
+        // this doesn't work for some reason???
+        PopUp.infoBox("Language", "English selected");
+        break;
+      case "Espanol":
+        language = FRENCH;
+        // nope
+        PopUp.infoBox("Langue", "Franeais selectionne");
+        break;
+      case "Francais":
+        language = SPANISH;
+        // nothing
+        PopUp.infoBox("Idioma", "Espanol seleccionado");
+        break;
       default:
         break;
     }
