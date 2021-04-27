@@ -165,7 +165,7 @@ public class Listener extends KeyAdapter implements ActionListener
             MainPanel.toggleSign();
           }
           break;
-        case "<-":
+        case "\u232B":
           char removed = MainPanel.backspace();
           if (isOperator(removed))
           {

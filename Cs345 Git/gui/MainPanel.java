@@ -129,7 +129,7 @@ public class MainPanel extends JPanel
 
     panel.add(new JButton("+/-"), constraints);
     panel.add(new JButton("C"), constraints);
-    panel.add(new JButton("<-"), constraints);
+    panel.add(new JButton("\u232B"), constraints);
     panel.add(new JButton("+"), constraints);
     panel.add(new JButton("R"), constraints);
     constraints.gridy++; // Switching to next row
@@ -150,7 +150,7 @@ public class MainPanel extends JPanel
     panel.add(new JButton("7"), constraints);
     panel.add(new JButton("8"), constraints);
     panel.add(new JButton("9"), constraints);
-    panel.add(new JButton(divSymbol), constraints);
+    panel.add(new JButton("\u00F7"), constraints);
     panel.add(new JButton(")"), constraints);
 
     constraints.gridy++;
@@ -177,7 +177,7 @@ public class MainPanel extends JPanel
     {
       JButton button = (JButton) theButton;
       String text = button.getText();
-      if (text.equals(""))
+      if (text.equals("\u00F7"))
       {
         button.setActionCommand("/");
       }
