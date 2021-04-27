@@ -201,10 +201,10 @@ public class MainPanel extends JPanel
   static char backspace()
   {
     char toReturn = 'n';
-    if (!display.getText().isEmpty())
+    if (!input.getText().isEmpty())
     {
-      toReturn = display.getText().charAt(display.getText().length() - 1);
-      display.setText(display.getText().substring(0, display.getText().length() - 1));
+      toReturn = input.getText().charAt(input.getText().length() - 1);
+      input.setText(input.getText().substring(0, input.getText().length() - 1));
     }
     return toReturn;
   }
