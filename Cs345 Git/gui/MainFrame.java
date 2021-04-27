@@ -45,6 +45,7 @@ public class MainFrame extends JFrame
 
     about.addMouseListener(mouse);
     help.addMouseListener(mouse);
+    language.addMouseListener(mouse);
     
     setJMenuBar(menuBar);
     
