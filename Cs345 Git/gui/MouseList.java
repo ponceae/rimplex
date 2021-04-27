@@ -12,6 +12,10 @@ import java.net.URISyntaxException;
 
 public class MouseList implements MouseListener {
 
+    private static int language;
+    private final int ENGLISH = 1;
+    private final int FRENCH = 2;
+    private final int SPANISH = 3;
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -35,15 +39,22 @@ public class MouseList implements MouseListener {
                 }
                 break;
             case "English":
+              language = ENGLISH;
                 break;
             case "French":
+              language = FRENCH;
                 break;
             case "Spanish":
+              language = SPANISH;
                 break;
             default:
                 break;
         }
-
+        
+    }
+    
+    public static int getLanguage() {
+      return language;
     }
 
     @Override
