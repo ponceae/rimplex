@@ -140,18 +140,19 @@ public class Listener extends KeyAdapter implements ActionListener
           }
           // parsed = Parser.parseSingleValue(toParse, previousOp);
           // setCurrentOperand(previousOp);
-          
-          if (lastPerformed.equals("/") && isZero(currentOperand)) {
+
+          if (lastPerformed.equals("/") && isZero(currentOperand))
+          {
             // Divide by zero exception
             PopUp.errorBox(Language.getDialog(Language.DIVIDE_BY_ZERO));
             break;
           }
-          
+
           if (isNegative)
           {
             setNegative();
           }
-          
+
           theHistory.add("(" + currentOperand.toString() + ") = ");
           runningResult = calculateBasedOnPreviousOperator(currentOperand);
           theHistory.add("(" + runningResult.toString() + ")\n");
@@ -219,23 +220,27 @@ public class Listener extends KeyAdapter implements ActionListener
             theHistory.add(currentOperand.toString() + " Inv to... ");
             runningResult = currentOperand.inverse();
             theHistory.add(runningResult.toString() + "\n");
-            MainPanel.setDisplay(currentOperand.toString() + " Inv to..." + runningResult.toString());
+            MainPanel
+                .setDisplay(currentOperand.toString() + " Inv to..." + runningResult.toString());
             // MainPanel.setInput(runningResult.toString());
           }
           else
           {
-            if (!MainPanel.getDisplay().getText().contains("=")) {
+            if (!MainPanel.getDisplay().getText().contains("="))
+            {
               runningResult = calculateBasedOnPreviousOperator(currentOperand);
               theHistory.add("\n" + runningResult.toString() + " Inv to... ");
               MainPanel.setDisplay(runningResult.toString() + " Inv to... ");
               runningResult = runningResult.inverse();
               MainPanel.appendDisplay(runningResult.toString());
               theHistory.add(runningResult.toString() + "\n");
-            } else {
+            }
+            else
+            {
               theHistory.add("\n" + runningResult.toString() + " Inv to... ");
               MainPanel.setDisplay(runningResult.toString() + " Inv to... ");
               runningResult = runningResult.inverse();
-              MainPanel.appendDisplay (runningResult.toString());
+              MainPanel.appendDisplay(runningResult.toString());
               theHistory.add(runningResult.toString() + "\n");
             }
           }
@@ -390,9 +395,9 @@ public class Listener extends KeyAdapter implements ActionListener
               MainPanel.setDisplay(input + " " + command);
               MainPanel.clearInput();
               setRunningResult(currentOperand);
-              
+
               theHistory.add("(" + runningResult.toString() + ") " + command + " ");
-              
+
               resetPartChecks();
               previousOp = "(";
               previousButton = command;
@@ -401,13 +406,14 @@ public class Listener extends KeyAdapter implements ActionListener
               // isNegative = false;
               break;
             case (2):
-              
-              if (lastPerformed.equals("/") && isZero(currentOperand)) {
+
+              if (lastPerformed.equals("/") && isZero(currentOperand))
+              {
                 // Divide by zero exception
                 PopUp.errorBox(Language.getDialog(Language.DIVIDE_BY_ZERO));
                 break;
               }
-              
+
               if (isNegative)
               {
                 setNegative();
@@ -512,7 +518,7 @@ public class Listener extends KeyAdapter implements ActionListener
   {
     return (toCompare == '+') || (toCompare == '-') || (toCompare == '/') || (toCompare == '*');
   }
-  
+
   private boolean isOperator(String toCompare)
   {
     return (toCompare == "+") || (toCompare == "-") || (toCompare == "/") || (toCompare == "*");
@@ -583,8 +589,9 @@ public class Listener extends KeyAdapter implements ActionListener
   {
     return new ImgNumber(0, 0);
   }
-  
-  private boolean isZero(ImgNumber number) {
+
+  private boolean isZero(ImgNumber number)
+  {
     return number.getImg() == 0.0 && number.getReal() == 0.0;
   }
 

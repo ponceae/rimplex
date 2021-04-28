@@ -27,6 +27,7 @@ public class MainPanel extends JPanel
   private JPanel east;
   private JPanel west;
   private JPanel north;
+  private JPanel south;
 
   private Listener theListener;
   private GridBagConstraints constraints;
@@ -36,6 +37,9 @@ public class MainPanel extends JPanel
   private static JTextPane input;
   private static JTextPane display;
   private static JTextArea output;
+  private static JTextPane buffer;
+  private static JTextPane buffer2;
+  private static JTextPane buffer3;
 
   private ImageIcon logo;
   private JLabel rimpLogo;
@@ -61,16 +65,19 @@ public class MainPanel extends JPanel
 //        int[] rgb = rF.getBackground(0);
 //        background = new Color(rgb[0],rgb[1],rgb[2]);
     background = new Color(150,0,0);
+    Color inputColor = new Color(168, 168, 168);
 
-    north = new JPanel(new GridLayout(3, 1));
+    north = new JPanel(new GridLayout(4, 1));
     east = new JPanel();
     west = new JPanel();
     panel = new JPanel(new GridBagLayout());
+    south = new JPanel(new GridLayout(1, 1));
 
-    north.setBackground(Color.WHITE);
+    north.setBackground(background);
     east.setBackground(background);
     west.setBackground(background);
     panel.setBackground(background);
+    south.setBackground(background);
 
     theListener = Listener.getInstance();
     constraints = new GridBagConstraints();
@@ -78,14 +85,25 @@ public class MainPanel extends JPanel
     input = new JTextPane();
     display = new JTextPane();
     output = new JTextArea();
+    buffer = new JTextPane();
+    buffer2 = new JTextPane();
+    buffer3 = new JTextPane();
 
-    display.setBackground(background);
+    display.setBackground(inputColor);
     display.setForeground(Color.WHITE);
     display.setEditable(false);
 
     logo = new ImageIcon("Cs345 Git/resources/logoRimplex.png");
     rimpLogo = new JLabel(logo);
-
+    
+    input.setBackground(inputColor);
+    input.setEditable(false);
+    buffer.setBackground(background);
+    buffer.setEditable(false);
+    buffer2.setBackground(background);
+    buffer2.setEditable(false);
+    buffer3.setBackground(background);
+    buffer3.setEditable(false);
   }
 
   /**
@@ -112,6 +130,7 @@ public class MainPanel extends JPanel
     add(panel, BorderLayout.CENTER);
     add(west, BorderLayout.WEST);
     add(east, BorderLayout.EAST);
+    add(south, BorderLayout.SOUTH);
 
   }
 
@@ -121,9 +140,10 @@ public class MainPanel extends JPanel
   protected void addComponents()
   {
     display.add(output);
-    north.add((rimpLogo));
+    north.add(buffer);
     north.add(display);
     north.add(input);
+    north.add(buffer2);
     constraints.weightx = 1;
     constraints.weighty = 1;
     constraints.fill = GridBagConstraints.BOTH;
@@ -167,6 +187,8 @@ public class MainPanel extends JPanel
     historyButton.setActionCommand(">");
     historyButton.addActionListener(theListener);
     east.add(historyButton);
+    
+    south.add(buffer3);
 
   }
 
