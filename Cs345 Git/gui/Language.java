@@ -21,7 +21,7 @@ public class Language
   public static final int DIVIDE_BY_ZERO = 1;
   public static final int IMPROPER_OPERAND = 2;
   
-  public static final String[] LANGUAGES = {"English", "Español", "Français"};
+  public static final String[] LANGUAGES = {"English", "Espanol", "Francais"};
   
   /**
    * HashMap that stores all the translated phrases.
@@ -31,7 +31,7 @@ public class Language
     translations = new HashMap<>();
     translations.put(ENGLISH, new String[]{"English Selected", "Cannot divide by 0", "Must enter a + or -"});
     translations.put(SPANISH, new String[]{"Espanol Seleccionado", "No se puede dividir por 0", "Debe ingresar un + o -"});
-    translations.put(FRENCH, new String[]{"Francais Sélectionne", "Impossible de diviser par 0", "Doit entrer un + ou -"});
+    translations.put(FRENCH, new String[]{"Francais Selectionne", "Impossible de diviser par 0", "Doit entrer un + ou -"});
   }
   
   /**
