@@ -5,94 +5,111 @@ import calculator.Real;
 import calculator.ImgNumber;
 import calculator.Operator;
 
+/**
+ * Parser class.
+ * 
+ * @author u
+ * @version 4/28
+ */
 public class Parser
 {
+  private static String plus = "+";
+  private static String minus = "-";
+  private static String divide = "/";
+  private static String mult = "*";
+  private static String zero = "0";
+  private static String leftParen = "(";
+  private static String rightParen = ")";
+  private static String i = "i";
+
   /**
    * Parse a single value.
    * 
    * @param value
    *          the value to parse
+   * @param operator
+   *          the operator
    * @return the parsed value
    */
   static ImgNumber parseWholeValue(final String value, final String operator)
-  { 
+  {
     boolean wholeNegative = false;
     Operator op = Operator.getFrom(operator);
     String[] allParts = new String[2];
     // ***CASES WHERE THERE IS A POSSIBLE NEGATIVE OR MINUS***
-    if (value.contains("-"))
+    if (value.contains(minus))
     {
       if (value.charAt(0) == '-')
       {
-        if (value.contains("+"))
+        if (value.contains(plus))
         {
-          allParts[0] = value.substring(2, value.indexOf("+"));
-          allParts[1] = value.substring(value.indexOf("+") + 1, value.length() - 2);
-          // op = Operator.getFrom("+");
+          allParts[0] = value.substring(2, value.indexOf(plus));
+          allParts[1] = value.substring(value.indexOf(plus) + 1, value.length() - 2);
+          // op = Operator.getFrom(plus);
         }
-        else if (value.contains("*"))
+        else if (value.contains(mult))
         {
-          allParts[0] = value.substring(2, value.indexOf("*"));
-          allParts[1] = value.substring(value.indexOf("*") + 1, value.length() - 2);
-          // op = Operator.getFrom("*");
+          allParts[0] = value.substring(2, value.indexOf(mult));
+          allParts[1] = value.substring(value.indexOf(mult) + 1, value.length() - 2);
+          // op = Operator.getFrom(mult);
         }
-        else if (value.contains("/"))
+        else if (value.contains(divide))
         {
-          if (value.charAt(value.indexOf("/") + 1) == '0'
-              && value.substring(0, value.indexOf("/") + 4).length() == value.length())
+          if (value.charAt(value.indexOf(divide) + 1) == '0'
+              && value.substring(0, value.indexOf(divide) + 4).length() == value.length())
           {
             PopUp.errorBox(Language.getDialog(Language.DIVIDE_BY_ZERO));
           }
           else
           {
-            allParts[0] = value.substring(2, value.indexOf("/"));
-            allParts[1] = value.substring(value.indexOf("/") + 1, value.length() - 2);
-            // op = Operator.getFrom("/");
+            allParts[0] = value.substring(2, value.indexOf(divide));
+            allParts[1] = value.substring(value.indexOf(divide) + 1, value.length() - 2);
+            // op = Operator.getFrom(divide);
           }
         }
         else
         {
-          allParts[0] = value.substring(2, value.indexOf("-"));
-          allParts[1] = value.substring(value.indexOf("-"), value.length() - 2);
-          // op = Operator.getFrom("-");
+          allParts[0] = value.substring(2, value.indexOf(minus));
+          allParts[1] = value.substring(value.indexOf(minus), value.length() - 2);
+          // op = Operator.getFrom(minus);
         }
         wholeNegative = true;
       }
       else
       {
-        allParts[0] = value.substring(1, value.lastIndexOf("-"));
-        allParts[1] = value.substring(value.lastIndexOf("-"), value.length() - 2);
-        // op = Operator.getFrom("-");
+        allParts[0] = value.substring(1, value.lastIndexOf(minus));
+        allParts[1] = value.substring(value.lastIndexOf(minus), value.length() - 2);
+        // op = Operator.getFrom(minus);
       }
     }
     // ***CASES WHERE THERE IS NO POSSIBLE NEGATIVE OR MINUS***
     else
     {
-      if (value.contains("+"))
+      if (value.contains(plus))
       {
-        allParts[0] = value.substring(1, value.indexOf("+"));
-        allParts[1] = value.substring(value.indexOf("+") + 1, value.length() - 2);
-        // op = Operator.getFrom("+");
+        allParts[0] = value.substring(1, value.indexOf(plus));
+        allParts[1] = value.substring(value.indexOf(plus) + 1, value.length() - 2);
+        // op = Operator.getFrom(plus);
       }
-      else if (value.contains("*"))
+      else if (value.contains(mult))
       {
-        allParts[0] = value.substring(1, value.indexOf("*"));
-        allParts[1] = value.substring(value.indexOf("*") + 1, value.length() - 2);
-        // op = Operator.getFrom("*");
+        allParts[0] = value.substring(1, value.indexOf(mult));
+        allParts[1] = value.substring(value.indexOf(mult) + 1, value.length() - 2);
+        // op = Operator.getFrom(mult);
       }
-      else if (value.contains("/"))
+      else if (value.contains(divide))
       {
-        if (value.charAt(value.indexOf("/") + 1) == '0'
-            && value.substring(0, value.indexOf("/") + 4).length() == value.length())
+        if (value.charAt(value.indexOf(divide) + 1) == '0'
+            && value.substring(0, value.indexOf(divide) + 4).length() == value.length())
         {
           PopUp.errorBox(Language.getDialog(Language.DIVIDE_BY_ZERO));
         }
         else
         {
           System.out.println(value.toString());
-          allParts[0] = value.substring(1, value.indexOf("/"));
-          allParts[1] = value.substring(value.indexOf("/") + 1, value.length() - 2);
-          // op = Operator.getFrom("/");
+          allParts[0] = value.substring(1, value.indexOf(divide));
+          allParts[1] = value.substring(value.indexOf(divide) + 1, value.length() - 2);
+          // op = Operator.getFrom(divide);
         }
       }
     }
@@ -108,7 +125,7 @@ public class Parser
     String part2 = allParts[1];
     if (wholeNegative)
     {
-      if (!part1.equals("0"))
+      if (!part1.equals(zero))
       {
         real = -Double.parseDouble(allParts[0]);
       }
@@ -116,7 +133,7 @@ public class Parser
       {
         real = 0.0;
       }
-      if (!part2.equals("0"))
+      if (!part2.equals(zero))
       {
         img = -Double.parseDouble(allParts[1]);
       }
@@ -127,7 +144,7 @@ public class Parser
     }
     else
     {
-      if (!part1.equals("0"))
+      if (!part1.equals(zero))
       {
         real = Double.parseDouble(allParts[0]);
       }
@@ -135,7 +152,7 @@ public class Parser
       {
         real = 0.0;
       }
-      if (!part2.equals("0"))
+      if (!part2.equals(zero))
       {
         img = Double.parseDouble(allParts[1]);
       }
@@ -169,102 +186,88 @@ public class Parser
         return new Real(0, op);
       }
     }
+    
     else
     {
+      String doubZe = "0.0";
       if (containsImaginary(value))
       {
-        allParts[0] = "0.0";
-        allParts[1] = value.substring(value.indexOf("(") + 1, value.indexOf("i"));
+        allParts[0] = doubZe;
+        allParts[1] = value.substring(value.indexOf(leftParen) + 1, value.indexOf(i));
       }
       else
       {
-        allParts[0] = value.substring(value.indexOf("(") + 1, value.indexOf(")"));
-        allParts[1] = "0.0";
+        allParts[0] = value.substring(value.indexOf(leftParen) + 1, value.indexOf(rightParen));
+        allParts[1] = doubZe;
       }
     }
     /**
-    // ***CASES WHERE THERE IS AN OPERATOR, BUT THERE'S ONLY REALS OR IMAGINARIES***
-    else if (containsOperator(value) && !containsImaginary(value))
+     * // ***CASES WHERE THERE IS AN OPERATOR, BUT THERE'S ONLY REALS OR IMAGINARIES*** else if
+     * (containsOperator(value) && !containsImaginary(value)) { } else if (containsOperator(value)
+     * && containsImaginary(value)) { }
+     */
+
+    if (allParts[0].contains(leftParen))
     {
-    }
-    else if (containsOperator(value) && containsImaginary(value))
-    {
-    }
-    */
-    
-    if (allParts[0].contains("(")) {
       allParts[0] = allParts[0].substring(1);
     }
-    
-    if (allParts[1].contains(")")) {
+
+    if (allParts[1].contains(rightParen))
+    {
       allParts[1] = allParts[1].substring(0, allParts[1].length() - 1);
     }
-    
-    if (containsOperator(allParts[1])) {
-      allParts[1] = allParts[1].substring(indexOfOperator(allParts[1]));
-    }
-    
+
     double real = Double.parseDouble(allParts[0]);
     double img = Double.parseDouble(allParts[1]);
-    
-    if (wholeNegative) {
+
+    if (wholeNegative)
+    {
       real = -real;
       img = -img;
     }
-    
-    if (containsImaginary(value)) {
+
+    if (containsImaginary(value))
+    {
       toReturn = new ImgNumber(real, img, op);
-    } else {
+    }
+    else
+    {
       toReturn = new Real(real, op);
     }
 
     return toReturn;
   }
 
-  private static boolean containsOperator(String input)
+  private static boolean containsOperator(final String input)
   {
     boolean containsMinus = false;
-    if (input.contains("-"))
+    if (input.contains(minus))
     {
       if (input.lastIndexOf('-') != 0)
       {
         containsMinus = true;
       }
     }
-    return (input.contains("+")) || containsMinus || (input.contains("/")) || (input.contains("*"));
+    return (input.contains(plus)) || containsMinus || (input.contains(divide))
+        || (input.contains(mult));
   }
 
-  private static boolean containsNumber(String text)
+  private static boolean containsNumber(final String text)
   {
     return (text.contains("1")) || (text.contains("2")) || (text.contains("3"))
         || (text.contains("4")) || (text.contains("5")) || (text.contains("6"))
         || (text.contains("7")) || (text.contains("8")) || (text.contains("9"))
-        || (text.contains("0"));
+        || (text.contains(zero));
   }
-  
-  static boolean containsImaginary(String input)
+
+  static boolean containsImaginary(final String input)
   {
-    return input.contains("i");
+    return input.contains(i);
   }
-  
-  static boolean oneValue(String text) {
+
+  static boolean oneValue(final String text)
+  {
     return !containsOperator(text);
   }
-  
-  private static int indexOfOperator(String input) {
-    int index = -1;
-    if (input.contains("+")) {
-      index = input.lastIndexOf("+");
-    } else if (input.contains("-")) {
-      index = input.lastIndexOf("-");
-    }
-    else if (input.contains("*")) {
-      index = input.lastIndexOf("*");
-    }
-    else if (input.contains("*")) {
-      index = input.lastIndexOf("*");
-    }
-    return index;
-  }
-  
+
 }
