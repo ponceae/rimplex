@@ -103,8 +103,6 @@ class ImgNumberTest
     x.swapsignReal();
     assertEquals(-10.0, x.getReal());
     assertEquals(-6.0, x.getImg());
-    
-
   }
   
 }
