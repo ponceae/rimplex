@@ -15,7 +15,7 @@ public class Parser
    * @return the parsed value
    */
   static ImgNumber parseWholeValue(final String value, final String operator)
-  {
+  { 
     boolean wholeNegative = false;
     Operator op = Operator.getFrom(operator);
     String[] allParts = new String[2];
@@ -41,7 +41,7 @@ public class Parser
           if (value.charAt(value.indexOf("/") + 1) == '0'
               && value.substring(0, value.indexOf("/") + 4).length() == value.length())
           {
-            displayError(MouseList.getLanguage());
+            PopUp.errorBox(Language.getDialog(Language.DIVIDE_BY_ZERO));
           }
           else
           {
@@ -85,7 +85,7 @@ public class Parser
         if (value.charAt(value.indexOf("/") + 1) == '0'
             && value.substring(0, value.indexOf("/") + 4).length() == value.length())
         {
-          displayError(MouseList.getLanguage());
+          PopUp.errorBox(Language.getDialog(Language.DIVIDE_BY_ZERO));
         }
         else
         {
@@ -183,43 +183,34 @@ public class Parser
       }
     }
     /**
-     * // ***CASES WHERE THERE IS AN OPERATOR, BUT THERE'S ONLY REALS OR IMAGINARIES*** else if
-     * (containsOperator(value) && !containsImaginary(value)) {
-     * 
-     * } else if (containsOperator(value) && containsImaginary(value)) {
-     * 
-     * }
-     */
-
-    if (allParts[0].contains("("))
+    // ***CASES WHERE THERE IS AN OPERATOR, BUT THERE'S ONLY REALS OR IMAGINARIES***
+    else if (containsOperator(value) && !containsImaginary(value))
     {
+    }
+    else if (containsOperator(value) && containsImaginary(value))
+    {
+    }
+    */
+    
+    if (allParts[0].contains("(")) {
       allParts[0] = allParts[0].substring(1);
     }
-
-    if (allParts[1].contains(")"))
-    {
+    
+    if (allParts[1].contains(")")) {
       allParts[1] = allParts[1].substring(0, allParts[1].length() - 1);
     }
-    if (containsOperator(allParts[1]))
-    {
-      allParts[1] = allParts[1].substring(indOfOperator(allParts[1]) + 1);
-    }
-
+    
     double real = Double.parseDouble(allParts[0]);
     double img = Double.parseDouble(allParts[1]);
-
-    if (wholeNegative)
-    {
+    
+    if (wholeNegative) {
       real = -real;
       img = -img;
     }
-
-    if (containsImaginary(value))
-    {
+    
+    if (containsImaginary(value)) {
       toReturn = new ImgNumber(real, img, op);
-    }
-    else
-    {
+    } else {
       toReturn = new Real(real, op);
     }
 
@@ -246,51 +237,14 @@ public class Parser
         || (text.contains("7")) || (text.contains("8")) || (text.contains("9"))
         || (text.contains("0"));
   }
-
+  
   static boolean containsImaginary(String input)
   {
     return input.contains("i");
   }
-
-  static boolean oneValue(String text)
-  {
+  
+  static boolean oneValue(String text) {
     return !containsOperator(text);
   }
-
-  private static void displayError(int languageCode)
-  {
-    switch (languageCode)
-    {
-      case 1:
-        PopUp.errorBox(Language.ENGLISH_DIVIDE_BY_ZERO.getToken());
-      case 2:
-        PopUp.errorBox(Language.FRENCH_DIVIDE_BY_ZERO.getToken());
-      case 3:
-        PopUp.errorBox(Language.SPANISH_DIVIDE_BY_ZERO.getToken());
-    }
-
-  }
-
-  private static int indOfOperator(String input)
-  {
-    int ind = -1;
-    if (input.contains("+"))
-    {
-      ind = input.lastIndexOf("+");
-    }
-    else if (input.contains("-"))
-    {
-      ind = input.lastIndexOf("-");
-    }
-    else if (input.contains("/"))
-    {
-      ind = input.lastIndexOf("/");
-    }
-    else if (input.contains("*"))
-    {
-      ind = input.lastIndexOf("*");
-    }
-
-    return ind;
-  }
+  
 }

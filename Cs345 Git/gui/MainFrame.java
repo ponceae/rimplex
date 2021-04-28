@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.*;
-
+import java.io.IOException;
 
 /**
  * MainFrame - .
@@ -34,25 +34,17 @@ public class MainFrame extends JFrame
   /**
    * Default constructor for the MainFrame.
    */
-  private MainFrame()
+  private MainFrame() throws IOException 
   {
-    createComponents(); // create needed objects
-    
-    language.add(english);
-    language.add(spanish);
-    language.add(french);
+    createComponents(); // create needed objects   
     
     help.add(about);
-
     menuBar.add(help);
     menuBar.add(language);
 
     about.addMouseListener(mouse);
     help.addMouseListener(mouse);
     language.addMouseListener(mouse);
-    english.addMouseListener(mouse);
-    spanish.addMouseListener(mouse);
-    french.addMouseListener(mouse);
     
     setJMenuBar(menuBar);
     
@@ -94,15 +86,21 @@ public class MainFrame extends JFrame
    */
   private void createComponents()
   {
+    try {
     mainPanel = MainPanel.getInstance();
-    
+    } catch (IOException ioe) {
+      System.err.print("Color text file not found");
+    }
     menuBar = new JMenuBar();
     help = new JMenu("Help");
     language = new JMenu("Language");
     about = new JMenuItem("About");
-    english = new JMenuItem(Language.ENGLISH.getToken());
-    spanish = new JMenuItem(Language.SPANISH.getToken());
-    french = new JMenuItem(Language.FRENCH.getToken());
+    for(int i = 0; i < Language.LANGUAGES.length; i++)
+    {
+      var temp = new JMenuItem(Language.LANGUAGES[i]);
+      temp.addMouseListener(mouse);
+      language.add(temp);
+    }
   }
 
   /**
@@ -111,7 +109,7 @@ public class MainFrame extends JFrame
    *
    * @return frame the new MainFrame instance
    */
-  public static MainFrame getInstance()
+  public static MainFrame getInstance() throws IOException
   {
     if (frame == null)
     {

@@ -266,7 +266,8 @@ public class Listener extends KeyAdapter implements ActionListener
           {
             alreadyHasImaginary = false;
           }
-          if (MainPanel.getInput().getText().isEmpty()) {
+          if (MainPanel.getInput().getText().isEmpty())
+          {
             currentOperand = initialValue();
             resetPartChecks();
             previousOp = "(";
@@ -298,9 +299,12 @@ public class Listener extends KeyAdapter implements ActionListener
           int checkRight = -1;
           if (!rightParenthese)
           {
-            if (!MainPanel.getInput().getText().isEmpty()) {
+            if (!MainPanel.getInput().getText().isEmpty())
+            {
               checkRight = 0;
-            } else {
+            }
+            else
+            {
               MainPanel.appendDisplay(" " + command);
               lastPerformed = command;
             }
@@ -330,7 +334,7 @@ public class Listener extends KeyAdapter implements ActionListener
                 // plus or minus
                 if (!command.equals("+") && !command.equals("-"))
                 {
-                  PopUp.errorBox("Inside operator must be a + or -");
+                  PopUp.errorBox(Language.getDialog(Language.IMPROPER_OPERAND));
                   break;
                 }
 
