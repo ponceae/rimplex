@@ -41,7 +41,7 @@ public class Parser
           if (value.charAt(value.indexOf("/") + 1) == '0'
               && value.substring(0, value.indexOf("/") + 4).length() == value.length())
           {
-            displayError(MouseList.getLanguage());
+            PopUp.errorBox(Language.getDialog(Language.DIVIDE_BY_ZERO));
           }
           else
           {
@@ -85,7 +85,7 @@ public class Parser
         if (value.charAt(value.indexOf("/") + 1) == '0'
             && value.substring(0, value.indexOf("/") + 4).length() == value.length())
         {
-          displayError(MouseList.getLanguage());
+          PopUp.errorBox(Language.getDialog(Language.DIVIDE_BY_ZERO));
         }
         else
         {
@@ -240,15 +240,4 @@ public class Parser
     return !containsOperator(text);
   }
   
-  private static void displayError(int languageCode) {
-    switch(languageCode) {
-      case 1:
-        PopUp.errorBox(Language.ENGLISH_DIVIDE_BY_ZERO.getToken());
-      case 2:
-        PopUp.errorBox(Language.FRENCH_DIVIDE_BY_ZERO.getToken());
-      case 3:
-        PopUp.errorBox(Language.SPANISH_DIVIDE_BY_ZERO.getToken());
-    }
-    
-  }
 }

@@ -306,7 +306,7 @@ public class Listener extends KeyAdapter implements ActionListener
                 // plus or minus
                 if (!command.equals("+") && !command.equals("-"))
                 {
-                  PopUp.errorBox("Inside operator must be a + or -");
+                  PopUp.errorBox(Language.getDialog(Language.IMPROPER_OPERAND));
                   break;
                 }
 
@@ -349,7 +349,7 @@ public class Listener extends KeyAdapter implements ActionListener
               currentOperand = initialValue();
               startRunning = true;
               break;
-            case (2):
+            case (2):             
               if (isNegative)
               {
                 setNegative();
@@ -364,7 +364,6 @@ public class Listener extends KeyAdapter implements ActionListener
               currentOperand = initialValue();
               break;
             default:
-              PopUp.errorBox("Error has occured, please press restart");
           }
       }
     }

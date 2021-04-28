@@ -36,23 +36,15 @@ public class MainFrame extends JFrame
    */
   private MainFrame()
   {
-    createComponents(); // create needed objects
-    
-    language.add(english);
-    language.add(spanish);
-    language.add(french);
+    createComponents(); // create needed objects   
     
     help.add(about);
-
     menuBar.add(help);
     menuBar.add(language);
 
     about.addMouseListener(mouse);
     help.addMouseListener(mouse);
     language.addMouseListener(mouse);
-    english.addMouseListener(mouse);
-    spanish.addMouseListener(mouse);
-    french.addMouseListener(mouse);
     
     setJMenuBar(menuBar);
     
@@ -100,9 +92,12 @@ public class MainFrame extends JFrame
     help = new JMenu("Help");
     language = new JMenu("Language");
     about = new JMenuItem("About");
-    english = new JMenuItem(Language.ENGLISH.getToken());
-    spanish = new JMenuItem(Language.SPANISH.getToken());
-    french = new JMenuItem(Language.FRENCH.getToken());
+    for(int i = 0; i < Language.LANGUAGES.length; i++)
+    {
+      var temp = new JMenuItem(Language.LANGUAGES[i]);
+      temp.addMouseListener(mouse);
+      language.add(temp);
+    }
   }
 
   /**
