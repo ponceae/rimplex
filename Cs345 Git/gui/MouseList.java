@@ -114,7 +114,7 @@ public class MouseList implements MouseListener
     Desktop desktop = Desktop.getDesktop();
     // can be changed to any address
     URI uri = new URI(
-        "https://docs.google.com/document/d/1d7B4iWx-vDPFH64_n2Jnr7i6E0APZuD24ZHs8OEGb24/edit?usp=sharing");
+        "http://w3stu.cs.jmu.edu/clevelcd/Home.html");
     desktop.browse(uri);
   }
 }

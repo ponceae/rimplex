@@ -97,7 +97,7 @@ public class MainFrame extends JFrame
     about = new JMenuItem("About");
     for(int i = 0; i < Language.LANGUAGES.length; i++)
     {
-      var temp = new JMenuItem(Language.LANGUAGES[i]);
+      JMenuItem temp = new JMenuItem(Language.LANGUAGES[i]);
       temp.addMouseListener(mouse);
       language.add(temp);
     }
