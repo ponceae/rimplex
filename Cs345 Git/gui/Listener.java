@@ -142,7 +142,7 @@ public class Listener extends KeyAdapter implements ActionListener
           // setCurrentOperand(previousOp);
           
           if (lastPerformed.equals("/") && isZero(currentOperand)) {
-            // Divide by zero exception
+            PopUp.errorBox(Language.getDialog(Language.DIVIDE_BY_ZERO));
           }
           
           if (isNegative)
