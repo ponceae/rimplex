@@ -140,6 +140,11 @@ public class Listener extends KeyAdapter implements ActionListener
           }
           // parsed = Parser.parseSingleValue(toParse, previousOp);
           // setCurrentOperand(previousOp);
+          
+          if (lastPerformed.equals("/") && isZero(currentOperand)) {
+            // Divide by zero exception
+          }
+          
           if (isNegative)
           {
             setNegative();
@@ -204,7 +209,7 @@ public class Listener extends KeyAdapter implements ActionListener
           {
             input += ")";
           }
-          if (runningResult.getImg() == 0 && runningResult.getReal() == 0)
+          if (isZero(runningResult))
           {
             runningResult = currentOperand.inverse();
             MainPanel.setDisplay(input + " Inv to...");
@@ -217,6 +222,11 @@ public class Listener extends KeyAdapter implements ActionListener
             runningResult = runningResult.inverse();
             MainPanel.setInput(runningResult.toString());
           }
+          resetPartChecks();
+          currentOperand = initialValue();
+          startRunning = true;
+          previousOp = "(";
+          lastPerformed = "n";
           previousButton = command;
           break;
         case "\u00B1":
@@ -366,6 +376,11 @@ public class Listener extends KeyAdapter implements ActionListener
               // isNegative = false;
               break;
             case (2):
+              
+              if (lastPerformed.equals("/") && isZero(currentOperand)) {
+                // Divide by zero exception
+              }
+              
               if (isNegative)
               {
                 setNegative();
@@ -534,6 +549,10 @@ public class Listener extends KeyAdapter implements ActionListener
   private ImgNumber initialValue()
   {
     return new ImgNumber(0, 0);
+  }
+  
+  private boolean isZero(ImgNumber number) {
+    return number.getImg() == 0.0 && number.getReal() == 0.0;
   }
 
 }
