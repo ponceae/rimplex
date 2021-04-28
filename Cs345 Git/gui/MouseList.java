@@ -47,11 +47,11 @@ public class MouseList implements MouseListener
         }
         else if (language == SPANISH)
         {
-          PopUp.infoBox("Información", "Sobre");
+          PopUp.infoBox("Informacion", "Sobre");
         }
         else if (language == FRENCH)
         {
-          PopUp.infoBox("L'information", "Environ");
+          PopUp.infoBox("L information", "Environ");
         }
         break;       
       case "About":
@@ -72,11 +72,11 @@ public class MouseList implements MouseListener
         Language.setLanguage(Language.ENGLISH);
         PopUp.infoBox(Language.getDialog(Language.SELECTION), "Language");
         break;
-      case "Français":
+      case "Francais":
         Language.setLanguage(Language.FRENCH);
         PopUp.infoBox(Language.getDialog(Language.SELECTION), "Langue");
         break;
-      case "Español":
+      case "Espanol":
         Language.setLanguage(Language.SPANISH);
         PopUp.infoBox(Language.getDialog(Language.SELECTION), "Idioma");
         break;
@@ -114,7 +114,7 @@ public class MouseList implements MouseListener
     Desktop desktop = Desktop.getDesktop();
     // can be changed to any address
     URI uri = new URI(
-        "https://docs.google.com/document/d/1d7B4iWx-vDPFH64_n2Jnr7i6E0APZuD24ZHs8OEGb24/edit?usp=sharing");
+        "http://w3stu.cs.jmu.edu/clevelcd/Home.html");
     desktop.browse(uri);
   }
 }

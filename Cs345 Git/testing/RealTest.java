@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import calculator.*;
 import org.junit.jupiter.api.Test;
 
-class RealTest
-{
+class RealTest {
 
+  private Real testing = new Real(0.0, Operator.ADD);
   private Real a = new Real(5.0);
   private Real b = new Real(1.5);
   private Real c = new Real(6.4);
@@ -58,6 +58,17 @@ class RealTest
     assertEquals(-180.0, AB.getReal());
     AB = AB.multiply(f);
     assertEquals(0.0, AB.getReal());
+    Real twoZero = new Real(0.0, Operator.EMPTY);
+    Real otherZero = new Real(0.0, Operator.EMPTY);
+    Real zero = twoZero.multiply(otherZero);
+    assertEquals(0.0, twoZero.multiply(otherZero).getReal());
+    assertEquals(0.0, otherZero.multiply(twoZero).getReal());
+    zero.setReal(8.0);
+    assertEquals(8.0, zero.getReal());
+    zero.setOperator(Operator.ADD);
+    assertEquals(Operator.ADD, zero.getOperator());
+    zero.swapSign();
+    assertEquals("-8.0", zero.toString());
   }
   @Test
   void testDivide()

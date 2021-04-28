@@ -23,12 +23,11 @@ public class MainFrame extends JFrame
   private JPanel mainPanel;
   private MouseList mouse = new MouseList();
   
+  private ImageIcon img;
+  
   private JMenuBar menuBar;
   private JMenu help;
   private JMenu language;
-  private JMenuItem english;
-  private JMenuItem spanish;
-  private JMenuItem french;
   private JMenuItem about;
 
   /**
@@ -50,6 +49,7 @@ public class MainFrame extends JFrame
     
     setSize(350, 450);
     getContentPane().add(mainPanel, BorderLayout.CENTER);
+    setIconImage(img.getImage());
     setTitle("Rimplex");
     setVisible(true); // display this
     centerForm(); // center is on the screen to begin
@@ -91,13 +91,14 @@ public class MainFrame extends JFrame
     } catch (IOException ioe) {
       System.err.print("Color text file not found");
     }
+    img = new ImageIcon("Cs345 Git/resources/iconRimplex.png");
     menuBar = new JMenuBar();
     help = new JMenu("Help");
     language = new JMenu("Language");
     about = new JMenuItem("About");
     for(int i = 0; i < Language.LANGUAGES.length; i++)
     {
-      var temp = new JMenuItem(Language.LANGUAGES[i]);
+      JMenuItem temp = new JMenuItem(Language.LANGUAGES[i]);
       temp.addMouseListener(mouse);
       language.add(temp);
     }

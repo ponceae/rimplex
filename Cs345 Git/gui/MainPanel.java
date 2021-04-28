@@ -39,7 +39,6 @@ public class MainPanel extends JPanel
 
   private ImageIcon logo;
   private JLabel rimpLogo;
-  private ImageIcon divSymbol;
 
   /**
    * Default Constructor.
@@ -86,7 +85,6 @@ public class MainPanel extends JPanel
 
     logo = new ImageIcon("Cs345 Git/resources/logoRimplex.png");
     rimpLogo = new JLabel(logo);
-    divSymbol = new ImageIcon("Cs345 Git/resources/divisionSymbol.png");
 
   }
 
