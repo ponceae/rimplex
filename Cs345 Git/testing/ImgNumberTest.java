@@ -39,12 +39,13 @@ class ImgNumberTest
   @Test
   void testSubtract()
   {
+    String zero = "0.0";
     assertEquals("1.0000 - 3.0000i", a.subtract(b).toString());
     assertEquals("5.0000", a.subtract(d).toString()); 
     assertEquals("1.0000 + 9.0000i", a.subtract(c).toString()); 
     assertEquals("4.0000 - 9.0000i", c.subtract(d).toString()); 
-    assertEquals("0.0", c.subtract(c).toString()); 
-    assertEquals("0.0", f.subtract(f).toString()); 
+    assertEquals(zero, c.subtract(c).toString()); 
+    assertEquals(zero, f.subtract(f).toString()); 
     assertEquals("12.0000i", b.subtract(c).toString()); 
   }
 

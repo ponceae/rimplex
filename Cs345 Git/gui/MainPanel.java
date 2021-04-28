@@ -14,8 +14,9 @@ import java.io.IOException;
 
 public class MainPanel extends JPanel
 {
+  
   /**
-   * Default UID since I'm not sure what it should be instantiated to
+   * Default UID since I'm not sure what it should be instantiated to.
    */
   private static final long serialVersionUID = 1L;
 
