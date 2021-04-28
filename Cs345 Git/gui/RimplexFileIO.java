@@ -1,13 +1,23 @@
 package gui;
 
 import java.io.*;
-
+/**
+ * Rimplex file io.
+ *
+ */
 public class RimplexFileIO {
     private final File myFile;
-
+     /**
+      * default constructor.
+      *
+      */
     public RimplexFileIO() {
         myFile = new File("ColorScheme.txt");
     }
+     /**
+      * read a file and place lines into a string array.
+      *
+      */
     public String[] getEntries() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(myFile));
         String str = "";
@@ -19,6 +29,10 @@ public class RimplexFileIO {
         String[] lines = str.split( "@@@@" );
         return lines;
     }
+     /**
+      * return an int[] of the numbers in a line.
+      *
+      */
     public int[] getBackground(int lineNum) throws IOException {
         int [] color = {0,0,0};
         String[] entries = getEntries();
