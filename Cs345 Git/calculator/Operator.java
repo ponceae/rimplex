@@ -35,10 +35,19 @@ public enum Operator
     return operator;
   }
   
-  public static Operator getFrom(String theOp) {
+  /**
+   * Parses a string a returns the operator.
+   * 
+   * @param theOp the string to parse
+   * @return the recognized operator, or null if not found
+   */
+  public static Operator getFrom(final String theOp) 
+  {
     Operator returnOp = null;
-    for (Operator op : Operator.values()) {
-      if (op.getOperator() == theOp.charAt(0)) {
+    for (Operator op : Operator.values()) 
+    {
+      if (op.getOperator() == theOp.charAt(0)) 
+      {
         returnOp = op;
       }
     }

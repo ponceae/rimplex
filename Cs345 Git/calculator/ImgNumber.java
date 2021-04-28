@@ -4,7 +4,7 @@ package calculator;
  * This class represents a complex value with a real and imaginary value.
  * 
  * @author Chris Cleveland, Adrien Ponce
- * @version 4/12
+ * @version 4/12/21
  */
 public class ImgNumber implements Number
 {
@@ -127,7 +127,14 @@ public class ImgNumber implements Number
     return this.multiply(other.reciprocal());
   }
   
-  public ImgNumber exp(int x) {
+  /**
+   * Performs an exponential operation.
+   * 
+   * @param x the exponent
+   * @return the product
+   */
+  public ImgNumber exp(final int x) 
+  {
     int i = 1;
     ImgNumber n;
     n = new ImgNumber(this.getReal(), img);
@@ -221,27 +228,42 @@ public class ImgNumber implements Number
   }
 
   @Override
-  public void setReal(double d)
+  public void setReal(final double d)
   {
     // TODO Auto-generated method stub
     real.setReal(d);
   }
 
   @Override
-  public void setOperator(Operator op)
+  public void setOperator(final Operator op)
   {
     // TODO Auto-generated method stub
     operator = op;
   }
   
-  public void setImg(double img) {
+  /**
+   * Sets this imaginary part to the parameter.
+   * 
+   * @param img the value to set this to
+   */
+  public void setImg(final double img) 
+  {
     this.img = img;
   }
   
-  public void swapSignImg() {
+  /**
+   * Swaps the imaginary sign.
+   */
+  public void swapSignImg() 
+  {
     img = img * -1;
   }
-  public void swapsignReal() {
+  
+  /**
+   * Swaps the real sign.
+   */
+  public void swapsignReal() 
+  {
     real.swapSign();
   }
 

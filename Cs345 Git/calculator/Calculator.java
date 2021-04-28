@@ -6,16 +6,16 @@ import java.util.ArrayList;
  * Calculator that can perform various operations on numbers that can be real or imaginary.
  * 
  * @author Chris Cleveland and Adrien Ponce
- * @version 4/12
+ * @version 4/12/21
  */
-public class calculator
+public class Calculator
 {
   private ArrayList<Number> equation;
 
   /**
    * Default constructor.
    */
-  public calculator()
+  public Calculator()
   {
     equation = new ArrayList<Number>();
   }
@@ -25,7 +25,7 @@ public class calculator
    * 
    * @param equation the equation to create
    */
-  public calculator(ArrayList<Number> equation)
+  public Calculator(final ArrayList<Number> equation)
   {
     this.equation = equation;
   }
@@ -43,7 +43,7 @@ public class calculator
    * 
    * @param n the number to add
    */
-  public void addTo(Number n)
+  public void addTo(final Number n)
   {
     equation.add(n);
   }
@@ -54,7 +54,7 @@ public class calculator
    * @param x the target to search for
    * @return the number if found
    */
-  public Number get(int x)
+  public Number get(final int x)
   {
     return equation.get(x);
   }
@@ -66,7 +66,7 @@ public class calculator
    * @param y other number
    * @return the sum
    */
-  public Number add(Number x, Number y)
+  public Number add(final Number x, final Number y)
   {
     Number n;
     if (isReal(x) && isReal(y))
@@ -98,7 +98,7 @@ public class calculator
    * @param y other number
    * @return the difference
    */
-  public Number subtract(Number x, Number y)
+  public Number subtract(final Number x, final Number y)
   {
     Number n;
     if (isReal(x) && isReal(y))
@@ -128,7 +128,7 @@ public class calculator
    * @param y other number
    * @return the product
    */
-  public Number multiply(Number x, Number y)
+  public Number multiply(final Number x, final Number y)
   {
     Number n;
     if (isReal(x) && isReal(y))
@@ -159,7 +159,7 @@ public class calculator
    * @param y other number
    * @return the quotient
    */
-  public Number divide(Number x, Number y)
+  public Number divide(final Number x, final Number y)
   {
     Number n;
     if (isReal(x) && isReal(y))
@@ -188,7 +188,7 @@ public class calculator
    * @param x the number in question
    * @return true if real
    */
-  private boolean isReal(Number x)
+  private boolean isReal(final Number x)
   {
     boolean test = false;
     if (x instanceof Real)
@@ -204,7 +204,7 @@ public class calculator
    * @param x the number in question
    * @return true if imaginary
    */
-  private boolean isImg(Number x)
+  private boolean isImg(final Number x)
   {
     boolean test = false;
     if (x instanceof ImgNumber)
@@ -220,6 +220,7 @@ public class calculator
   public String toString()
   {
     String str = "";
+    String empty = " ";
     for (int x = 0; x < equation.size(); x++)
     {
       str += "(";
@@ -227,9 +228,9 @@ public class calculator
       str += ")";
       if (x + 1 != equation.size() && equation.size() > 1)
       {
-        str += " ";
+        str += empty;
         str += equation.get(x).getOperator().getOperator();
-        str += " ";
+        str += empty;
       }
 
     }

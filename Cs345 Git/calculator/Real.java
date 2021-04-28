@@ -4,7 +4,7 @@ package calculator;
  * This class represents a real number.
  * 
  * @author Chris Cleveland, Adrien Ponce
- * @version 4/12
+ * @version 4/12/21
  */
 public class Real implements Number
 {
@@ -17,7 +17,7 @@ public class Real implements Number
    * @param real
    *          the real number
    */
-  public Real(double real)
+  public Real(final double real)
   {
     this.real = real;
     op = Operator.ADD;
@@ -31,7 +31,7 @@ public class Real implements Number
    * @param op
    *          the operator on the number
    */
-  public Real(double real, Operator op)
+  public Real(final double real, final Operator op)
   {
     this.real = real;
     this.op = op;
@@ -44,7 +44,7 @@ public class Real implements Number
    *          the other real number
    * @return the sum
    */
-  public Real add(Real other)
+  public Real add(final Real other)
   {
     Real n = new Real(this.real + other.getReal());
     return n;
@@ -57,7 +57,7 @@ public class Real implements Number
    *          the other real number
    * @return the difference
    */
-  public Real subtract(Real other)
+  public Real subtract(final Real other)
   {
 
     return new Real(this.real - other.getReal());
@@ -71,7 +71,7 @@ public class Real implements Number
    *          the other real number
    * @return the product
    */
-  public Real multiply(Real other)
+  public Real multiply(final Real other)
   {
     double test = other.getReal();
     Real n;
@@ -94,7 +94,7 @@ public class Real implements Number
    *          the other real number
    * @return the quotient
    */
-  public Real divide(Real other)
+  public Real divide(final Real other)
   {
     Real n = new Real(this.real / other.getReal());
     return n;
@@ -107,7 +107,7 @@ public class Real implements Number
    *          the exponent
    * @return the exponential product
    */
-  public Real squared(int x)
+  public Real squared(final int x)
   {
     int i = 1;
     double val = real;
@@ -117,7 +117,8 @@ public class Real implements Number
       val *= real;
       i++;
     }
-    return n = new Real(val);
+    n = new Real(val);
+    return n;
   }
 
   /**
@@ -125,32 +126,32 @@ public class Real implements Number
    */
   public double getReal()
   {
-    // TODO Auto-generated method stub
     return real;
   }
 
   @Override
-  public void setReal(double d)
+  public void setReal(final double d)
   {
-    // TODO Auto-generated method stub
     real = d;
   }
 
   @Override
   public Operator getOperator()
   {
-    // TODO Auto-generated method stub
     return op;
   }
 
   @Override
-  public void setOperator(Operator op)
+  public void setOperator(final Operator o)
   {
-    // TODO Auto-generated method stub
-    this.op = op;
+    op = o;
   }
   
-  public void swapSign() {
+  /**
+   * Swaps the sign of this real number.
+   */
+  public void swapSign() 
+  {
     real = real * -1;
   }
 
