@@ -193,6 +193,15 @@ public class Parser
 
     }
     */
+    
+    if (allParts[0].contains("(")) {
+      allParts[0] = allParts[0].substring(1);
+    }
+    
+    if (allParts[1].contains(")")) {
+      allParts[1] = allParts[1].substring(0, allParts[1].length() - 1);
+    }
+    
     double real = Double.parseDouble(allParts[0]);
     double img = Double.parseDouble(allParts[1]);
     

@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.*;
-
+import java.io.IOException;
 
 /**
  * MainFrame - .
@@ -34,7 +34,7 @@ public class MainFrame extends JFrame
   /**
    * Default constructor for the MainFrame.
    */
-  private MainFrame()
+  private MainFrame() throws IOException 
   {
     createComponents(); // create needed objects   
     
@@ -86,8 +86,11 @@ public class MainFrame extends JFrame
    */
   private void createComponents()
   {
+    try {
     mainPanel = MainPanel.getInstance();
-    
+    } catch (IOException ioe) {
+      System.err.print("Color text file not found");
+    }
     menuBar = new JMenuBar();
     help = new JMenu("Help");
     language = new JMenu("Language");
@@ -106,7 +109,7 @@ public class MainFrame extends JFrame
    *
    * @return frame the new MainFrame instance
    */
-  public static MainFrame getInstance()
+  public static MainFrame getInstance() throws IOException
   {
     if (frame == null)
     {

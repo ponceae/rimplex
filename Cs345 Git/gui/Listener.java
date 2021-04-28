@@ -56,10 +56,10 @@ public class Listener extends KeyAdapter implements ActionListener
 
   // Doubles used to represent the first and/or second parts of the current operand, mostly used for
   // when the user backspaces and a value needs to be reset for parsing
-  // private double firstPart = 0.0;
-  // private double secondPart = 0.0;
+  private double firstPart = 0.0;
+  private double secondPart = 0.0;
 
-  // String used for adding stuff to the history
+  // String used for adding stuff to the history, unsure if it will actually be used
   private String currExpression = "";
 
   /**
@@ -151,6 +151,7 @@ public class Listener extends KeyAdapter implements ActionListener
           MainPanel.clearInput();
 
           resetPartChecks();
+          currentOperand = initialValue();
           startRunning = true;
           previousButton = command;
           break;
@@ -239,6 +240,8 @@ public class Listener extends KeyAdapter implements ActionListener
           if (isOperator(removed))
           {
             alreadyHasOperator = false;
+            currentOperand.setReal(currentOperand.getReal() - firstPart);
+            previousOp = "(";
           }
           else if (removed == '(')
           {
@@ -247,10 +250,17 @@ public class Listener extends KeyAdapter implements ActionListener
           else if (removed == ')')
           {
             rightParenthese = false;
+            currentOperand.setImg(currentOperand.getImg() - secondPart);
           }
           else if (removed == 'i')
           {
             alreadyHasImaginary = false;
+          }
+          if (MainPanel.getInput().getText().isEmpty())
+          {
+            currentOperand = initialValue();
+            resetPartChecks();
+            previousOp = "(";
           }
           previousButton = command;
           break;
@@ -279,7 +289,15 @@ public class Listener extends KeyAdapter implements ActionListener
           int checkRight = -1;
           if (!rightParenthese)
           {
-            checkRight = 0;
+            if (!MainPanel.getInput().getText().isEmpty())
+            {
+              checkRight = 0;
+            }
+            else
+            {
+              MainPanel.appendDisplay(" " + command);
+              lastPerformed = command;
+            }
           }
           else
           {
@@ -325,6 +343,7 @@ public class Listener extends KeyAdapter implements ActionListener
                 // the currentOperand depending on if it's a Real or ImgNumber
                 // parsed = Parser.parseSingleValue(toParse, command);
                 setCurrentOperand(command);
+                firstPart = currentOperand.getReal();
 
                 // Visually putting the operator in the input for the user and setting the boolean
                 // check for an operator to be true so that they cannot add another operator
@@ -348,22 +367,25 @@ public class Listener extends KeyAdapter implements ActionListener
               previousButton = command;
               currentOperand = initialValue();
               startRunning = true;
+              // isNegative = false;
               break;
-            case (2):             
+            case (2):
               if (isNegative)
               {
                 setNegative();
               }
-              lastPerformed = command;
               runningResult = calculateBasedOnPreviousOperator(currentOperand);
+              lastPerformed = command;
               MainPanel.setDisplay(runningResult.toString() + " " + command);
               MainPanel.clearInput();
               resetPartChecks();
               previousOp = "(";
               previousButton = command;
               currentOperand = initialValue();
+              // isNegative = false;
               break;
             default:
+              // PopUp.infoBox("Starting running result", "");
           }
       }
     }
@@ -459,6 +481,7 @@ public class Listener extends KeyAdapter implements ActionListener
     alreadyHasOperator = false;
     alreadyHasImaginary = false;
     rightParenParse = false;
+    isNegative = false;
   }
 
   private void resetInitialValues()
@@ -468,6 +491,9 @@ public class Listener extends KeyAdapter implements ActionListener
     previousOp = "(";
     lastPerformed = "n";
     startRunning = false;
+    // isNegative = false;
+    firstPart = 0.0;
+    secondPart = 0.0;
   }
 
   private void setCurrentOperand(String theCommand)
