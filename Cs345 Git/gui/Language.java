@@ -30,8 +30,8 @@ public class Language
   static {
     translations = new HashMap<>();
     translations.put(ENGLISH, new String[]{"English Selected", "Cannot divide by 0", "Must enter a + or -"});
-    translations.put(SPANISH, new String[]{"Español Seleccionado", "No se puede dividir por 0", "Debe ingresar un + o -"});
-    translations.put(FRENCH, new String[]{"Français Sélectionné", "Impossible de diviser par 0", "Doit entrer un + ou -"});
+    translations.put(SPANISH, new String[]{"Espanol Seleccionado", "No se puede dividir por 0", "Debe ingresar un + o -"});
+    translations.put(FRENCH, new String[]{"Francais Sélectionne", "Impossible de diviser par 0", "Doit entrer un + ou -"});
   }
   
   /**
