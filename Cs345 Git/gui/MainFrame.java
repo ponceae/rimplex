@@ -28,9 +28,6 @@ public class MainFrame extends JFrame
   private JMenuBar menuBar;
   private JMenu help;
   private JMenu language;
-  private JMenuItem english;
-  private JMenuItem spanish;
-  private JMenuItem french;
   private JMenuItem about;
 
   /**
