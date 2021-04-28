@@ -11,6 +11,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 // import javax.swing.WindowConstants;
 
+/**
+ * History window.
+ * 
+ * @author r
+ * @version 4/28/21
+ */
 public class HistoryWindow extends JFrame
 {
   private static final long serialVersionUID = 1L;
@@ -21,7 +27,8 @@ public class HistoryWindow extends JFrame
   private JTextArea text;
   private JButton closeButton;
   
-  private HistoryWindow() {
+  private HistoryWindow() 
+  {
     createComponents(); // create needed objects
     // setSize(250, 350);
     // getContentPane().add(thisMain, BorderLayout.CENTER);
@@ -37,8 +44,9 @@ public class HistoryWindow extends JFrame
    */
   private void createComponents()
   {
-    closeButton = new JButton("<");
-    closeButton.setActionCommand("<");
+    String str = "<";
+    closeButton = new JButton(str);
+    closeButton.setActionCommand(str);
     closeButton.addActionListener(Listener.getInstance());
     
     theHistory = History.getInstance();
@@ -63,24 +71,34 @@ public class HistoryWindow extends JFrame
     
   }
     
-  
-  public static HistoryWindow getInstance() {
-    if (histWindow == null) {
+  /**
+   * @return the instance of history
+   */
+  public static HistoryWindow getInstance() 
+  {
+    if (histWindow == null) 
+    {
       histWindow = new HistoryWindow();
       // histWindow.setUndecorated(true);
     }
     return histWindow;
   }
   
-  public static void makeNull() {
+  /**
+   * Make window null.
+   */
+  public static void makeNull() 
+  {
     histWindow = null;
   }
   
-  void close() {
+  void close() 
+  {
     setVisible(false);
   }
   
-  void addComps() {
+  void addComps() 
+  {
     text.setText(theHistory.toString());
     text.setEditable(false);
     
@@ -89,7 +107,8 @@ public class HistoryWindow extends JFrame
     thisMain.add(closeButton, BorderLayout.EAST);
   }
   
-  JPanel getTheMain() {
+  JPanel getTheMain() 
+  {
     return thisMain;
   }
 

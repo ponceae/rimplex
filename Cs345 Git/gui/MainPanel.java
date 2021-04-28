@@ -14,14 +14,29 @@ import java.io.IOException;
 
 public class MainPanel extends JPanel
 {
+  
   /**
-   * Default UID since I'm not sure what it should be instantiated to
+   * Default UID since I'm not sure what it should be instantiated to.
    */
   private static final long serialVersionUID = 1L;
 
+  private static MainPanel main;
+
+  // Thinking of doing two TextPanes in one Panel, one for running and/or previous calculations and
+  // one for user input
+  private static JTextPane input;
+  private static JTextPane display;
+  private static JTextArea output;
+  
+  
+  private static String dash = "-";
+  private static String code1 = "\u00D7";  
+  private static String code2 = "\u00F7";  
+  private static String html = "<html><i>i</i></html>";  
+  private static String right = ">";
+  
   private Color background;
 
-  private static MainPanel main;
 
   private JPanel panel;
   private JPanel east;
@@ -31,14 +46,10 @@ public class MainPanel extends JPanel
   private Listener theListener;
   private GridBagConstraints constraints;
 
-  // Thinking of doing two TextPanes in one Panel, one for running and/or previous calculations and
-  // one for user input
-  private static JTextPane input;
-  private static JTextPane display;
-  private static JTextArea output;
-
   private ImageIcon logo;
   private JLabel rimpLogo;
+  
+
 
   /**
    * Default Constructor.
@@ -57,9 +68,9 @@ public class MainPanel extends JPanel
    */
   protected void createComponents()  throws IOException 
   {
-//        RimplexFileIO rF = new RimplexFileIO();
-//        int[] rgb = rF.getBackground(0);
-//        background = new Color(rgb[0],rgb[1],rgb[2]);
+    // RimplexFileIO rF = new RimplexFileIO();
+    // int[] rgb = rF.getBackground(0);
+    // background = new Color(rgb[0],rgb[1],rgb[2]);
     background = new Color(150,0,0);
 
     north = new JPanel(new GridLayout(3, 1));
@@ -138,33 +149,33 @@ public class MainPanel extends JPanel
     panel.add(new JButton("1"), constraints);
     panel.add(new JButton("2"), constraints);
     panel.add(new JButton("3"), constraints);
-    panel.add(new JButton("-"), constraints);
+    panel.add(new JButton(dash), constraints);
     panel.add(new JButton("Inv"), constraints);
 
     constraints.gridy++; // Switching to next row
     panel.add(new JButton("4"), constraints);
     panel.add(new JButton("5"), constraints);
     panel.add(new JButton("6"), constraints);
-    panel.add(new JButton("\u00D7"), constraints);
+    panel.add(new JButton(code1), constraints);
     panel.add(new JButton("("), constraints);
 
     constraints.gridy++;
     panel.add(new JButton("7"), constraints);
     panel.add(new JButton("8"), constraints);
     panel.add(new JButton("9"), constraints);
-    panel.add(new JButton("\u00F7"), constraints);
+    panel.add(new JButton(code2), constraints);
     panel.add(new JButton(")"), constraints);
 
     constraints.gridy++;
     constraints.gridwidth = 2;
     panel.add(new JButton("0"), constraints);
     constraints.gridwidth = 1;
-    panel.add(new JButton("<html><i>i</i></html>"), constraints);
+    panel.add(new JButton(html), constraints);
     panel.add(new JButton("="), constraints);
     panel.add(new JButton("."), constraints);
 
-    JButton historyButton = new JButton(">");
-    historyButton.setActionCommand(">");
+    JButton historyButton = new JButton(right);
+    historyButton.setActionCommand(right);
     historyButton.addActionListener(theListener);
     east.add(historyButton);
 
@@ -179,11 +190,11 @@ public class MainPanel extends JPanel
     {
       JButton button = (JButton) theButton;
       String text = button.getText();
-      if (text.equals("\u00F7"))
+      if (text.equals(code2))
       {
         button.setActionCommand("/");
       }
-      else if (text.equals("\u00D7"))
+      else if (text.equals(code1))
       {
         button.setActionCommand("*");
       }
@@ -199,6 +210,8 @@ public class MainPanel extends JPanel
 
   /**
    * "Backspaces" by setting the display text to a substring of the current text.
+   * 
+   * @return the backspace
    */
   static char backspace()
   {
@@ -259,19 +272,20 @@ public class MainPanel extends JPanel
    * @param text
    *          the text to add
    */
-  static void appendDisplay(String text)
+  static void appendDisplay(final String text)
   {
     display.setText(display.getText().concat(text));
   }
   
-  static void appendInput(String text)
+  static void appendInput(final String text)
   {
     input.setText(input.getText().concat(text));
   }
   
   
-  static void appendItalicI() {
-    appendInput("<html><i>i</i></html>");
+  static void appendItalicI() 
+  {
+    appendInput(html);
   }
 
   /**
@@ -280,12 +294,12 @@ public class MainPanel extends JPanel
    * @param text
    *          the text to set
    */
-  static void setDisplay(String text)
+  static void setDisplay(final String text)
   {
     display.setText(text);
   }
   
-  static void setInput(String text)
+  static void setInput(final String text)
   {
     input.setText(text);
   }
@@ -297,7 +311,7 @@ public class MainPanel extends JPanel
     {
       if (theText.charAt(0) != '-')
       {
-        setInput("-" + theText);
+        setInput(dash + theText);
       }
       else
       {
@@ -306,7 +320,7 @@ public class MainPanel extends JPanel
     }
     else
     {
-      appendInput("-");
+      appendInput(dash);
     }
   }
 

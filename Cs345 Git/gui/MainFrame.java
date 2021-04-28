@@ -32,6 +32,8 @@ public class MainFrame extends JFrame
 
   /**
    * Default constructor for the MainFrame.
+   * 
+   * @throws IOException if not found
    */
   private MainFrame() throws IOException 
   {
@@ -86,9 +88,11 @@ public class MainFrame extends JFrame
    */
   private void createComponents()
   {
-    try {
-    mainPanel = MainPanel.getInstance();
-    } catch (IOException ioe) {
+    try 
+    {
+      mainPanel = MainPanel.getInstance();
+    } catch (IOException ioe) 
+    {
       System.err.print("Color text file not found");
     }
     img = new ImageIcon(getClass().getClassLoader().getResource("iconRimplex.png"));

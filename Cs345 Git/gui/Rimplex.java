@@ -9,8 +9,16 @@ import java.io.IOException;
  * 
  * @version (3/31/21)
  */
-public class Rimplex {
-    public static void main(String[] args) throws IOException {
-        MainFrame.getInstance();
-    }
+public class Rimplex
+{
+  /**
+   * Runs the calculator.
+   * 
+   * @param args command line arguments
+   * @throws IOException if not found
+   */
+  public static void main(final String[] args) throws IOException
+  {
+    MainFrame.getInstance();
+  }
 }

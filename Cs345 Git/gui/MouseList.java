@@ -9,22 +9,30 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * Mouse listener.
+ * 
+ * @author z
+ * @version 4/28
+ */
 public class MouseList implements MouseListener
 {
 
+  private static String about = "about";
+  
   private static int language;
-  private final int ENGLISH = 1;
-  private final int FRENCH = 2;
-  private final int SPANISH = 3;
+  private final int english = 1;
+  private final int french = 2;
+  private final int spanish = 3;
 
   @Override
-  public void mouseClicked(MouseEvent e)
+  public void mouseClicked(final MouseEvent e)
   {
 
   }
 
   @Override
-  public void mousePressed(MouseEvent e)
+  public void mousePressed(final MouseEvent e)
   {
     String name;
     if (e.getSource() instanceof JMenu)
@@ -41,15 +49,15 @@ public class MouseList implements MouseListener
     switch (name)
     {     
       case "Help":
-        if (language == ENGLISH)
+        if (language == english)
         {
-          PopUp.infoBox("Information", "About");
+          PopUp.infoBox("Information", about);
         }
-        else if (language == SPANISH)
+        else if (language == spanish)
         {
           PopUp.infoBox("Informacion", "Sobre");
         }
-        else if (language == FRENCH)
+        else if (language == french)
         {
           PopUp.infoBox("L information", "Environ");
         }
@@ -86,25 +94,28 @@ public class MouseList implements MouseListener
 
   }
 
+  /**
+   * @return the language
+   */
   public static int getLanguage()
   {
     return language;
   }
 
   @Override
-  public void mouseReleased(MouseEvent e)
+  public void mouseReleased(final MouseEvent e)
   {
 
   }
 
   @Override
-  public void mouseEntered(MouseEvent e)
+  public void mouseEntered(final MouseEvent e)
   {
 
   }
 
   @Override
-  public void mouseExited(MouseEvent e)
+  public void mouseExited(final MouseEvent e)
   {
 
   }

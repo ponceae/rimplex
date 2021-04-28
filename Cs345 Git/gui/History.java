@@ -2,27 +2,44 @@ package gui;
 
 import java.util.ArrayList;
 
+/**
+ * History class.
+ * 
+ * @author o
+ * @version 4/28/21
+ */
 public class History
 {
-
-  private ArrayList<String> history;
+  
   private static History theHistory;
+  private ArrayList<String> history;
 
   private History()
   {
     history = new ArrayList<String>();
   }
 
-  public void add(String str)
+  /**
+   * Adds the string.
+   * 
+   * @param str the string
+   */
+  public void add(final String str)
   {
     history.add(str);
   }
 
+  /**
+   * Resets the history.
+   */
   public void reset()
   {
     history = new ArrayList<>();
   }
 
+  /**
+   * @return a string representation of history.
+   */
   public String toString()
   {
     if (history == null || history.size() == 0)
@@ -37,9 +54,14 @@ public class History
     return str;
   }
 
+  /**
+   * Get the history instance.
+   * @return the instance
+   */
   public static History getInstance()
   {
-    if (theHistory == null) {
+    if (theHistory == null) 
+    {
       theHistory = new History();
     }
     return theHistory;
