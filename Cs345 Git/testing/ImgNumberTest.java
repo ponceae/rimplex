@@ -86,4 +86,25 @@ class ImgNumberTest
 
   }
   
+  @Test
+  void testMiscTests()
+  {
+    ImgNumber x = new ImgNumber(8.0, 4.0);
+    Real test = new Real(8.0);
+    assertEquals(test.getReal(), x.getRealObj().getReal());
+    assertEquals(Operator.SUBTRACT, f.getOperator());
+    x.setReal(10.0);
+    assertEquals(10.0, x.getReal());
+    x.setOperator(Operator.ADD);
+    x.setImg(6.0);
+    assertEquals(Operator.ADD, x.getOperator());
+    assertEquals(6.0, x.getImg());
+    x.swapSignImg();
+    x.swapsignReal();
+    assertEquals(-10.0, x.getReal());
+    assertEquals(-6.0, x.getImg());
+    
+
+  }
+  
 }

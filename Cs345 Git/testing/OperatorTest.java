@@ -33,6 +33,9 @@ class OperatorTest
     assertEquals('*', c.getOperator());
     assertEquals('/', d.getOperator());
     assertEquals(' ', e.getOperator());
+    
+    String plus = "+";
+    assertEquals(Operator.ADD.getOperator(), Operator.getFrom(plus).getOperator());
 
   }
 
