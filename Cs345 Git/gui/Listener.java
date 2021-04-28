@@ -142,7 +142,6 @@ public class Listener extends KeyAdapter implements ActionListener
           // setCurrentOperand(previousOp);
           
           if (lastPerformed.equals("/") && isZero(currentOperand)) {
-            // Divide by zero exception
             PopUp.errorBox(Language.getDialog(Language.DIVIDE_BY_ZERO));
           }
           
@@ -150,10 +149,8 @@ public class Listener extends KeyAdapter implements ActionListener
           {
             setNegative();
           }
-          
-          theHistory.add("(" + currentOperand.toString() + ") = ");
+
           runningResult = calculateBasedOnPreviousOperator(currentOperand);
-          theHistory.add("(" + runningResult.toString() + ")\n");
 
           MainPanel.setDisplay(" = " + runningResult.toString());
           MainPanel.clearInput();
@@ -162,7 +159,6 @@ public class Listener extends KeyAdapter implements ActionListener
           currentOperand = initialValue();
           startRunning = true;
           previousButton = command;
-          previousOp = "(";
           break;
         case "(":
           if (!leftParenthese)
@@ -215,20 +211,16 @@ public class Listener extends KeyAdapter implements ActionListener
           }
           if (isZero(runningResult))
           {
-            theHistory.add(currentOperand.toString() + " Inv to... ");
             runningResult = currentOperand.inverse();
-            theHistory.add(runningResult.toString() + "\n");
             MainPanel.setDisplay(input + " Inv to...");
             MainPanel.setInput(runningResult.toString());
           }
           else
           {
             runningResult = calculateBasedOnPreviousOperator(currentOperand);
-            theHistory.add("\n" + runningResult.toString() + " Inv to... ");
             MainPanel.setDisplay(runningResult.inverse() + " Inv to...");
             runningResult = runningResult.inverse();
             MainPanel.setInput(runningResult.toString());
-            theHistory.add(runningResult.toString() + "\n");
           }
           resetPartChecks();
           currentOperand = initialValue();
@@ -314,7 +306,6 @@ public class Listener extends KeyAdapter implements ActionListener
             else
             {
               MainPanel.appendDisplay(" " + command);
-              theHistory.add("(" + runningResult.toString() + ") " + command);
               lastPerformed = command;
             }
           }
@@ -381,9 +372,6 @@ public class Listener extends KeyAdapter implements ActionListener
               MainPanel.setDisplay(input + " " + command);
               MainPanel.clearInput();
               setRunningResult(currentOperand);
-              
-              theHistory.add("(" + runningResult.toString() + ") " + command + " ");
-              
               resetPartChecks();
               previousOp = "(";
               previousButton = command;
@@ -395,7 +383,6 @@ public class Listener extends KeyAdapter implements ActionListener
               
               if (lastPerformed.equals("/") && isZero(currentOperand)) {
                 // Divide by zero exception
-                PopUp.errorBox(Language.getDialog(Language.DIVIDE_BY_ZERO));
               }
               
               if (isNegative)
@@ -403,7 +390,6 @@ public class Listener extends KeyAdapter implements ActionListener
                 setNegative();
               }
               runningResult = calculateBasedOnPreviousOperator(currentOperand);
-              theHistory.add("(" + runningResult.toString() + ")" + command + " ");
               lastPerformed = command;
               MainPanel.setDisplay(runningResult.toString() + " " + command);
               MainPanel.clearInput();
