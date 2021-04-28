@@ -43,7 +43,7 @@ public class Listener extends KeyAdapter implements ActionListener
   // private boolean startNew = false;
 
   // calculator object used for doing calculations
-  private calculator calc = new calculator();
+  private Calculator calc = new Calculator();
 
   // ImgNumber objects used for a default "reset" value, as parameters for calculator methods,
   // holding the value of the current input, and holding the value of the running value
