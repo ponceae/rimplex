@@ -83,7 +83,7 @@ public class MainPanel extends JPanel
     display.setForeground(Color.WHITE);
     display.setEditable(false);
 
-    logo = new ImageIcon("Cs345 Git/resources/logoRimplex.png");
+    logo = new ImageIcon(getClass().getClassLoader().getResource("logoRimplex.png"));
     rimpLogo = new JLabel(logo);
 
   }

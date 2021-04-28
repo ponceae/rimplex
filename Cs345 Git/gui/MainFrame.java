@@ -91,7 +91,7 @@ public class MainFrame extends JFrame
     } catch (IOException ioe) {
       System.err.print("Color text file not found");
     }
-    img = new ImageIcon("Cs345 Git/resources/iconRimplex.png");
+    img = new ImageIcon(getClass().getClassLoader().getResource("iconRimplex.png"));
     menuBar = new JMenuBar();
     help = new JMenu("Help");
     language = new JMenu("Language");
