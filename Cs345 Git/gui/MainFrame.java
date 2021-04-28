@@ -22,9 +22,7 @@ public class MainFrame extends JFrame
   private static MainFrame frame;
   private JPanel mainPanel;
   private MouseList mouse = new MouseList();
-  
-  private ImageIcon img;
-  
+    
   private JMenuBar menuBar;
   private JMenu help;
   private JMenu language;
@@ -51,7 +49,7 @@ public class MainFrame extends JFrame
     
     setSize(350, 450);
     getContentPane().add(mainPanel, BorderLayout.CENTER);
-    setIconImage(img.getImage());
+    // setIconImage(img.getImage());
     setTitle("Rimplex");
     setVisible(true); // display this
     centerForm(); // center is on the screen to begin
@@ -95,7 +93,7 @@ public class MainFrame extends JFrame
     {
       System.err.print("Color text file not found");
     }
-    img = new ImageIcon(getClass().getClassLoader().getResource("iconRimplex.png"));
+    // img = new ImageIcon(getClass().getClassLoader().getResource("iconRimplex.png"));
     menuBar = new JMenuBar();
     help = new JMenu("Help");
     language = new JMenu("Language");
