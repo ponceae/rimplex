@@ -219,17 +219,25 @@ public class Listener extends KeyAdapter implements ActionListener
             theHistory.add(currentOperand.toString() + " Inv to... ");
             runningResult = currentOperand.inverse();
             theHistory.add(runningResult.toString() + "\n");
-            MainPanel.setDisplay(input + " Inv to...");
-            MainPanel.setInput(runningResult.toString());
+            MainPanel.setDisplay(currentOperand.toString() + " Inv to..." + runningResult.toString());
+            // MainPanel.setInput(runningResult.toString());
           }
           else
           {
-            runningResult = calculateBasedOnPreviousOperator(currentOperand);
-            theHistory.add("\n" + runningResult.toString() + " Inv to... ");
-            MainPanel.setDisplay(runningResult.inverse() + " Inv to...");
-            runningResult = runningResult.inverse();
-            MainPanel.setInput(runningResult.toString());
-            theHistory.add(runningResult.toString() + "\n");
+            if (!MainPanel.getDisplay().getText().contains("=")) {
+              runningResult = calculateBasedOnPreviousOperator(currentOperand);
+              theHistory.add("\n" + runningResult.toString() + " Inv to... ");
+              MainPanel.setDisplay(runningResult.toString() + " Inv to... ");
+              runningResult = runningResult.inverse();
+              MainPanel.appendDisplay(runningResult.toString());
+              theHistory.add(runningResult.toString() + "\n");
+            } else {
+              theHistory.add("\n" + runningResult.toString() + " Inv to... ");
+              MainPanel.setDisplay(runningResult.toString() + " Inv to... ");
+              runningResult = runningResult.inverse();
+              MainPanel.appendDisplay (runningResult.toString());
+              theHistory.add(runningResult.toString() + "\n");
+            }
           }
           resetPartChecks();
           currentOperand = initialValue();
@@ -503,6 +511,11 @@ public class Listener extends KeyAdapter implements ActionListener
   private boolean isOperator(char toCompare)
   {
     return (toCompare == '+') || (toCompare == '-') || (toCompare == '/') || (toCompare == '*');
+  }
+  
+  private boolean isOperator(String toCompare)
+  {
+    return (toCompare == "+") || (toCompare == "-") || (toCompare == "/") || (toCompare == "*");
   }
 
   private void resetPartChecks()

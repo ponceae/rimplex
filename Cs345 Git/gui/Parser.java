@@ -200,6 +200,10 @@ public class Parser
       allParts[1] = allParts[1].substring(0, allParts[1].length() - 1);
     }
     
+    if (containsOperator(allParts[1])) {
+      allParts[1] = allParts[1].substring(indexOfOperator(allParts[1]));
+    }
+    
     double real = Double.parseDouble(allParts[0]);
     double img = Double.parseDouble(allParts[1]);
     
@@ -245,6 +249,22 @@ public class Parser
   
   static boolean oneValue(String text) {
     return !containsOperator(text);
+  }
+  
+  private static int indexOfOperator(String input) {
+    int index = -1;
+    if (input.contains("+")) {
+      index = input.lastIndexOf("+");
+    } else if (input.contains("-")) {
+      index = input.lastIndexOf("-");
+    }
+    else if (input.contains("*")) {
+      index = input.lastIndexOf("*");
+    }
+    else if (input.contains("*")) {
+      index = input.lastIndexOf("*");
+    }
+    return index;
   }
   
 }
